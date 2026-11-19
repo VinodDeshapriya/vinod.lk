@@ -2,6 +2,10 @@ import GoogleColor from "atd-icons/dist/GoogleColor";
 import { PrismicNextLink } from "@prismicio/next";
 import { isFilled, type Content } from "@prismicio/client";
 import Stars from "./Stars";
+import GoogleG from "@/components/icons/GoogleG";
+
+/** Used until a review link is set in Prismic › Settings › Google review link. */
+const FALLBACK_REVIEW_URL = "https://www.google.com/search?q=Vinod.lk+reviews";
 
 /** Google rating summary from Settings › Google. `dark` = compact pill for dark bands. */
 export default function GoogleRatingPill({
@@ -31,9 +35,9 @@ export default function GoogleRatingPill({
   // Figma testimonial_variants1 "Google rating": a pill on tablet/desktop,
   // a stacked card with a full-width button on mobile.
   return (
-    <div className="w-full sm:w-auto flex flex-col sm:flex-row items-center gap-3 sm:gap-7 bg-white border border-border-primary rounded-lg sm:rounded-full p-4 sm:py-3.5 sm:pl-6 sm:pr-3.5">
+    <div className="w-full sm:w-auto flex flex-col sm:flex-row items-center gap-3 sm:gap-7 bg-white border border-border-primary rounded-[8px] sm:rounded-full p-4 sm:py-3.5 sm:pl-6 sm:pr-3.5">
       <div className="flex items-center gap-4">
-        <GoogleColor size={36} />
+        <GoogleG size={36} />
         <div className="flex flex-col gap-0.5">
           <p className="font-medium text-[16px] leading-[26px] sm:text-[18px] sm:leading-[30px] text-text-heading">
             Excellent on Google
@@ -45,13 +49,14 @@ export default function GoogleRatingPill({
           </div>
         </div>
       </div>
-      {isFilled.link(d.google_review_link) && (
-        <PrismicNextLink
-          field={d.google_review_link}
-          className="btn btn-primary min-w-0! w-full sm:w-auto h-[46px]! sm:h-12! px-6! font-medium text-[16px] leading-[26px] sm:text-[18px] sm:leading-[30px]"
-        >
+      {isFilled.link(d.google_review_link) ? (
+        <PrismicNextLink field={d.google_review_link} className={"btn btn-primary min-w-0! w-full sm:w-auto h-[46px]! sm:h-12! px-6! font-medium text-[16px] leading-[26px] sm:text-[18px] sm:leading-[30px]"}>
           {d.google_review_link.text || "Review us on Google"}
         </PrismicNextLink>
+      ) : (
+        <a href={FALLBACK_REVIEW_URL} target="_blank" rel="noopener noreferrer" className={"btn btn-primary min-w-0! w-full sm:w-auto h-[46px]! sm:h-12! px-6! font-medium text-[16px] leading-[26px] sm:text-[18px] sm:leading-[30px]"}>
+          Review us on Google
+        </a>
       )}
     </div>
   );
