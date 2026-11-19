@@ -1,3 +1,4 @@
+import clsx from "clsx";
 import { type Content, isFilled } from "@prismicio/client";
 import type { SliceComponentProps } from "@prismicio/react";
 import { PrismicNextImage, PrismicNextLink } from "@prismicio/next";
@@ -59,12 +60,14 @@ function CentredHero({ slice }: { slice: Variation<"default"> }) {
   const { eyebrow, title, title_size, description, buttons, highlights, showcase_image, logos_label, logos } =
     slice.primary;
   const checks = (highlights ?? []).filter((h) => h.text);
+  // A text-only hero (no showcase image, no logo row) gets a full 120px below the buttons.
+  const textOnly = !isFilled.image(showcase_image) && !(logos?.length > 0);
 
   return (
     <section
       data-slice-type={slice.slice_type}
       data-slice-variation={slice.variation}
-      className="pt-10 lg:pt-[58px] pb-10 overflow-hidden"
+      className={clsx("pt-10 lg:pt-[58px] overflow-hidden", textOnly ? "pb-[60px] md:pb-[120px]" : "pb-10")}
     >
       <div className="px-4 md:px-10 xl:px-20">
         <CentredCopy eyebrow={eyebrow} title={title} description={description} medium={title_size === "Medium"}>
