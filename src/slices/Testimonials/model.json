@@ -1,13 +1,13 @@
 {
   "id": "testimonials",
   "type": "SharedSlice",
-  "name": "Testimonials",
+  "name": "testimonial_variants1",
   "description": "Review cards carousel with Google rating pill (Figma testimonial_variants1)",
   "variations": [
     {
       "id": "default",
       "type": "SharedSliceVariation",
-      "name": "Default",
+      "name": "testimonial_variants1",
       "docURL": "...",
       "version": "initial",
       "description": "Review cards carousel with Google rating pill (Figma testimonial_variants1)",

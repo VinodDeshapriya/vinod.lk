@@ -1,13 +1,13 @@
 {
   "id": "contact_form",
   "type": "SharedSlice",
-  "name": "ContactForm",
+  "name": "contact_variants1",
   "description": "Project enquiry form with an intro column (Contact)",
   "variations": [
     {
       "id": "default",
       "type": "SharedSliceVariation",
-      "name": "Default",
+      "name": "contact_variants1",
       "docURL": "...",
       "version": "initial",
       "description": "Default",

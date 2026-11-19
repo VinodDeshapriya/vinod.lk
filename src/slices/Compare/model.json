@@ -1,13 +1,13 @@
 {
   "id": "compare",
   "type": "SharedSlice",
-  "name": "Compare",
+  "name": "content_compare_variants1",
   "description": "Two-lane comparison table (Figma content_compare_variants1)",
   "variations": [
     {
       "id": "default",
       "type": "SharedSliceVariation",
-      "name": "Default",
+      "name": "content_compare_variants1",
       "docURL": "...",
       "version": "initial",
       "description": "Two-lane comparison table (Figma content_compare_variants1)",

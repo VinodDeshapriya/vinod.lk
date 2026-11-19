@@ -1,13 +1,13 @@
 {
   "id": "faq",
   "type": "SharedSlice",
-  "name": "Faq",
+  "name": "faq_variants1",
   "description": "Questions and answers",
   "variations": [
     {
       "id": "default",
       "type": "SharedSliceVariation",
-      "name": "Dark panel",
+      "name": "faq_variants1 (dark panel)",
       "docURL": "...",
       "version": "initial",
       "description": "Dark panel with intro on the left and an accordion on the right (Figma faq_variants1)",
@@ -79,7 +79,7 @@
     {
       "id": "simple",
       "type": "SharedSliceVariation",
-      "name": "Simple list",
+      "name": "faq_article (simple list)",
       "docURL": "...",
       "version": "initial",
       "description": "Plain list for inside a blog article; the title also feeds the article's contents list",

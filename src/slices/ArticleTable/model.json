@@ -1,13 +1,13 @@
 {
   "id": "article_table",
   "type": "SharedSlice",
-  "name": "ArticleTable",
+  "name": "blog_table",
   "description": "Three-column table inside a blog article",
   "variations": [
     {
       "id": "default",
       "type": "SharedSliceVariation",
-      "name": "Default",
+      "name": "blog_table",
       "docURL": "...",
       "version": "initial",
       "description": "Default",

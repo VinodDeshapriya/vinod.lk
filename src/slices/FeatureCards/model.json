@@ -1,13 +1,13 @@
 {
   "id": "feature_cards",
   "type": "SharedSlice",
-  "name": "FeatureCards",
+  "name": "content_cards",
   "description": "Centred heading with a grid of icon cards",
   "variations": [
     {
       "id": "default",
       "type": "SharedSliceVariation",
-      "name": "Light",
+      "name": "content_cards_light",
       "docURL": "...",
       "version": "initial",
       "description": "Light cards with an icon tile (Sound familiar, Simple pricing, Systems I build, AI tools)",
@@ -106,7 +106,7 @@
     {
       "id": "dark",
       "type": "SharedSliceVariation",
-      "name": "Dark",
+      "name": "content_cards_dark",
       "docURL": "...",
       "version": "initial",
       "description": "Dark band with glassy cards. Tick 'show numbers' to show 01, 02... instead of icons (Why UX-led, What I believe)",
@@ -212,7 +212,7 @@
     {
       "id": "numbered",
       "type": "SharedSliceVariation",
-      "name": "Numbered links",
+      "name": "content_cards_numbered",
       "docURL": "...",
       "version": "initial",
       "description": "Numbered service cards that link to their pages (Services)",

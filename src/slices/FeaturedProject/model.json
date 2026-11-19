@@ -1,13 +1,13 @@
 {
   "id": "featured_project",
   "type": "SharedSlice",
-  "name": "FeaturedProject",
+  "name": "featured_project_variants1",
   "description": "Project tabs with a case-study card (Figma featured_project_variants1)",
   "variations": [
     {
       "id": "default",
       "type": "SharedSliceVariation",
-      "name": "Default",
+      "name": "featured_project_variants1",
       "docURL": "...",
       "version": "initial",
       "description": "Project tabs with a case-study card (Figma featured_project_variants1)",

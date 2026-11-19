@@ -1,13 +1,13 @@
 {
   "id": "blog_preview",
   "type": "SharedSlice",
-  "name": "BlogPreview",
+  "name": "blog_variants1",
   "description": "Latest blog posts with typographic covers (Figma blog_variants1)",
   "variations": [
     {
       "id": "default",
       "type": "SharedSliceVariation",
-      "name": "Default",
+      "name": "blog_variants1",
       "docURL": "...",
       "version": "initial",
       "description": "Latest blog posts with typographic covers (Figma blog_variants1)",

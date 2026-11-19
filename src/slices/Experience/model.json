@@ -1,13 +1,13 @@
 {
   "id": "experience",
   "type": "SharedSlice",
-  "name": "Experience",
+  "name": "about_experience",
   "description": "Job timeline and education (About \u203a Where I've worked)",
   "variations": [
     {
       "id": "default",
       "type": "SharedSliceVariation",
-      "name": "Default",
+      "name": "about_experience",
       "docURL": "...",
       "version": "initial",
       "description": "Default",

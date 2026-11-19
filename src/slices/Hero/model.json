@@ -1,13 +1,13 @@
 {
   "id": "hero",
   "type": "SharedSlice",
-  "name": "Hero",
+  "name": "hero_variants",
   "description": "Page hero: centred, split with image (service pages) or with portrait photos (About)",
   "variations": [
     {
       "id": "default",
       "type": "SharedSliceVariation",
-      "name": "Centred",
+      "name": "hero_variants1 \u00b7 3 \u00b7 4 (centred)",
       "docURL": "...",
       "version": "initial",
       "description": "Centred hero with optional checkmarks, showcase image and client logo marquee (Figma hero_variants4)",
@@ -123,7 +123,7 @@
     {
       "id": "split",
       "type": "SharedSliceVariation",
-      "name": "Split with image",
+      "name": "hero_variants2 (breadcrumb + image)",
       "docURL": "...",
       "version": "initial",
       "description": "Breadcrumb, copy on the left, image with a badge on the right (service pages)",
@@ -216,7 +216,7 @@
     {
       "id": "portrait",
       "type": "SharedSliceVariation",
-      "name": "Centred with photos",
+      "name": "hero_about (centred + photos)",
       "docURL": "...",
       "version": "initial",
       "description": "Centred copy above a portrait and a wide working photo, each with a badge (About)",

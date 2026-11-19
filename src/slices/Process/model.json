@@ -1,13 +1,13 @@
 {
   "id": "process",
   "type": "SharedSlice",
-  "name": "Process",
+  "name": "content_process_variants1",
   "description": "Sticky dark panel with numbered timeline (Figma content_process_variants1)",
   "variations": [
     {
       "id": "default",
       "type": "SharedSliceVariation",
-      "name": "Default",
+      "name": "content_process_variants1",
       "docURL": "...",
       "version": "initial",
       "description": "Sticky dark panel with numbered timeline (Figma content_process_variants1)",

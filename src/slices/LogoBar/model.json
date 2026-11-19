@@ -1,13 +1,13 @@
 {
   "id": "logo_bar",
   "type": "SharedSlice",
-  "name": "LogoBar",
+  "name": "social-proof_logos_variants1",
   "description": "Scrolling client logo marquee (Figma social-proof_logos_variants1)",
   "variations": [
     {
       "id": "default",
       "type": "SharedSliceVariation",
-      "name": "Default",
+      "name": "social-proof_logos_variants1",
       "docURL": "...",
       "version": "initial",
       "description": "Scrolling client logo marquee (Figma social-proof_logos_variants1)",

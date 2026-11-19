@@ -1,13 +1,13 @@
 {
   "id": "story_arc",
   "type": "SharedSlice",
-  "name": "StoryArc",
+  "name": "about_story",
   "description": "Three story cards joined by arrows, then a quote (About \u203a My story)",
   "variations": [
     {
       "id": "default",
       "type": "SharedSliceVariation",
-      "name": "Default",
+      "name": "about_story",
       "docURL": "...",
       "version": "initial",
       "description": "Default",

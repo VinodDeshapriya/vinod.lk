@@ -1,13 +1,13 @@
 {
   "id": "blog_index",
   "type": "SharedSlice",
-  "name": "BlogIndex",
+  "name": "blog_index",
   "description": "Blog hero with category filter, featured post and paged article grid (Blog)",
   "variations": [
     {
       "id": "default",
       "type": "SharedSliceVariation",
-      "name": "Default",
+      "name": "blog_index",
       "docURL": "...",
       "version": "initial",
       "description": "Default",

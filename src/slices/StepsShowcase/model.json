@@ -1,13 +1,13 @@
 {
   "id": "steps_showcase",
   "type": "SharedSlice",
-  "name": "StepsShowcase",
+  "name": "content_steps",
   "description": "Numbered steps on a centre rail, alternating with illustrations (How it works)",
   "variations": [
     {
       "id": "default",
       "type": "SharedSliceVariation",
-      "name": "Default",
+      "name": "content_steps",
       "docURL": "...",
       "version": "initial",
       "description": "Default",

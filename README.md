@@ -51,8 +51,30 @@ Repository: **vinod-portfolio** (`slicemachine.config.json`).
 | `main_menu` (single) | Header navigation (with optional dropdown links) |
 | `menu` (repeatable) | Footer columns, sorted by `order` |
 
-Slices (`src/slices/`), one per Figma component in the 📦 Components page:
-Hero, LogoBar, Testimonials, FeaturedProject, ServicesGrid, CallToAction, Compare, Stats, Process, Reasons, BlogPreview, Faq, RichText.
+Slices (`src/slices/`). In Slice Machine and the Prismic editor each slice and variation is named after its Figma component on the 📦 Components page (e.g. `cta_variants1`, `hero_variants2`). Sections that have no Figma component use the same style (`content_cards_dark`, `about_story`, …). Folder names and API ids are unchanged:
+
+| Name in Prismic | Folder | API id |
+| --- | --- | --- |
+| hero_variants (1 · 3 · 4 centred, 2 breadcrumb + image, hero_about) | Hero | `hero` |
+| social-proof_logos_variants1 | LogoBar | `logo_bar` |
+| testimonial_variants1 | Testimonials | `testimonials` |
+| featured_project_variants1 | FeaturedProject | `featured_project` |
+| content_services_variants1 | ServicesGrid | `services_grid` |
+| cta_variants1 | CallToAction | `call_to_action` |
+| content_compare_variants1 | Compare | `compare` |
+| social-proof_stats_variants1 | Stats | `stats` |
+| content_process_variants1 | Process | `process` |
+| content_reasons_variants1 | Reasons | `reasons` |
+| blog_variants1 | BlogPreview | `blog_preview` |
+| faq_variants1 / faq_article | Faq | `faq` |
+| rich_text | RichText | `rich_text` |
+| contact_variants1 | ContactForm | `contact_form` |
+| content_split_variants1 / _platforms / _grid | SplitList | `split_list` |
+| content_deliverables_variants1 / _bento | ImageCards | `image_cards` |
+| content_cards_light / _dark / _numbered | FeatureCards | `feature_cards` |
+| about_story, about_experience, about_skills | StoryArc, Experience, SkillsServices | `story_arc`, `experience`, `skills_services` |
+| content_steps | StepsShowcase | `steps_showcase` |
+| blog_index, blog_table, blog_callout | BlogIndex, ArticleTable, ArticleCallout | `blog_index`, `article_table`, `article_callout` |
 
 Inner-page slices (Figma page frames):
 

@@ -1,13 +1,13 @@
 {
   "id": "reasons",
   "type": "SharedSlice",
-  "name": "Reasons",
+  "name": "content_reasons_variants1",
   "description": "Numbered reasons in a bordered row (Figma content_reasons_variants1)",
   "variations": [
     {
       "id": "default",
       "type": "SharedSliceVariation",
-      "name": "Default",
+      "name": "content_reasons_variants1",
       "docURL": "...",
       "version": "initial",
       "description": "Numbered reasons in a bordered row (Figma content_reasons_variants1)",

@@ -1,13 +1,13 @@
 {
   "id": "call_to_action",
   "type": "SharedSlice",
-  "name": "CallToAction",
+  "name": "cta_variants1",
   "description": "Dark rounded band with background image and two buttons (Figma cta_variants1)",
   "variations": [
     {
       "id": "default",
       "type": "SharedSliceVariation",
-      "name": "Default",
+      "name": "cta_variants1",
       "docURL": "...",
       "version": "initial",
       "description": "Dark rounded band with background image and two buttons (Figma cta_variants1)",

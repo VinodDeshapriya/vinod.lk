@@ -1,13 +1,13 @@
 {
   "id": "image_cards",
   "type": "SharedSlice",
-  "name": "ImageCards",
+  "name": "content_deliverables_variants1",
   "description": "Centred heading with illustrated cards",
   "variations": [
     {
       "id": "default",
       "type": "SharedSliceVariation",
-      "name": "Numbered",
+      "name": "content_deliverables_variants1",
       "docURL": "...",
       "version": "initial",
       "description": "Numbered illustrated cards, 3 per row; a short last row stretches (What you get, Every build includes)",
@@ -79,7 +79,7 @@
     {
       "id": "bento",
       "type": "SharedSliceVariation",
-      "name": "Bento",
+      "name": "content_deliverables_bento",
       "docURL": "...",
       "version": "initial",
       "description": "Two wide cards then three; tick 'dark' for the highlighted card (Websites I build)",

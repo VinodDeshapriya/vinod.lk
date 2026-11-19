@@ -1,13 +1,13 @@
 {
   "id": "skills_services",
   "type": "SharedSlice",
-  "name": "SkillsServices",
+  "name": "about_skills",
   "description": "Intro and skill tags on the left, a linked service list on the right (About \u203a What I do)",
   "variations": [
     {
       "id": "default",
       "type": "SharedSliceVariation",
-      "name": "Default",
+      "name": "about_skills",
       "docURL": "...",
       "version": "initial",
       "description": "Default",

@@ -1,13 +1,13 @@
 {
   "id": "split_list",
   "type": "SharedSlice",
-  "name": "SplitList",
+  "name": "content_split_variants1",
   "description": "Heading, text and button on the left, a list on the right",
   "variations": [
     {
       "id": "default",
       "type": "SharedSliceVariation",
-      "name": "Checklist",
+      "name": "content_split_variants1 (checklist)",
       "docURL": "...",
       "version": "initial",
       "description": "Scenario cards with a check (Is this right for you?)",
@@ -129,7 +129,7 @@
     {
       "id": "platforms",
       "type": "SharedSliceVariation",
-      "name": "Platforms",
+      "name": "content_split_platforms",
       "docURL": "...",
       "version": "initial",
       "description": "'If you need ... choose ...' rows; tick 'highlight' for the dark row (Platforms)",
@@ -223,7 +223,7 @@
     {
       "id": "grid",
       "type": "SharedSliceVariation",
-      "name": "Card grid",
+      "name": "content_split_grid",
       "docURL": "...",
       "version": "initial",
       "description": "Two-by-two icon cards (What I'll need from you)",

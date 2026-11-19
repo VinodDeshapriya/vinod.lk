@@ -39,6 +39,12 @@ for sid, s in mod.SLICES.items():
         variations.append({"id": vid, "type": "SharedSliceVariation", "name": v["name"], "docURL": "...",
             "version": "initial", "description": v.get("description", v["name"]), "imageUrl": "",
             "primary": {k: field(k, t) for k, t in v["primary"].items()}, "items": {}})
-    model = {"id": sid, "type": "SharedSlice", "name": s["folder"], "description": s["description"], "variations": variations}
+    # Keep display names already set (they follow the Figma component names).
+    path = os.path.join(folder, "model.json")
+    old = json.load(open(path)) if os.path.exists(path) else {}
+    old_vars = {v["id"]: v["name"] for v in old.get("variations", [])}
+    for v in variations:
+        v["name"] = old_vars.get(v["id"], v["name"])
+    model = {"id": sid, "type": "SharedSlice", "name": old.get("name", s["folder"]), "description": s["description"], "variations": variations}
     with open(os.path.join(folder, "model.json"), "w") as f: json.dump(model, f, indent=2); f.write("\n")
     print("wrote", s["folder"])

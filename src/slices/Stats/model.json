@@ -1,13 +1,13 @@
 {
   "id": "stats",
   "type": "SharedSlice",
-  "name": "Stats",
+  "name": "social-proof_stats_variants1",
   "description": "Dark band with title, Google rating and stat cards (Figma social-proof_stats_variants1)",
   "variations": [
     {
       "id": "default",
       "type": "SharedSliceVariation",
-      "name": "Default",
+      "name": "social-proof_stats_variants1",
       "docURL": "...",
       "version": "initial",
       "description": "Dark band with title, Google rating and stat cards (Figma social-proof_stats_variants1)",

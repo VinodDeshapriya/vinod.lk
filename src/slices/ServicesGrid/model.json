@@ -1,13 +1,13 @@
 {
   "id": "services_grid",
   "type": "SharedSlice",
-  "name": "ServicesGrid",
+  "name": "content_services_variants1",
   "description": "Bordered grid of service cards with arrow (Figma content_services_variants1)",
   "variations": [
     {
       "id": "default",
       "type": "SharedSliceVariation",
-      "name": "Default",
+      "name": "content_services_variants1",
       "docURL": "...",
       "version": "initial",
       "description": "Bordered grid of service cards with arrow (Figma content_services_variants1)",

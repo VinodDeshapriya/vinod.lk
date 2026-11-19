@@ -1,13 +1,13 @@
 {
   "id": "article_callout",
   "type": "SharedSlice",
-  "name": "ArticleCallout",
+  "name": "blog_callout",
   "description": "Inline call to action or pull quote inside a blog article",
   "variations": [
     {
       "id": "default",
       "type": "SharedSliceVariation",
-      "name": "Call to action",
+      "name": "blog_callout (cta)",
       "docURL": "...",
       "version": "initial",
       "description": "Call to action",
@@ -47,7 +47,7 @@
     {
       "id": "quote",
       "type": "SharedSliceVariation",
-      "name": "Pull quote",
+      "name": "blog_callout (quote)",
       "docURL": "...",
       "version": "initial",
       "description": "Pull quote",

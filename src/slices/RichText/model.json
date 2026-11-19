@@ -1,13 +1,13 @@
 {
   "id": "rich_text",
   "type": "SharedSlice",
-  "name": "RichText",
+  "name": "rich_text",
   "description": "Long-form rich text (blog posts, legal pages)",
   "variations": [
     {
       "id": "default",
       "type": "SharedSliceVariation",
-      "name": "Default",
+      "name": "rich_text",
       "docURL": "...",
       "version": "initial",
       "description": "Long-form rich text (blog posts, legal pages)",
