@@ -8,6 +8,7 @@ import LogoMarquee from "@/components/ui/LogoMarquee";
 import Eyebrow from "@/components/ui/Eyebrow";
 import CheckDot from "@/components/ui/CheckDot";
 import StyledContainer from "@/components/ui/StyledContainer";
+import ScrollTilt from "@/components/ui/ScrollTilt";
 
 export type HeroProps = SliceComponentProps<Content.HeroSlice>;
 
@@ -83,14 +84,15 @@ function CentredHero({ slice }: { slice: Variation<"default"> }) {
 
       {isFilled.image(showcase_image) && (
         <div className="mt-10 px-4 lg:px-[25px]">
-          <div className="mx-auto max-w-[1390px] rounded-md lg:rounded-lg overflow-hidden bg-primary-dark">
+          {/* Tilts back and eases flat as the page scrolls (awmedia.marketing pattern). */}
+          <ScrollTilt className="mx-auto max-w-[1390px] rounded-md lg:rounded-lg overflow-hidden bg-primary-dark shadow-[0_40px_80px_-30px_rgba(10,23,51,0.45)]">
             <PrismicNextImage
               field={showcase_image}
               priority
               sizes="(min-width: 1440px) 1390px, 100vw"
               className="w-full h-auto"
             />
-          </div>
+          </ScrollTilt>
         </div>
       )}
 
