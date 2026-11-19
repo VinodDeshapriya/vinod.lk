@@ -1,5 +1,5 @@
 "use client";
-import { useCallback, useEffect, useLayoutEffect, useRef, useState } from "react";
+import { useCallback, useEffect, useLayoutEffect, useMemo, useRef, useState } from "react";
 import Image from "next/image";
 import clsx from "clsx";
 import type { Content, ImageField, LinkField } from "@prismicio/client";
@@ -7,6 +7,7 @@ import { isFilled } from "@prismicio/client";
 import { PrismicNextImage } from "@prismicio/next";
 import StyledButton from "@/components/ui/StyledButton";
 import { findFallback, type ProjectStatus } from "./projects";
+import { playTicks, prepareTick } from "./tickSound";
 
 type PrismicProject = Content.FeaturedProjectSliceDefaultPrimaryProjectsItem;
 
@@ -39,7 +40,7 @@ function toItem(p: PrismicProject): Item {
 }
 
 const EASE = "ease-[cubic-bezier(0.22,1,0.36,1)]";
-const TICK = 12; // px between ruler marks
+const TICK = 12; // target px between ruler marks
 
 export default function ProjectTabs({
   projects,
@@ -50,38 +51,77 @@ export default function ProjectTabs({
 }) {
   const items = projects.map(toItem).filter((x) => x.name);
   const [active, setActive] = useState(0);
-  const [marker, setMarker] = useState<{ x: number; ready: boolean }>({ x: 0, ready: false });
+  const [geo, setGeo] = useState<{ centers: number[]; width: number }>({ centers: [], width: 0 });
+  const [ready, setReady] = useState(false);
   const [auto, setAuto] = useState(true); // turns off for good once the visitor picks a tab
   const [paused, setPaused] = useState(false);
   const [inView, setInView] = useState(false);
 
   const rootRef = useRef<HTMLDivElement>(null);
   const scrollerRef = useRef<HTMLDivElement>(null);
+  const rulerRef = useRef<HTMLDivElement>(null);
   const tabRefs = useRef<(HTMLButtonElement | null)[]>([]);
   const swipe = useRef<{ x: number; y: number } | null>(null);
 
   const count = items.length;
+  // Ruler marks: a dark mark exactly under every tab's centre, evenly spaced
+  // light marks between them, continued out to both edges.
+  const ruler = useMemo(() => {
+    const { centers: c, width } = geo;
+    if (c.length === 0 || !width) return { marks: [] as { x: number; major: boolean }[], between: [] as number[] };
+    const between: number[] = [];
+    const marks: { x: number; major: boolean }[] = [];
+    const subdivide = (a: number, b: number) => Math.max(4, Math.round(Math.abs(b - a) / TICK));
+    const first = c.length > 1 ? (c[1] - c[0]) / subdivide(c[0], c[1]) : TICK;
+    const last = c.length > 1 ? (c[c.length - 1] - c[c.length - 2]) / subdivide(c[c.length - 2], c[c.length - 1]) : TICK;
+    for (let x = c[0] - first; x > -1; x -= first) marks.push({ x, major: false });
+    c.forEach((x, i) => {
+      marks.push({ x, major: true });
+      if (i < c.length - 1) {
+        const n = subdivide(x, c[i + 1]);
+        between.push(n);
+        for (let k = 1; k < n; k++) marks.push({ x: x + ((c[i + 1] - x) * k) / n, major: false });
+      }
+    });
+    for (let x = c[c.length - 1] + last; x < width + 1; x += last) marks.push({ x, major: false });
+    return { marks, between };
+  }, [geo]);
+
   const go = useCallback(
     (i: number, user = true) => {
       if (!count) return;
-      setActive(((i % count) + count) % count);
-      if (user) setAuto(false);
+      const next = ((i % count) + count) % count;
+      if (user) {
+        setAuto(false);
+        const [a, b] = [Math.min(active, next), Math.max(active, next)];
+        playTicks(ruler.between.slice(a, b).reduce((s, n) => s + n, 0));
+      }
+      setActive(next);
     },
-    [count],
+    [count, active, ruler],
   );
 
-  // Marker sits under the middle of the active tab; it glides between tabs.
   const measure = useCallback(() => {
-    const tab = tabRefs.current[active];
-    if (!tab) return;
-    setMarker((m) => ({ x: tab.offsetLeft + tab.offsetWidth / 2, ready: m.ready || m.x !== 0 }));
-  }, [active]);
+    const r = rulerRef.current;
+    if (!r) return;
+    const centers = tabRefs.current
+      .slice(0, count)
+      .map((t) => (t ? Math.round(t.offsetLeft + t.offsetWidth / 2 - r.offsetLeft) : 0));
+    const width = r.offsetWidth;
+    setGeo((g) =>
+      g.width === width && g.centers.join() === centers.join() ? g : { centers, width },
+    );
+  }, [count]);
 
   useLayoutEffect(() => {
     measure();
+    const id = requestAnimationFrame(() => setReady(true));
     const ro = new ResizeObserver(measure);
     if (scrollerRef.current) ro.observe(scrollerRef.current);
-    return () => ro.disconnect();
+    return () => {
+      ro.disconnect();
+      cancelAnimationFrame(id);
+    };
   }, [measure]);
 
   // On small screens the tab row scrolls; keep the active tab in view.
@@ -138,7 +178,11 @@ export default function ProjectTabs({
           <div
             role="tablist"
             aria-label="Recent projects"
-            onKeyDown={onKeyDown}
+            onKeyDown={(e) => {
+              prepareTick();
+              onKeyDown(e);
+            }}
+            onPointerDown={prepareTick}
             className="flex lg:grid gap-1 lg:gap-0"
             style={{ gridTemplateColumns: `repeat(${count}, minmax(0, 1fr))` }}
           >
@@ -169,32 +213,32 @@ export default function ProjectTabs({
             })}
           </div>
 
-          {/* Ruler: the ticks drift a little with each step (a dial), the marker glides. */}
+          {/* Ruler: the blue marker glides from one dark mark to the next. */}
           <div
+            ref={rulerRef}
             aria-hidden
-            className="relative mt-3 h-7 overflow-hidden [mask-image:linear-gradient(to_right,transparent,#000_5%,#000_95%,transparent)]"
+            className="relative mt-3 h-7 overflow-hidden [mask-image:linear-gradient(to_right,transparent,#000_4%,#000_96%,transparent)]"
           >
-            <div
-              className={clsx("absolute inset-y-0 -left-[12%] w-[124%] transition-transform duration-700 motion-reduce:transition-none", EASE)}
-              style={{
-                transform: `translateX(${-active * TICK * 1.5}px)`,
-                backgroundImage: [
-                  `repeating-linear-gradient(to right, color-mix(in oklab, var(--color-text-heading) 55%, transparent) 0 1px, transparent 1px ${TICK * 10}px)`,
-                  `repeating-linear-gradient(to right, var(--color-text-inactive) 0 1px, transparent 1px ${TICK}px)`,
-                ].join(","),
-                backgroundSize: "100% 20px, 100% 11px",
-                backgroundPosition: "0 100%, 0 100%",
-                backgroundRepeat: "no-repeat",
-              }}
-            />
-            <span
-              className={clsx(
-                "absolute bottom-0 left-0 h-7 w-0.5 -ml-px rounded-full bg-primary-light shadow-[0_0_12px_rgba(33,118,255,0.55)]",
-                marker.ready && "transition-transform duration-500 motion-reduce:transition-none",
-                EASE,
-              )}
-              style={{ transform: `translateX(${marker.x}px)` }}
-            />
+            {ruler.marks.map((m, i) => (
+              <span
+                key={i}
+                className={clsx(
+                  "absolute bottom-0 w-px -translate-x-1/2",
+                  m.major ? "h-5 bg-text-heading/55" : "h-[11px] bg-text-inactive",
+                )}
+                style={{ left: `${Math.round(m.x)}px` }}
+              />
+            ))}
+            {geo.centers.length > 0 && (
+              <span
+                className={clsx(
+                  "absolute bottom-0 left-0 h-7 w-0.5 -ml-px rounded-full bg-primary-light shadow-[0_0_12px_rgba(33,118,255,0.55)]",
+                  ready && "transition-transform duration-500 motion-reduce:transition-none",
+                  EASE,
+                )}
+                style={{ transform: `translateX(${geo.centers[active] ?? 0}px)` }}
+              />
+            )}
           </div>
         </div>
       </div>
@@ -203,7 +247,9 @@ export default function ProjectTabs({
       <div
         className="grid touch-pan-y"
         onPointerDown={(e) => {
-          if (e.pointerType !== "mouse") swipe.current = { x: e.clientX, y: e.clientY };
+          if (e.pointerType === "mouse") return;
+          prepareTick();
+          swipe.current = { x: e.clientX, y: e.clientY };
         }}
         onPointerUp={(e) => {
           const s = swipe.current;
