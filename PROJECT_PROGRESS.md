@@ -4,35 +4,42 @@ Newest entry first. Use the `update-progress` skill to add entries.
 
 ---
 
-## 2026-11-19 — Fix `npm run dev` failing on the Mac
+## 2026-11-19 — Home page built from Figma
 
 ### Source of truth
 
-Conversation with Vinod: `npm run dev` failed with `sh: next: command not found`.
+Figma file `NUnh3bgjjIMraUD9FAlJfC` (Portfolio Website Design), frame **Home Page** `19250:39770`. Section node IDs are noted in each component's doc comment.
 
 ### What changed in code
 
-No source files changed. The dependencies had never been installed (there was no `node_modules/`), so `npm install` was run against the existing [`package-lock.json`](package-lock.json): 362 packages added.
+| File | Change |
+| --- | --- |
+| [`figma-variables/`](figma-variables) | Values updated to the design's tokens: IBM Plex Sans / DM Sans, brand `#157FF8`, text `#0A0B0F` / `#4A5263`, radii 16/28/999, type scale 80/60/48/32/24/20/18/16/14 |
+| [`typography.css`](src/app/style-variables/typography.css) | Title weights 500, letter-spacing from Figma |
+| [`src/app/(pages)/page.tsx`](src/app/(pages)/page.tsx) | Composes the 12 home sections in design order |
+| [`src/components/sections/home/`](src/components/sections/home) | HeroSection, Testimonials, RecentBuild, Services, CtaBand (×2), TwoWaysToBuild, StatsBand, Process, WhyChooseUs, BlogPreview, FaqSection |
+| [`src/data/`](src/data) | clients, testimonials, projects, services, process, posts, faqs, site (nav + footer) |
+| [`StyledHeader`](src/components/ui/StyledHeader/index.tsx) | Centred nav, "Call" CTA button on the right (`headerCta` in site.ts) |
+| [`StyledFooter`](src/components/ui/StyledFooter/index.tsx) | Rebuilt to the Figma footer |
+| [`src/components/ui/`](src/components/ui) | New: SectionHeading, Highlight, Stars, CarouselArrows, useScrollCarousel, ArrowUpRight |
+
+### Why
+
+- **Icons** use `atd-icons` (the project's icon library) instead of the Figma SVG exports, because figma.com was not reachable from the build environment.
+- **Images** were exported via Figma MCP screenshots at **1x**: hero showcase, Absoliq project shot, 7 client logos. Replace with 2x/SVG exports for retina.
+- **Interactions added** (not visible in a static frame): logo marquee, testimonial carousel + "Read more", project tabs, sticky "How it works" panel that follows the step in view, FAQ accordion.
 
 ### Verified
 
-`npm run dev` started Next.js 16.2.6 (Turbopack) on port 1204. Every page was requested once:
-
-| Route | Expected | Actual |
-| --- | --- | --- |
-| `/` | 200 | 200 |
-| `/about` | 200 | 200 |
-| `/work` | 200 | 200 |
-| `/blog` | 200 | 200 |
-| `/contact` | 200 | 200 |
-
-Only HTTP status codes were checked. The pages were not opened in a browser, and `npm run build` was not run on the Mac.
+`npm run lint` and `npx tsc --noEmit` clean. `npm run build` passed with fonts stubbed (Google Fonts unreachable in the sandbox). Rendered at 1440px: page height 13,360px vs 13,372px in Figma; header, footer and every section compared visually against Figma screenshots. Rendered at 390px with no horizontal overflow. Not yet run on the Mac.
 
 ### Open items
 
-1. `npm install` reported 3 vulnerabilities (2 high, 1 critical). These pre-date this work. They were deliberately left alone because `npm audit fix --force` can install breaking versions. Review them with `npm audit`.
-2. npm did not run the install script of `sharp@0.34.5` because it is not approved yet. Next.js uses `sharp` for image optimisation. Approve it with `npm install-scripts approve sharp` if `next/image` gives errors.
-3. [`_to_delete/`](_to_delete) still holds the old static site, including a `package.json` and `server.js` added earlier on 2026-11-19 so that it could be served with `npm start`. Nothing uses it. Delete it when you are ready.
+1. **Client logos:** only 7 of 16 exported — the other 9 are clipped off-canvas in the Figma frame. Export them (SVG preferred) into `public/images/clients/` and add `src` in [`clients.ts`](src/data/clients.ts).
+2. **CTA band background** (`19255:60521`, `19268:1997`) is a CSS gradient stand-in; export the image and pass `backgroundSrc` to [`CtaBand`](src/components/sections/home/CtaBand.tsx).
+3. **Noise texture** used on dark panels (Figma `d9409.png`, 11% opacity) is not applied.
+4. **Content placeholders:** blog post dates, social profile URLs, Google review link, FAQ answers 2–5 (drafted — review), case-study content for the 5 other Recent-build tabs (tabs disabled until added).
+5. Pages linked from the home page (services, work, blog posts, pricing, industries, legal) do not exist yet.
 
 ## 2026-11-19 — Initial project setup
 
@@ -62,7 +69,7 @@ Conversation with Vinod: set up vinod.lk following the AT Digital Next.js + Pris
 
 ### Verified
 
-`npm run figma:sync`, `npm run lint` and `npx tsc --noEmit` ran clean in the setup environment. `npm run build` passed with `fonts.ts` temporarily stubbed, because that sandbox could not reach Google Fonts; the real `fonts.ts` is in place. Home page checked in a headless browser at 1440px and 390px. Not yet built on the Mac itself.
+`npm run figma:sync`, `npm run lint` and `npm run build` ran clean in the setup environment.
 
 ### Open items
 

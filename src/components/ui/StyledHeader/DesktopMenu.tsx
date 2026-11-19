@@ -53,7 +53,7 @@ const DesktopMenu = ({ mainMenu, visibility }: MenuProps) => {
           className={clsx({
             "gap-6 p-4": true,
             "xl:flex 2xl:flex-wrap xl:px-0 xl:py-[19px]": isBreakpoint("xl"),
-            "lg:flex xl:flex-wrap lg:px-0 lg:py-[19px]": isBreakpoint("lg"),
+            "lg:flex lg:justify-center lg:gap-[21px] xl:flex-wrap lg:px-0 lg:py-[19px]": isBreakpoint("lg"),
           })}
         >
           {mainMenu?.map((item, idx) => {
@@ -62,7 +62,7 @@ const DesktopMenu = ({ mainMenu, visibility }: MenuProps) => {
                 key={idx}
                 item={item}
                 setMobileMenuOpen={setMobileMenuOpen}
-                isLast={idx === mainMenu?.length - 1}
+                isLast={false}
                 isBreakPointLg={isBreakpoint("lg")}
                 isBreakPointXl={isBreakpoint("xl")}
               />

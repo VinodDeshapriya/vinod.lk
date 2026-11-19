@@ -4,54 +4,54 @@
 @theme {
   /* Buttons */
   --color-button-primary-default: #157ff8;
-  --color-button-primary-hover: #0d0d0d;
-  --radius-button: 6px;
-  --color-button-secondary-hover: #fafafa;
-  --color-button-secondary-default: #eef2f7;
+  --color-button-primary-hover: #0a0b0f;
+  --radius-button: 999px;
+  --color-button-secondary-hover: #0a0b0f;
+  --color-button-secondary-default: #ffffff;
   --color-button-primary-stroke: #157ff8;
   --color-button-primary-text-default: #ffffff;
   --color-button-primary-text-hover: #ffffff;
-  --color-button-secondary-text-hover: #157ff8;
-  --color-button-secondary-text-default: #157ff8;
+  --color-button-secondary-text-hover: #ffffff;
+  --color-button-secondary-text-default: #0a0b0f;
   --color-button-link-text-hover: #157ff8;
   --color-button-link-text-default: #157ff8;
-  --color-button-secondary-stroke: #157ff8;
+  --color-button-secondary-stroke: #0a0b0f;
 
   /* Colors */
-  --color-text-placeholder: #6a6a6a;
-  --color-text-heading: #2f2f2f;
-  --color-text-inactive: #8c8c8c;
-  --color-border-primary: #d9d9d9;
-  --color-border-secondary: #f0f0f0;
+  --color-text-placeholder: #9aa1ae;
+  --color-text-heading: #0a0b0f;
+  --color-text-inactive: #9aa1ae;
+  --color-border-primary: #dde2ea;
+  --color-border-secondary: #eceff4;
   --color-border-split: #fdfdfd;
   --color-primary-light: #157ff8;
-  --color-primary-dark: #0d0d0d;
-  --color-secondary-dark: #0b3d7a;
-  --color-secondary-light: #5aa8ff;
-  --color-warning-primary: #faad14;
+  --color-primary-dark: #0a0b0f;
+  --color-secondary-dark: #0b1220;
+  --color-secondary-light: #6fb2ff;
+  --color-warning-primary: #f59e0b;
   --color-text-light: #ffffff;
-  --color-text-description: #454343;
+  --color-text-description: #4a5263;
   --color-success-bg: #d9f7be;
-  --color-success-primary: #389e0d;
+  --color-success-primary: #16a34a;
   --color-warning-bg: #fff1b8;
   --color-error-primary: #f5222d;
   --color-error-bg: #ffccc7;
-  --color-info-primary: #1866e5;
-  --color-info-bg: #dbeafe;
-  --color-offwhite: #eef2f7;
-  --color-offwhite-2: #fafafa;
+  --color-info-primary: #157ff8;
+  --color-info-bg: #e3f0ff;
+  --color-offwhite: #eef4fd;
+  --color-offwhite-2: #f7f8fa;
   --color-white: #ffffff;
 
   /* Radius */
-  --radius-full: 100px;
-  --radius-md: 12px;
+  --radius-full: 999px;
+  --radius-md: 16px;
   --radius-xs: 6px;
   --radius-none: 0px;
-  --radius-lg: 24px;
+  --radius-lg: 28px;
 
   /* Typography */
-  --font-title: "Barlow Condensed";
-  --font-body: "Inter";
+  --font-title: "IBM Plex Sans";
+  --font-body: "DM Sans";
 
 }
 
@@ -77,16 +77,16 @@
   --font-size-3xl: 32px;
   --font-size-4xl: 36px;
   --font-size-5xl: 48px;
-  --font-size-6xl: 62px;
-  --font-size-7xl: 68px;
+  --font-size-6xl: 60px;
+  --font-size-7xl: 80px;
   --line-height-xs: 20px;
   --line-height-md: 24px;
-  --line-height-lg: 26px;
+  --line-height-lg: 30px;
   --line-height-xl: 32px;
   --line-height-2xl: 40px;
-  --line-height-3xl: 62px;
-  --line-height-4xl: 64px;
-  --line-height-5xl: 68px;
+  --line-height-3xl: 56px;
+  --line-height-4xl: 66px;
+  --line-height-5xl: 84px;
   --font-size-xl: 20px;
   --font-size-md: 16px;
   --font-size-sm: 14px;
@@ -129,12 +129,13 @@
     --font-size-4xl: 24px;
     --font-size-5xl: 30px;
     --font-size-6xl: 40px;
-    --font-size-7xl: 48px;
+    --font-size-7xl: 44px;
+    --line-height-lg: 26px;
     --line-height-xl: 28px;
-    --line-height-2xl: 30px;
+    --line-height-2xl: 32px;
     --line-height-3xl: 36px;
-    --line-height-4xl: 44px;
-    --line-height-5xl: 48px;
+    --line-height-4xl: 46px;
+    --line-height-5xl: 50px;
     --font-size-xl: 18px;
   }
 }

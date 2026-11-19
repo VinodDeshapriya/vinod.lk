@@ -6,6 +6,8 @@ import MenuItem from "./MenuItem";
 import { MenuProps } from "./DesktopMenu";
 import { MenuFill } from "atd-icons";
 import { isBreakpoint } from "./breakpoint";
+import StyledButton from "../StyledButton";
+import { headerCta } from "@/data/site";
 
 const MobileMenu = ({ mainMenu, visibility }: MenuProps) => {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
@@ -36,7 +38,7 @@ const MobileMenu = ({ mainMenu, visibility }: MenuProps) => {
       <div
         className={clsx({
           [visibility]: true,
-          "fixed h-screen w-screen ms-auto z-100 top-0 right-0 bg-[rgba(0,0,0,0.5)] transition-all ease-linear": true,
+          "fixed h-screen w-screen ms-auto z-100 top-0 right-0 bg-[rgba(0,0,0,0.5)] transition-all ease-linear overflow-hidden": true,
           "xl:transition-none xl:static xl:opacity-100 xl:bg-transparent xl:block xl:w-auto xl:h-auto":
             isBreakpoint("xl"),
           "lg:transition-none lg:static lg:opacity-100 lg:bg-transparent lg:block lg:w-auto lg:h-auto":
@@ -91,13 +93,21 @@ const MobileMenu = ({ mainMenu, visibility }: MenuProps) => {
                   key={idx}
                   item={item}
                   setMobileMenuOpen={setMobileMenuOpen}
-                  isLast={idx === mainMenu?.length - 1}
+                  isLast={false}
                   isBreakPointLg={isBreakpoint("lg")}
                   isBreakPointXl={isBreakpoint("xl")}
                 />
               );
             })}
           </ul>
+          <div className="mt-6 lg:hidden">
+            <StyledButton
+              label={headerCta.label}
+              link={headerCta.href}
+              variant="Secondary"
+              className="w-full"
+            />
+          </div>
         </nav>
       </div>
     </div>

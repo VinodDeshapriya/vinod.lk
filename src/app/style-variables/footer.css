@@ -1,27 +1,23 @@
-/* Footer — colours come from the Figma "Footer" collection via tokens.css */
+/* Footer — Figma: Home Page › Footer (19276:1800). Colours from the Footer
+   collection when it exists in figma-variables, else the design values. */
 
 .site-footer {
-  background-color: var(--color-footer-bg, var(--color-offwhite));
-  color: var(--color-footer-text-default, var(--color-text-heading));
+  background-color: var(--color-footer-bg, #0b1220);
+  color: var(--color-footer-text-default, #ffffff);
 }
 
-/* Every footer link gets the Figma hover colour, so links that carry no colour
-   class of their own (copyright, legal, contact) pick it up too.
-   :not(.btn) keeps StyledButton on its own --color-button-* tokens. */
 .site-footer a:not(.btn) {
   transition: color 200ms ease-linear;
 }
 
-.site-footer a:not(.btn):hover {
-  color: var(--color-footer-text-hover, var(--color-primary-light));
+.site-footer a:not(.btn):not(.btn-book):hover {
+  color: var(--color-footer-text-hover, var(--color-secondary-light));
 }
 
-/* Current-route link */
 .site-footer .footer-link-active {
-  color: var(--color-footer-text-hover, var(--color-primary-light));
+  color: var(--color-footer-text-hover, var(--color-secondary-light));
 }
 
-/* Contact + social icons (atd-icons render fill: currentColor) */
 .site-footer .footer-icon {
-  color: var(--color-footer-icons, var(--color-primary-light));
+  color: var(--color-footer-icons, #ffffff);
 }

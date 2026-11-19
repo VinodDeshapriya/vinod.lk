@@ -189,7 +189,7 @@ const MenuItem: FC<MenuItemProps> = ({
     <li
       ref={liRef}
       className={clsx({
-        "font-semibold text-slate-800 pointer-events-auto main-nav-item": true,
+        "text-text-heading pointer-events-auto main-nav-item": true,
         "flex flex-col w-full xl:w-auto items-center justify-center": true,
         "items-center justify-center": !isLast,
         "items-start": isLast,
@@ -215,7 +215,7 @@ const MenuItem: FC<MenuItemProps> = ({
           target={target}
           className={clsx({
             "btn btn-primary w-full!": isLast,
-            "flex-1 flex items-center hover:text-primary-dark": !isLast,
+            "flex-1 flex items-center hover:text-primary-light": !isLast,
             "text-primary-light hover:text-primary-light": !isLast && isActive,
             "text-text-heading": !isLast && !isActive,
             "lg:py-1": isBreakPointLg,
@@ -224,7 +224,7 @@ const MenuItem: FC<MenuItemProps> = ({
           onMouseEnter={handleMouseEnter}
           onClick={handleNavigate}
         >
-          <span className="block whitespace-nowrap text-body-base">
+          <span className="block whitespace-nowrap text-body-small lg:text-body-x-small">
             {label}
           </span>
         </Link>
@@ -238,7 +238,7 @@ const MenuItem: FC<MenuItemProps> = ({
             aria-label={`Toggle ${label} submenu`}
           >
             <ChevronDown
-              size={24}
+              size={16}
               className={clsx("transition-transform duration-200", {
                 "rotate-180": isOpen,
               })}

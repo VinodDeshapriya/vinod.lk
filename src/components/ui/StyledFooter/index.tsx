@@ -1,86 +1,132 @@
 import Image from "next/image";
 import Link from "next/link";
+import Facebook from "atd-icons/dist/Facebook";
+import Instagram from "atd-icons/dist/Instagram";
+import Linkedin from "atd-icons/dist/Linkedin";
+import Tiktok from "atd-icons/dist/Tiktok";
+import Youtube from "atd-icons/dist/Youtube";
+import ArrowForward from "atd-icons/dist/ArrowForward";
+import ArrowUp from "atd-icons/dist/ArrowUp";
 import StyledContainer from "../StyledContainer";
-import {
-  footerMenus,
-  legalLinks,
-  siteSettings,
-} from "@/data/site";
+import { footerMenus, legalLinks, siteSettings } from "@/data/site";
 
+const socialIcons = {
+  Facebook,
+  Instagram,
+  LinkedIn: Linkedin,
+  TikTok: Tiktok,
+  YouTube: Youtube,
+};
+
+const tel = (n: string) => `tel:${n.replace(/\s/g, "")}`;
+
+/** Figma: Home Page › Footer (19276:1800) */
 export default function StyledFooter() {
-  const { logo, description, email, phone, location, social, name } =
+  const { logoWhite, description, email, phones, location, social, name } =
     siteSettings;
 
   return (
-    <footer className="site-footer">
-      <StyledContainer className="py-8 md:py-10 xl:py-15 overflow-hidden">
-        <div className="flex flex-col gap-y-10 xl:flex-row xl:items-start xl:justify-between">
-          <div className="xl:max-w-87.5">
+    <footer className="site-footer border-t border-white/6">
+      <StyledContainer className="pt-16 lg:pt-24 pb-10 flex flex-col gap-14">
+        <div className="flex flex-col lg:flex-row gap-12 lg:gap-16">
+          <div className="lg:w-[320px] shrink-0 flex flex-col gap-5">
             <Image
-              src={logo.src}
-              alt={logo.alt}
-              width={logo.width}
-              height={logo.height}
-              className="h-10 w-auto"
+              src={logoWhite.src}
+              alt={logoWhite.alt}
+              width={143}
+              height={48}
+              className="h-12 w-auto self-start"
             />
-            <p className="text-body-base mt-[18px] mb-6">{description}</p>
-            <ul className="flex flex-col gap-2 text-body-base">
-              {email && (
-                <li>
-                  <a href={`mailto:${email}`}>{email}</a>
-                </li>
-              )}
-              {phone && (
-                <li>
-                  <a href={`tel:${phone.replace(/\s/g, "")}`}>{phone}</a>
-                </li>
-              )}
-              {location && <li>{location}</li>}
-            </ul>
-            {social.length > 0 && (
-              <ul className="flex gap-4 mt-6">
-                {social.map(({ label, href }) => (
-                  <li key={href}>
-                    <a href={href} target="_blank" rel="noreferrer">
-                      {label}
+            <p className="text-body-base text-white/75">{description}</p>
+            <ul className="flex gap-2.5">
+              {social.map(({ label, href }) => {
+                const Icon = socialIcons[label];
+                return (
+                  <li key={label}>
+                    <a
+                      href={href}
+                      target="_blank"
+                      rel="noreferrer"
+                      aria-label={label}
+                      className="size-11 rounded-full bg-white/6 border border-white/10 flex items-center justify-center hover:bg-primary-light hover:border-primary-light transition-colors"
+                    >
+                      <Icon size={18} className="footer-icon" />
                     </a>
                   </li>
-                ))}
-              </ul>
-            )}
+                );
+              })}
+            </ul>
           </div>
 
-          <div className="grid grid-cols-2 gap-6 xl:gap-20">
+          <div className="flex-1 grid grid-cols-2 md:grid-cols-4 gap-x-6 gap-y-10 lg:flex lg:justify-between">
             {footerMenus.map(({ title, links }) => (
-              <div key={title}>
-                <p className="text-title-base-blog font-medium mb-3">{title}</p>
-                <ul className="flex flex-col gap-2 text-body-base">
-                  {links.map(({ href, label, target }) => (
-                    <li key={String(href)}>
-                      <Link href={href ?? "/"} target={target}>
-                        {label}
-                      </Link>
-                    </li>
-                  ))}
-                </ul>
-              </div>
+              <nav key={title} aria-label={title} className="flex flex-col gap-3.5">
+                <p className="pb-1 text-xs font-medium uppercase tracking-[0.16em] text-white/45">
+                  {title}
+                </p>
+                {links.map(({ href, label }) => (
+                  <Link
+                    key={label}
+                    href={href ?? "/"}
+                    className="text-body-small text-white/80"
+                  >
+                    {label}
+                  </Link>
+                ))}
+              </nav>
             ))}
+            <div className="flex flex-col gap-3.5 col-span-2 md:col-span-1">
+              <p className="pb-1 text-xs font-medium uppercase tracking-[0.16em] text-white/45">
+                Contact
+              </p>
+              <p className="text-body-small font-medium">{name}</p>
+              <p className="text-body-small">{location}</p>
+              <p className="text-body-small">
+                {phones.map((p, i) => (
+                  <span key={p}>
+                    {i > 0 && " | "}
+                    <a href={tel(p)}>{p}</a>
+                  </span>
+                ))}
+              </p>
+              <a href={`mailto:${email}`} className="text-body-small">
+                {email}
+              </a>
+            </div>
           </div>
         </div>
 
-        <div className="mt-10 pt-6 border-t border-border-primary flex flex-col md:flex-row gap-4 justify-between text-body-small">
-          <p>
+        <div className="flex flex-col sm:flex-row gap-4 sm:items-center justify-between rounded-[20px] bg-white/5 border border-white/8 p-4 sm:py-3 sm:pl-7 sm:pr-3">
+          <p className="flex items-center gap-2.5 text-body-base-bold">
+            <span className="size-2 shrink-0 rounded-full bg-secondary-light" />
+            Web design across Sri Lanka, and for clients overseas
+          </p>
+          <Link
+            href="/contact"
+            className="btn-book flex items-center justify-center gap-2 px-[18px] py-2.5 rounded-full bg-primary-light text-white text-body-small hover:bg-white hover:text-text-heading! transition-colors"
+          >
+            Book a Free Call
+            <ArrowForward size={16} />
+          </Link>
+        </div>
+
+        <div className="flex flex-col md:flex-row gap-4 md:items-center justify-between text-body-small">
+          <p className="text-white/50">
             © {new Date().getFullYear()} {name}. All rights reserved.
           </p>
-          {legalLinks.length > 0 && (
-            <ul className="flex gap-4">
+          <div className="flex flex-wrap items-center gap-7 md:gap-[60px]">
+            <ul className="flex gap-7 text-white/60">
               {legalLinks.map(({ href, label }) => (
-                <li key={String(href)}>
+                <li key={label}>
                   <Link href={href ?? "/"}>{label}</Link>
                 </li>
               ))}
             </ul>
-          )}
+            <a href="#top" className="flex items-center gap-2 text-body-x-small text-white/80">
+              Back to the top
+              <ArrowUp size={14} />
+            </a>
+          </div>
         </div>
       </StyledContainer>
     </footer>

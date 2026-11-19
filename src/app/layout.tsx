@@ -23,7 +23,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en" className={`${fontVariables} h-full antialiased`}>
-      <body className="min-h-full flex flex-col">
+      <body id="top" className="min-h-full flex flex-col">
         <StyledHeader mainMenu={mainMenu} />
         <main className="grow">{children}</main>
         <StyledFooter />

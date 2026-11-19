@@ -4,7 +4,8 @@ import Image from "next/image";
 import Link from "next/link";
 import { useEffect, useRef, useState } from "react";
 import { type NavItem } from "@/types/nav";
-import { siteSettings } from "@/data/site";
+import { headerCta, siteSettings } from "@/data/site";
+import StyledButton from "../StyledButton";
 import StyledContainer from "../StyledContainer";
 import DesktopMenu from "./DesktopMenu";
 import MobileMenu from "./MobileMenu";
@@ -45,7 +46,7 @@ const StyledHeader = ({ mainMenu }: StyledHeaderProps) => {
     <header
       ref={headerRef}
       className={clsx({
-        "sticky z-50 bg-white transition-[top] duration-300 shadow-[0_10px_60px_-10px_rgba(0,0,0,0.2)]": true,
+        "sticky z-50 bg-white/90 backdrop-blur transition-[top] duration-300": true,
         "-top-40": !stickyMenu,
         "top-0": stickyMenu,
       })}
@@ -58,7 +59,7 @@ const StyledHeader = ({ mainMenu }: StyledHeaderProps) => {
             width={logo.width}
             height={logo.height}
             priority
-            className="h-10 lg:h-13 w-auto my-[13px] lg:my-0"
+            className="h-10 lg:h-[50px] w-auto my-[13px] lg:my-4"
           />
         </Link>
 
@@ -66,10 +67,18 @@ const StyledHeader = ({ mainMenu }: StyledHeaderProps) => {
           mainMenu={mainMenu}
           visibility={clsx({
             hidden: true,
-            "xl:block": isBreakpoint("xl"),
-            "lg:block": isBreakpoint("lg"),
+            "xl:block xl:flex-1": isBreakpoint("xl"),
+            "lg:block lg:flex-1": isBreakpoint("lg"),
           })}
         />
+
+        <div className="hidden lg:block">
+          <StyledButton
+            label={headerCta.label}
+            link={headerCta.href}
+            variant="Secondary"
+          />
+        </div>
 
         <MobileMenu
           mainMenu={mainMenu}

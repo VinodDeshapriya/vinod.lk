@@ -21,14 +21,14 @@ const ButtonWrapper = ({
   type,
   target,
 }: ButtonWrapperProps) => {
-  if (link && typeof link === "string" && link.startsWith("http")) {
+  if (link && typeof link === "string" && !link.startsWith("/")) {
     return (
       <a href={link} className={className} target={target} rel="noreferrer">
         {children}
       </a>
     );
   }
-  if (link && typeof link === "string" && !link.startsWith("http")) {
+  if (link && typeof link === "string" && link.startsWith("/")) {
     return (
       <Link href={link} className={className} target={target} rel="noreferrer">
         {children}
