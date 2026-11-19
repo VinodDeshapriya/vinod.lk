@@ -9,6 +9,7 @@ import { siteSettings } from "@/data/site";
 import type { HeaderCta } from "@/lib/layoutData";
 import DesktopNav from "./DesktopNav";
 import MobileNav from "./MobileNav";
+import HeaderCtaButton from "./HeaderCtaButton";
 
 interface StyledHeaderProps {
   mainMenu?: NavItem[];
@@ -100,13 +101,8 @@ const StyledHeader = ({ mainMenu, headerCta }: StyledHeaderProps) => {
 
           <DesktopNav mainMenu={mainMenu} floating={floating} />
 
-          <div className="ml-auto flex items-center gap-2 lg:gap-5">
-            <Link
-              href={headerCta.href}
-              className="inline-flex items-center h-9 lg:h-8 px-3 lg:px-4 rounded-full bg-primary-light text-white text-[13px] leading-none font-medium whitespace-nowrap hover:bg-button-primary-hover transition-colors"
-            >
-              {headerCta.label}
-            </Link>
+          <div className="ml-auto flex items-center gap-2 lg:gap-5 relative z-10">
+            <HeaderCtaButton cta={headerCta} />
             <MobileNav mainMenu={mainMenu} headerCta={headerCta} open={mobileOpen} setOpen={setMobileOpen} />
           </div>
         </div>
