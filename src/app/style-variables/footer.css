@@ -1,9 +1,21 @@
 /* Footer — Figma: Home Page › Footer (19276:1800). Colours from the Footer
    collection when it exists in figma-variables, else the design values. */
 
+/* Figma footer_variants: #0b1220 with the film-grain tile at 11% */
 .site-footer {
+  position: relative;
+  isolation: isolate;
   background-color: var(--color-footer-bg, #0b1220);
   color: var(--color-footer-text-default, #ffffff);
+}
+.site-footer::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  pointer-events: none;
+  background: url("/images/noise.webp") repeat 0 0 / 256px;
+  opacity: 0.11;
 }
 
 .site-footer a:not(.btn) {

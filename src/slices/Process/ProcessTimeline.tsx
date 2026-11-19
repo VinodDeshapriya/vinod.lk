@@ -94,7 +94,7 @@ export default function ProcessTimeline({ primary }: { primary: Primary }) {
           "shadow-[0_30px_70px_0_rgba(10,26,77,0.25)] bg-[linear-gradient(123deg,#080d1a_0%,#0a1733_60%,#0f4da8_100%)]",
         )}
       >
-        <div aria-hidden className="absolute inset-0 opacity-[0.11] bg-[url(/images/noise.png)] [background-size:160px]" />
+        <div aria-hidden className="absolute inset-0 opacity-[0.11] bg-[url(/images/noise.webp)] [background-size:256px]" />
         <div
           aria-hidden
           className="absolute left-[200px] top-[620px] lg:top-[56%] w-[303px] h-[245px] md:w-[520px] md:h-[420px] rounded-full bg-primary-light/50 blur-[70px]"

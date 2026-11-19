@@ -31,7 +31,7 @@ export default function FaqPanel({ primary }: { primary: Primary }) {
         {/* film grain, as in the design (image fill at 11%) */}
         <div
           aria-hidden
-          className="absolute inset-0 opacity-[0.11] bg-[url(/images/noise.png)] bg-repeat [background-size:160px]"
+          className="absolute inset-0 opacity-[0.11] bg-[url(/images/noise.webp)] bg-repeat [background-size:256px]"
         />
         <div
           aria-hidden
