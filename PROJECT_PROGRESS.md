@@ -4,7 +4,39 @@ Newest entry first. Use the `update-progress` skill to add entries.
 
 ---
 
-## 2026-11-19 — Home page built from Figma
+## 2026-11-19 — Project skills rewritten for the no-CMS setup
+
+### Source of truth
+
+Conversation with Vinod: the `.claude/skills` design workflows had been copied from the AT Digital Prismic starter and referred to slices, Slice Machine, Prismic releases and the `atd-prismic-starter` repo. None of that exists here.
+
+### What changed in code
+
+| File | Change |
+| --- | --- |
+| [`section-from-design`](.claude/skills/section-from-design/SKILL.md) | Was `slice-from-design`. Now: match a Figma component to a section in `src/components/sections/`, reuse it, extend it with an optional prop, or add a new section. Content goes in `src/data/` or props, and the section is placed in the route file |
+| [`section-design-qa`](.claude/skills/section-design-qa/SKILL.md) | Was `slice-design-qa`. Same measuring method; fixes go to the section file, `src/data/` or the call site instead of Prismic |
+| [`measure-section.mjs`](.claude/skills/section-design-qa/scripts/measure-section.mjs) | Was `measure-slice.mjs`. Finds the target by `--section <Name>` (`[data-section]`) or `--selector <css>` instead of `data-slice-type`; dev hint is now `npm run dev` |
+| [`pages-from-design`](.claude/skills/pages-from-design/SKILL.md) | Composes a route in `src/app/(pages)/` from existing sections instead of filling a Prismic document; covers dynamic routes for templates |
+| [`AGENTS.md`](AGENTS.md) | Section layout line corrected (`home/*.tsx` files, not only `<Name>/index.tsx`); skills listed |
+
+### Why these choices
+
+- **Unchanged rendering is still the rule.** Without slice variations, "never edit what renders" becomes "an optional prop whose default is today's output". It is proved by running the measuring script on existing placements before and after the change and diffing the results.
+- **`data-section` marker**: the sections have no attribute the script can target. New sections get `data-section="<Name>"`, and the QA skill adds it to an existing section when it measures one. `--selector` covers the header and footer.
+- **Project values corrected**: off-white is `#eef4fd` here (the starter's was `#f5f7fa`), and the Figma file key is `NUnh3bgjjIMraUD9FAlJfC`.
+
+### Verified
+
+- `node --check` on the script passed.
+- Ran the script against `npm run dev` with `--selector footer` at 1440 and 375. Both widths measured, and the summary showed DM Sans text, the `#0b1220` background and 0px overflow.
+- The skill list reloaded with the new names.
+- `update-progress` is unchanged; it was already project-specific.
+
+### Open items
+
+1. None of the existing sections carry `data-section` yet. Adding it to all 12 would let the scripts target them by name without `--selector`.
+
 
 ### Source of truth
 

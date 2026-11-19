@@ -1,374 +1,283 @@
 ---
-name: slice-from-design
-description: Match a Figma component design against this repo's existing slices and either reuse the one that already fits or build a new variation or slice beside it — never editing what already renders — with the house section controls (top / bottom padding and a background option in the design's colours), then place it on the home page and QA it against the design straight away with slice-design-qa. Use when a task supplies a figma.com URL together with breakpoint screenshots (375 / 768 / 1440) of one component, or asks whether this project already has a slice for a design before building one.
+name: section-from-design
+description: Match a Figma component design against this repo's existing page sections (src/components/sections) and either reuse the one that already fits or build a new section beside it, without changing how any existing placement renders. Puts the design's content in src/data or props, places it on the page, and QA's it against the design straight away with section-design-qa. Use when a task supplies a figma.com URL together with breakpoint screenshots (375 / 768 / 1440) of one component, or asks whether this project already has a section for a design before building one.
 ---
 
-# Design → the slice that already fits, or a new one beside it
+# Design → the section that already fits, or a new one beside it
 
-Runs from a Figma URL plus one screenshot per breakpoint. The whole point is
-**the decision in step 3**: most designs are already built here, and the
-expensive mistake is editing a slice that published pages render.
+Runs from a Figma URL plus one screenshot per breakpoint. The point is **the
+decision in step 3**. Many designs are already built here. The costly mistake
+is editing a section that a live page renders, and restyling that page without
+noticing.
 
-Design reading, token reuse, browser verification and the Prismic mechanics are
-the **`figma-to-prismic`** skill. Scaffold conventions are **`create-slice`**.
-Follow both. This skill owns what they do not: the match, the no-edit rule, the
-behaviour prompt, the section controls, the design screenshot, the home-page
-test placement, and the hand-off to **`slice-design-qa`**, which checks the
-live result against the design and fixes it.
+This site has **no CMS**. A "section" is a React component in
+`src/components/sections/`. Its content is in `src/data/*.ts` or comes in as
+props from the page, and a page is a route file in `src/app/(pages)/`. There is
+no model to push and nothing to publish. A change is done when the code renders
+correctly.
 
 ## What the invoking prompt must carry
 
 **Required**
 
-- **Figma URL** — the node for the component itself, not the whole page frame.
-- **Three screenshots** — one each at **1440** (desktop), **768** (tablet) and
+- **Figma URL**: the node for the component itself, not the whole page frame.
+  The design file is `NUnh3bgjjIMraUD9FAlJfC` (Portfolio Website Design).
+- **Three screenshots**: one each at **1440** (desktop), **768** (tablet) and
   **375** (mobile). File paths and pasted images both work.
 
-**Optional — say these and the skill stops guessing**
+**Optional (each one you give saves the skill a guess)**
 
 | Value | What it does | Default when omitted |
 | --- | --- | --- |
-| Reference Prismic repo | A repo to *read* an existing model from | none — and don't go looking |
-| Name | What to call the slice or variation | derived from the Figma node name |
-| Start from | The slice you already know is closest | the skill picks one and reports it |
-| Force | `new slice` or `variation` | the skill decides, and says why |
-| Behaviours | Hover, carousel, counters, scroll reveal… | the skill stops and asks (step 4) |
-| Custom types | Which types should offer it | `page` |
-| Library | `slices` · `slices-blogs` · `slices-nav` · `slices-footer` | `src/slices` |
-| Test on | Where to place it after the push | the `home` page document |
-| Theme | If this is one colourway of a set | one variation with a theme control |
-| Backgrounds | Which section backgrounds editors can switch between | what the design shows (step 5, *Section controls*) |
+| Name | Component name (PascalCase) | derived from the Figma node name |
+| Start from | The section you already know is closest | the skill picks one and reports it |
+| Force | `new section` or `prop` (extend an existing one) | the skill decides, and says why |
+| Behaviours | Hover, carousel, counters, accordion, scroll reveal… | the skill stops and asks (step 4) |
+| Page | Which route it goes on | the home page, `src/app/(pages)/page.tsx` |
+| Position | Where on that page | where the design puts it, or the end |
 
 Prompt shape:
 
 ```
-/slice-from-design
+/section-from-design
 
 Figma:       <figma.com node url>
 Screenshots: <1440 desktop>  <768 tablet>  <375 mobile>
 
-Name:        Feature Grid
-Start from:  FeaturedContent
-Force:       variation
-Behaviours:  cards lift on hover; counts animate up on scroll into view
-Custom types: page, service
-Reference prismic: starter-demo-v4   (read-only)
-Test on:     home
+Name:        PricingTable
+Start from:  TwoWaysToBuild
+Behaviours:  cards lift on hover; monthly / yearly toggle
+Page:        /services   (after Services)
 ```
 
 ## 1. Read the inputs
 
-Read all three screenshots before anything else — they are the layout spec at
+Read all three screenshots before anything else. They are the layout spec at
 each breakpoint, and they are the one input that shows what actually changes
 between them.
 
-Then read the design per `figma-to-prismic` step 1: `get_design_context` needs
-its guidance skill loaded first, and `get_variable_defs` is how you find the
-matching CSS token instead of pasting a hex.
+Then read the design. Load the **`figma:figma-design-to-code`** skill before
+calling `get_design_context`, and `create_session` first, as the Figma server
+requires. Use `get_variable_defs` to find the matching token instead of pasting
+a hex.
 
 Where the screenshots and Figma disagree, **the screenshots are what was signed
-off** — say so and ask. Figma files here carry stale placeholder copy from the
-template this design was forked from.
+off**. Say so and ask. Figma frames here can carry placeholder copy such as
+`[ADD: URLs]`. That copy goes in as a `TODO` in the data file, not as real
+content.
 
-## 2. Find the closest existing slice
+## 2. Find the closest existing section
 
-Twelve slices in `src/slices`, plus the hand-rolled `slices-blogs`,
-`slices-nav` and `slices-footer` libraries. Read every `model.json` name,
-description and variation list, then read the two or three closest components
-in full.
+The sections today:
+
+```
+src/components/sections/home/
+  HeroSection  Testimonials  RecentBuild  Services  CtaBand  TwoWaysToBuild
+  StatsBand  Process  WhyChooseUs  BlogPreview  FaqSection
+src/components/sections/PageIntro/
+```
+
+List the folders again (`ls src/components/sections/*`) because this list goes
+stale. Each component's doc comment names its Figma node (`/** Figma: Home
+Page › Stats band (19267:1770) */`). If the design's node id is already in a
+comment, the section has been built: `grep -rn "<node id>" src`.
 
 Match on **structure, not pixels**: what the content blocks are, how they are
-arranged, what repeats, what fields it would need. A design with an eyebrow, a
-title, a description, buttons and an image on the right is `HeroSection /
-twoColumns` whatever colour it is painted.
+arranged, what repeats, and what data they need. A centred title, an intro and
+two buttons on a dark rounded band is `CtaBand`, whatever the copy says.
 
-If a **reference Prismic repo** was named, `list_shared_slices` and
-`get_shared_slice` on it may show a model that already solves this design
-somewhere else. Copy the field shape. Copy nothing else, and write nothing
-there — see **Prismic repos**.
+The shared building blocks are in `src/components/ui/`: `StyledContainer`,
+`SectionHeading`, `StyledButton`, `Highlight`, `Stars`, `CarouselArrows`,
+`useScrollCarousel`, `ArrowUpRight`. A new section is built from these. It does
+not re-implement them.
 
 Report the shortlist and the winner before you build anything.
 
-## 3. Decide — and never edit what already renders
+## 3. Decide, without changing what already renders
 
-Three outcomes. State which one, against which slice and variation, and why.
+Three outcomes. State which one applies, against which section, and why.
 
-**a) It already fits.** The design needs no style change and no new field.
-**Change nothing** — not the model, not the component, not one class. Differing
-copy is not a style change; copy is content. Skip straight to step 8 and place
-it on the home page with the design's content. There is nothing to push.
+**a) It already fits.** It needs no style change, only different content. Copy
+is content: if the section already takes the content as props (`CtaBand` takes
+`title`, `intro`, `primary` and `secondary`), render it with the design's
+values and change nothing else. Skip to step 7.
 
-**b) Same structure, different styling** → a **new variation** on the matched
-slice. Appending a variation leaves every existing variation in `model.json`
-byte-identical and every existing variant component untouched. That is what
-makes it safe.
+**b) The same section with an option.** This covers the same structure with a
+different background, a different padding, a different number of columns, or
+content that is hard-coded today but needs to vary. Add an **optional prop
+whose default is exactly what renders now**. Every existing call site passes
+nothing new, so it renders as before.
 
-**c) Different structure or different fields** → a **new slice**, scaffolded per
-`create-slice` step 3 and then shaped using the matched slice as the reference
-for conventions.
+**c) A different structure or different data** calls for a **new section**: a
+new file beside the closest one, using it as the reference for conventions.
 
-**Never** reach for a fourth option where you edit an existing variation's model
-entry, component or classes to make it fit the new design. If it "almost"
+**Never** take a fourth path where you change an existing section's default
+classes, markup or data so that it fits the new design. If it "almost"
 matches, that is (b) or (c).
 
-If the prompt says **Force** but the design already fits as in (a) — for
-example an existing variation with its background switched on — say so and ask
-before building. Force was given without knowing that the match exists.
-
-### The no-edit rule reaches through shared code
+### "Unchanged" reaches through shared code
 
 A near-match is the dangerous case, because the closer the match the more
-tempting it is to nudge the thing it nearly matches. A new variation is only
-safe if it is **additive all the way down**, and the matched slice shares far
-more than its `model.json`:
+tempting it is to nudge it. Before editing any file, **check who else uses
+it**: `grep -rln "<ComponentName>\|<file name>" src`.
 
-- **Leaf components** — `FeaturedContent/components/LargeNumber.tsx` renders
-  both the `default` grid *and* `defaultCarousel`. A border added there restyles
-  every page using either.
-- **Stylesheets** — `embla-featured-content.scss` sizes the slides for all four
-  carousel variations at once.
-- **Typography classes** — `text-title-medium` is used by nine files, including
-  `PrismicRichText`, so it reaches the blog layouts too.
+- **`src/components/ui/*`** is used by most sections. `SectionHeading` sets
+  the title size for every centred heading on the site.
+- **`src/data/*.ts`** feeds several places. `services.ts` feeds the
+  `Services` section *and* the header's Services dropdown (`site.ts`).
+  `testimonials.ts` feeds `Testimonials` *and* the rating in `StatsBand`.
+  Add new fields or a new export. Never rewrite values another consumer shows.
+- **Typography and button classes** (`typography.css`, `buttons.css`) are
+  site-wide. Generated tokens (`tokens.css` between the `figma-tokens` markers,
+  and `fonts.ts`) are never hand-edited. Change them through `figma-variables/`
+  and `npm run figma:sync`, and only when asked.
 
-So before editing any file the new variation touches, **check who else imports
-it** — `grep -rl <filename> src`. If anything else does, **copy it and scope the
-copy** to the new variation instead of adding a prop, a modifier class or a
-media query to the shared one. A default-off prop looks harmless and still
-leaves the shared file one careless edit from restyling live pages; the copy is
-cheaper than the incident.
+If a shared file is touched by anything else, either add an optional prop with
+the current behaviour as its default, or copy the piece into the new section.
+Do not change the default.
 
-Only these may change in place, because every existing entry stays byte-identical:
-
-- appending a variation to `model.json`
-- adding a branch to the slice's `index.tsx` router
-- appending a mock, a type block, and its union and export entries
-
-**Prove it rather than asserting it:** `git diff --numstat` on `model.json` and
-`mocks.json` must show insertions only, with one exception. Appending to a JSON
-array adds a comma after the old last element, which git shows as that line
-deleted and re-added as `},`. List the deleted lines with
-`git diff <file> | grep '^-[^-]'`. Each must reappear unchanged apart from that
-trailing comma. Any other deletion means you changed something that already
-renders — stop and undo it.
+**Prove it rather than asserting it.** Run the measuring script from
+`section-design-qa` on every existing placement of a section you changed, once
+before the edit and once after, and diff the two `measure.json` files. They
+must be identical apart from timing noise. If you changed something that
+already renders, undo it.
 
 ### A token that is wrong is not yours to fix here
 
 When a shared token or typography class turns out not to match Figma, report it
-as an open item and leave it alone. Correcting it inside a variation task
-restyles every other consumer, and whoever asked for one section did not ask
-for that. Offer the scoped override — an override that lives in the new
-variation's own files — and let them choose.
+as an open item and leave it alone. Fixing it inside a one-section task
+restyles every other user, and nobody asked for that. Offer a scoped override
+(a class or `!` utility inside the new section only) and let the user choose.
 
 ## 4. Ask about behaviour before writing any component code
 
 Three static frames cannot show what a component does. Ask once, as a batch,
-and wait — do not build a guess and ask afterwards:
+and wait. Do not build a guess and ask afterwards:
 
-- **Motion** — scroll reveal, parallax, counters, autoplay, transitions.
-- **Interaction** — hover and focus states, accordion, tabs, carousel arrows /
-  dots / drag, modal, video playback.
-- **Conditional rendering** — 1 item vs 8, an empty field, a missing image.
-- **Runtime data** — anything fetched, like
-  [fetchGoogleReviews.ts](src/slices/HeroSection/components/fetchGoogleReviews.ts).
-- **Links** — where the buttons go, and whether any open in a new tab.
+- **Motion**: scroll reveal, parallax, counters, autoplay, marquee,
+  transitions.
+- **Interaction**: hover and focus states, accordion, tabs, carousel arrows,
+  dots or drag, modal, video playback.
+- **Conditional rendering**: 1 item vs 8, an empty field, a missing image.
+- **Links**: where the buttons go, and whether any open in a new tab. A target
+  page that does not exist yet stays linked and is listed as an open item.
 
 If the prompt already stated the behaviours, take them as given, say so, and
-don't ask again.
+don't ask again. The home page already has interactions to copy from: the
+marquee (`HeroSection`), the carousel (`Testimonials` with `useScrollCarousel`
+and `CarouselArrows`), tabs (`RecentBuild`), the sticky step panel (`Process`)
+and the accordion (`FaqSection`).
 
 ## 5. Build
 
-`figma-to-prismic` steps 2–3 for tokens and the model, `create-slice` steps 4–6
-for trimming the scaffold, registering on custom types and filling `mocks.json`.
-What this skill adds:
+- **File**: `src/components/sections/<group>/<Name>.tsx`. Home-page sections
+  live in `home/`. A section for another page goes in a folder named after that
+  page (`services/`, `work/`…). A section used on several pages moves to its own
+  folder, `src/components/sections/<Name>/index.tsx`, like `PageIntro`.
+- **Doc comment** on the default export with the Figma page, section name and
+  node ids: `/** Figma: Services Page › Pricing (19300:1200) */`. The next run
+  of step 2 relies on it.
+- **Root marker**: put `data-section="<Name>"` on the section's outermost
+  element so `section-design-qa` can find it.
+- **Server component by default.** Add `"use client"` only to a component that
+  needs state or effects, and keep that component as small as possible.
+- **Wrap in `StyledContainer`** (`as="section"`). It gives the side gutters
+  (16 / 40 / 80px), the 1280px content cap and the vertical padding:
+  `slice={{ primary: { top_padding, bottom_padding, background_color } }}`.
+  `background_color: true` paints `bg-offwhite` (#eef4fd). Any other
+  background goes in `parentClassName`, as `StatsBand` does.
+- **Section titles** use `SectionHeading` when the design is the centred
+  title-and-intro pattern. Pass `inverted` on dark backgrounds.
+- **Buttons**: always `StyledButton` with a variant from
+  `src/lib/buttonTypes.ts`. A new look is a new variant there plus its class in
+  `buttons.css`, not inline classes on a button.
+- **Tokens and classes** come from `tokens.css` and `typography.css`:
+  `text-title-*`, `text-body-*`, `text-text-heading`, `text-text-description`,
+  `text-primary-light`, `bg-offwhite`, `rounded-md` and so on. Use Tailwind's
+  4px scale (18px → `4.5`). Do not use a raw hex that a token covers. A colour
+  the tokens lack goes in as an arbitrary value with a comment naming its Figma
+  source.
+- **Breakpoints**: the desktop layout starts at **`lg` (1024)**. Spacing tokens
+  switch to tablet values at ≤1024px and to mobile values at ≤640px. Type
+  tokens only switch at ≤640px. Measure against all three screenshots, not just
+  the desktop one.
+- **Icons**: `atd-icons` (`import X from "atd-icons/dist/X"`) before exporting
+  SVGs from Figma.
 
-- **Measure against all three screenshots**, not just the desktop one. Desktop
-  layouts start at **`lg` (1024)** here, not `xl`.
-- For a **new variation**, copy the closest variant folder as your starting
-  point and diff against it. What you did not deliberately change then stays
-  consistent with the rest of the slice by construction.
-- **New fields follow the existing pattern**: copy a neighbouring field's JSON
-  shape exactly rather than inventing one, use a **Group** for repeating content
-  rather than numbered fields, and hand-write the matching entries in
-  `prismicio-types.d.ts`.
-- A slice nobody can insert is invisible — add its id to the `choices` of the
-  slice zone in every custom type that should offer it.
+### Padding and background come from the design
 
-### Section controls: padding and background, like every other slice
+Measure the design's top and bottom section padding at each breakpoint and
+pick the option whose tokens match. `Full` is 120 / 80 / 60px at desktop /
+tablet / mobile, `Half` is 60 / 40 / 30, and `None` is 0. If no option matches,
+take the nearest one and report the difference. Do not add values to, or edit,
+`StyledContainer`, which every section shares.
 
-Eleven of the twelve slices in `src/slices` give editors the same three
-controls in every variation. New slices and new variations get them too, so a
-section behaves like its neighbours in the editor. For these three fields this
-**replaces `create-slice` step 4's advice** to delete unused scaffold fields:
-keep them. There is one exception: a design that is not on white or off-white
-replaces the background boolean, as described below.
+Read each section's fill with `get_variable_defs`. `#ffffff` and `#eef4fd`
+cannot be told apart in a scaled-down screenshot.
 
-| Field | Shape (copy it, don't retype it) | What renders it |
-| --- | --- | --- |
-| `top_padding` | Select `Full` · `Half` · `None`, default `Full`, label "Top Padding" | `StyledContainer` → `--spacing-vertical-padding-full` / `-half` |
-| `bottom_padding` | the same, label "Bottom Padding" | the same |
-| `background_color` | Boolean, label "Background Color?", `No` / `Yes` | `StyledContainer` → `bg-offwhite` (#f5f7fa) when true |
+| Design fill | Do this |
+| --- | --- |
+| white | `background_color: false` |
+| `#eef4fd` (`--color-offwhite`) | `background_color: true` |
+| `#f7f8fa` (`--color-offwhite-2`) | `parentClassName="bg-offwhite-2"` |
+| dark / gradient | paint it in `parentClassName` and use light text classes, as `StatsBand` does |
 
-- **New slice:** `npm run slice:create` already writes all three, with mocks,
-  and wraps the content in `<StyledContainer slice={slice}>`. Keep them, and
-  keep that wrapper; it is what reads them.
-- **New variation:** copy the entries from a sibling variation's `primary`,
-  byte for byte, so the controls look and behave the same across the slice.
-  That means all three, or only the two paddings for a variation that is not on
-  white or off-white (below). Appending them is additive, so the no-edit rule
-  is not touched.
-- **Skip them only where they cannot apply** — a full-bleed hero image, the
-  `slices-nav` / `slices-footer` libraries — and say why.
+If the design places the same section on two backgrounds, make the background
+a prop (outcome b) and map each value to its background, text and inner-card
+classes inside the section. Cards that are off-white on a white band usually
+turn white on an off-white band. Build what the design shows for each
+background, and ask if it only shows one.
 
-**Padding defaults come from the design.** Measure the design's top and bottom
-section padding at each breakpoint. Pick the option whose tokens match: `Full`
-is 120 / 80 / 60px at desktop / tablet / mobile, `Half` 60 / 40 / 30, `None`
-0. Make that the `default_value` and the value in the dummy content. If no
-option matches, take the nearest and report the difference. Do not add values
-or edit `StyledContainer`, which every slice shares.
+## 6. Content and images
 
-**The background option must produce the design's colours.** Read the
-section's fill variable with `get_variable_defs` and compare its hex with what
-each option paints. Offer only the colourways the design defines, because a
-colour the designer never paired with this text and these buttons is a broken
-combination, not an option.
+The content is **the copy and imagery from the Figma design**, verbatim.
 
-- **The design is on white, off-white, or both** → keep `background_color` as
-  is. `true` paints off-white (#f5f7fa, `--color-offwhite`). If the design shows
-  the section on off-white, make `true` the default.
-- **The design is on any other colour** — dark (#0d0d0d), off-white-2, brand
-  red… → **drop `background_color`.** Kept, it paints off-white *inside* the
-  coloured section, under text styled for the dark one. Stats `darkBg` has
-  exactly that trap today, so do not copy it. Changing what the boolean paints
-  is no answer either: every slice shares it. Instead:
-  - **One colourway** → no background control. Paint it on the slice's outer
-    element and say why there is no toggle.
-  - **Several colourways** → a **Select with its own API id**, e.g.
-    `background`. Name the options after the design's colourways
-    (`Dark` · `White`) and make the design's main one the default. In the
-    slice's own component, map each option to its background, text and button
-    classes.
-  - **Dark colourways** put `bg-primary-dark hasDarkBg` on the outer element,
-    as Stats `darkBg` and CallToAction `cappedWidth` do. `.hasDarkBg` gives the
-    buttons their dark-mode styles. Text takes the light token classes,
-    `text-text-light` (#ffffff) and the like. Check the design's hex first:
-    a library `Text/text-light` is #fafafa.
-- **Never give a Select the id `background_color`.** `StyledContainer` reads
-  that id as a boolean, so every non-empty option would paint off-white.
-- **"Dummy content" means both places**: the home-page document *and*
-  `mocks.json`, whose scaffold mocks hard-code `Half` / `Half`. Set both to the
-  design's values.
-- **Inner surfaces follow the section, as the design shows them.** Cards that
-  are off-white on a white section usually turn white on an off-white one: see
-  FeaturedContent `hasBg`, Testimonials `invertedBg`, FAQs
-  `sectionHasBackground`. Build what the design shows for each background, and
-  ask if it only shows one.
-- **Every colour comes from a token class**, never a raw hex a token covers.
+- A list of items (cards, steps, FAQs, logos) goes in `src/data/<topic>.ts`
+  with an exported interface, like `projects.ts` and `process.ts`. Reuse an
+  existing file when the content is the same thing (`services.ts`, `faqs.ts`).
+- One-off copy (a title, an intro, button labels) goes either as props at the
+  call site, like `CtaBand`, or as defaults inside the section when it will only
+  ever appear once.
+- Images go in `public/images/<page>/` and render with `next/image` with their
+  real `width` and `height`. Export them from Figma with `download_assets` or
+  `get_screenshot` at 2x. Check the exported size: an asset URL can return the
+  raw bitmap rather than the cropped frame. Reuse a file that is already in
+  `public/images/` rather than adding a duplicate.
 
-Add every new field to `mocks.json` and `prismicio-types.d.ts`, copying the
-neighbouring entries' shape.
+## 7. Place it on the page
 
-## 6. The slice screenshot is the desktop design
+Import it in the page route (`src/app/(pages)/page.tsx` for home) at the
+position the design gives it. A route that does not exist yet means a new
+`src/app/(pages)/<route>/page.tsx` with `metadata`. Copy the pattern from
+`about/page.tsx`, and say that you created the route.
 
-So that an editor picking a slice can tell which one this is, **copy the 1440
-screenshot you were given** to:
+Use the user's dev server on **1204** if it is running. Otherwise start
+`npm run dev` in the background and stop it when you are done. Next refuses a
+second dev server for the same directory. Load the page once to confirm the
+section renders, then go straight on to step 8.
 
-```
-src/slices/<Slice>/screenshot-<variationId>.png
-```
+## 8. QA against the design, straight away and without being asked
 
-`<variationId>` is the variation's `id` in `model.json` — `default` for a new
-slice's first variation. PNG, cropped to the component, no browser chrome or
-Figma UI.
+Once the section renders, run **`section-design-qa`** in the same task. Do not
+hand back to the user first. Pass it what you already have:
 
-**Put it there before the Slice Machine push** so the first push carries it.
-This is why this skill does not need the "second push" from `figma-to-prismic` —
-but if the editor still shows a placeholder afterwards, push again.
-
-## 7. Stop. The user pushes through Slice Machine
-
-**Models cannot be pushed over MCP.** Slice Machine is the only thing that
-pushes a slice model or a custom type, and Prismic rejects unknown field paths
-until it lands — so no content can be written before this.
-
-Stop and ask them to run it:
-
-```
-npm run slicemachine     # http://localhost:1203
-```
-
-Tell them exactly what to push: which slice, which variation, which custom types
-changed, and that the screenshot is already in place. Then wait for
-confirmation. Do not write content against the new fields in the meantime.
-
-## 8. After the push — dummy content, on the home page
-
-Ask how they want it added, then do that:
-
-- **You add it** over the Prismic MCP into a release on `atd-prismic-starter`, or
-- **They add it** in the Prismic editor, and you hand them the dummy content
-  values to paste.
-
-Either way the dummy content is **the copy and imagery from the Figma design** —
-that is what makes it a real test rather than lorem ipsum. Images move Figma →
-Prismic directly: `upload_asset` fetches server-side from the Figma asset URL.
-Check `search_assets` first and reuse rather than duplicate.
-
-The target is the `page` document with uid **`home`** — `isHome` in
-`src/app/(pages)/[[...uid]]/pageUtils.ts` resolves the home page from that uid —
-unless the prompt named another page.
-
-Content goes in a release: `create_release` → writes → `present_release` → ask →
-`publish_release`. **Publishing is irreversible and outward-facing. Ask every
-time**; approval on an earlier release does not carry to this one.
-
-Then restart the dev server, because `src/app/layout.tsx` awaits Prismic at
-module scope and a running server keeps stale data for its whole life. Restart
-it only if you started it; if it is the user's, ask them to. Load the page once
-to confirm the slice renders, then go straight on to step 9.
-
-## 9. QA against the design — straight away, without being asked
-
-Once the slice renders on the home page, run **`slice-design-qa`** in the same
-task. Do not hand back to the user first. Pass it what you already have:
-
-- the Figma URL, and the 1440 / 768 / 375 frame node ids if the design has them;
+- the Figma URL, plus the 1440 / 768 / 375 frame node ids if the design has
+  them;
 - the three screenshots;
-- the slice id and variation id;
-- the page (`home` unless the prompt named another).
+- the section name (its `data-section` value) and the page URL.
 
-It measures the live slice at every breakpoint, fixes mismatches in the
-slice's own files, and reports what it fixed and what it deliberately left.
+This applies to outcome **(a)** too: a reused section with the design's content
+can still differ because of a wrong background or padding at the call site.
 
-This applies to outcome **(a)** too: a reused slice placed with the design's
-content can still differ through a section control set wrong on the document.
-
-Its fixes follow the same rules as this skill. A fix to shared code becomes a
-scoped override plus an open item. A missing field comes back here as a model
-change. Content fixes go in a release, and you ask before publishing.
-
-For a slice you have just built, the QA step **applies** the scoped override.
-It touches only the new slice's own files and nothing that rendered before, so
-it is safe to do immediately. The report still offers the alternative step 3
-describes: correct the shared token or class for every consumer instead.
-
-## Prismic repos
-
-- **Write only to `atd-prismic-starter`.** It is this project's repo, the one
-  `slicemachine.config.json` names, so the site reads it and Slice Machine pushes
-  to it. It is the only one this skill ever creates in, updates, uploads to or
-  publishes. `iee-dev` and every other repo belong to other projects. If the
-  config ever names a different repo, stop and ask before writing anything.
-- A **reference repo** named in the prompt is **read-only**: `list_shared_slices`,
-  `get_shared_slice`, `get_custom_type`, `query_documents`, `search_assets` and
-  nothing else. Never `create_document`, `update_document`, `replace_document`,
-  `upload_asset`, `create_release` or `publish_release` against it.
-- No reference repo named means don't consult one.
+Its fixes follow this skill's rules. A fix to shared code becomes a scoped
+override plus an open item. For a section you have just built, it applies the
+override straight away, because it only touches the new section's own files.
 
 ## Finish
 
-`tsc --noEmit` and `eslint` on what you touched, separating pre-existing
-failures from ones you caused. Stop every process you started — dev server
-(1204), Slice Machine (1203), debug Chrome (9222). Record the work with
-**`update-progress`**. Include which slice you matched and why you reused,
-varied or created, the section controls and their defaults, and the
-`slice-design-qa` results table under **Verified**.
+Run `npx tsc --noEmit` and `npm run lint` on what you touched, and separate
+pre-existing failures from ones you caused. Stop every process you started:
+the dev server (1204) and any headless Chrome. Record the work with
+**`update-progress`**. Include which section you matched and why you reused,
+extended or created one, the padding and background chosen, any new data file,
+and the `section-design-qa` results table under **Verified**.

@@ -1,17 +1,18 @@
 #!/usr/bin/env node
-// Measure one rendered slice for design QA, at several widths, in a headless
-// Chrome this script starts and always stops itself.
+// Measure one rendered page section for design QA, at several widths, in a
+// headless Chrome this script starts and always stops itself.
 //
-//   node measure-slice.mjs --slice feature_grid [--variation default] [--index 0]
+//   node measure-section.mjs --section PricingTable [--index 0]
+//     (or --selector "<css>" for elements without data-section, e.g. "footer")
 //     [--url http://localhost:1204/] [--widths 1440,768,375] [--height 900]
 //     [--figma 1440=ref-1440.png --figma 375=ref-375.png]
 //     [--before "<js run in the page before measuring>"] [--hover "<css selector>"]
 //     --out <dir>
 //
-// Per width it writes <out>/<width>/measure.json and live.png (the slice
+// Per width it writes <out>/<width>/measure.json and live.png (the section
 // only), plus compare.png and diff.png when a Figma render for that width is
-// given. A Figma render must be get_screenshot of the slice's own node at 1:1
-// (maxDimension = the node's width), so its top-left is the slice's top-left.
+// given. A Figma render must be get_screenshot of the section's own node at 1:1
+// (maxDimension = the node's width), so its top-left is the section's top-left.
 // <out>/summary.txt is the readable digest.
 
 import { spawn, execSync } from "node:child_process";
@@ -29,17 +30,17 @@ for (let i = 0; i < argv.length; i++) {
   else opt[k] = v;
   i++;
 }
-if (!opt.slice || !opt.out) {
-  console.error("usage: node measure-slice.mjs --slice <slice_type> --out <dir> [--variation <id>] [--url ...] [--widths 1440,768,375] [--figma 1440=file.png]");
+if ((!opt.section && !opt.selector) || !opt.out) {
+  console.error("usage: node measure-section.mjs (--section <data-section name> | --selector <css>) --out <dir> [--index 0] [--url ...] [--widths 1440,768,375] [--figma 1440=file.png]");
   process.exit(2);
 }
 // Fail loudly when the site is down: Chrome would otherwise load its error page
-// and every width would report "slice not found".
+// and every width would report "section not found".
 try {
   const res = await fetch(opt.url, { signal: AbortSignal.timeout(120000) });
   if (!res.ok) { console.error(`${opt.url} answered ${res.status}; QA needs the page to render`); process.exit(2); }
 } catch {
-  console.error(`${opt.url} is not reachable. Start the dev server (npm run next:dev, port 1204), and stop it afterwards if you started it.`);
+  console.error(`${opt.url} is not reachable. Start the dev server (npm run dev, port 1204), and stop it afterwards if you started it.`);
   process.exit(2);
 }
 const widths = opt.widths.split(",").map(Number);
@@ -57,7 +58,7 @@ const chromePath = (() => {
   return c.find((p) => fs.existsSync(p));
 })();
 if (!chromePath) { console.error("Chrome not found; set CHROME_PATH"); process.exit(2); }
-const profile = fs.mkdtempSync(path.join(os.tmpdir(), "slice-qa-chrome-"));
+const profile = fs.mkdtempSync(path.join(os.tmpdir(), "section-qa-chrome-"));
 const chrome = spawn(chromePath, ["--headless=new", `--remote-debugging-port=${opt.port}`, `--user-data-dir=${profile}`, "--no-first-run", "--disable-gpu", "about:blank"], { stdio: "ignore" });
 let cleaned = false;
 const cleanup = () => {
@@ -98,7 +99,9 @@ try {
   await send("Page.enable"); await send("Runtime.enable"); await send("DOM.enable"); await send("CSS.enable");
   await send("Emulation.setScrollbarsHidden", { hidden: true });
 
-  const SLICE = `[...document.querySelectorAll('[data-slice-type="${opt.slice}"]${opt.variation ? `[data-slice-variation="${opt.variation}"]` : ""}')][${Number(opt.index)}]`;
+  const TARGET = opt.selector || `[data-section="${opt.section}"]`;
+  const LABEL = opt.section || opt.selector;
+  const SECTION = `[...document.querySelectorAll(${JSON.stringify(TARGET)})][${Number(opt.index)}]`;
   const summary = [];
 
   for (const width of widths) {
@@ -109,55 +112,55 @@ try {
     await send("Page.navigate", { url: opt.url }); await loaded;
     // A dev server that is still compiling can reload the page right after
     // "load"; wait until the document is complete and settled.
-    // Stylesheets too: measured unstyled, the header's menus push the slice
+    // Stylesheets too: measured unstyled, the header's menus push the section
     // thousands of pixels down.
     for (let i = 0; i < 40; i++) { if (await ev(`document.readyState === "complete" && !!document.head && !!document.body && [...document.querySelectorAll('link[rel="stylesheet"]')].every((l) => l.sheet)`).catch(() => false)) break; await sleep(500); }
     await ev(`document.fonts.ready.then(() => true)`); await sleep(1500);
-    // Dev overlay out; the sticky header back in the flow so it never covers the slice once scrolled.
+    // Dev overlay out; the sticky header back in the flow so it never covers the section once scrolled.
     // Next re-adds its dev indicator after removal, so also hide it with CSS for the whole run.
     await ev(`(() => { document.querySelectorAll('nextjs-portal').forEach((n) => n.remove()); const s = document.createElement('style'); s.textContent = 'header{position:relative!important;top:auto!important}nextjs-portal{display:none!important}'; (document.head || document.documentElement).appendChild(s); return true; })()`);
-    const found = await ev(`(() => { const el = ${SLICE}; if (!el) return null; const r = el.getBoundingClientRect(); return { top: r.top + scrollY, h: r.height }; })()`);
-    if (!found) { summary.push(`== ${width}px: slice not found (${opt.slice}${opt.variation ? "/" + opt.variation : ""}) on ${opt.url}`); continue; }
+    const found = await ev(`(() => { const el = ${SECTION}; if (!el) return null; const r = el.getBoundingClientRect(); return { top: r.top + scrollY, h: r.height }; })()`);
+    if (!found) { summary.push(`== ${width}px: section not found (${TARGET}, index ${opt.index}) on ${opt.url}`); continue; }
     // Never scroll: the dev server can reset the scroll position after load,
     // which puts the header inside the crop. Grow the viewport instead so the
-    // whole slice is on screen at scroll 0.
+    // whole section is on screen at scroll 0.
     let note = "";
     const bottom = Math.ceil(found.top + found.h + 1);
-    if (bottom > height) { height = bottom; note = `viewport raised to ${height}px so the slice is on screen without scrolling (vh-based sizes differ)`; await send("Emulation.setDeviceMetricsOverride", { width, height, deviceScaleFactor: 1, mobile: false }); }
+    if (bottom > height) { height = bottom; note = `viewport raised to ${height}px so the section is on screen without scrolling (vh-based sizes differ)`; await send("Emulation.setDeviceMetricsOverride", { width, height, deviceScaleFactor: 1, mobile: false }); }
     await ev(`(() => { scrollTo(0, 0); return true; })()`); await sleep(900);
-    // Measure once more: late CSS or a re-render can move the slice after the
+    // Measure once more: late CSS or a re-render can move the section after the
     // first reading, and an over-tall viewport changes vh-based layouts.
-    const settled = await ev(`(() => { const el = ${SLICE}; if (!el) return null; const r = el.getBoundingClientRect(); return { top: r.top + scrollY, h: r.height }; })()`);
+    const settled = await ev(`(() => { const el = ${SECTION}; if (!el) return null; const r = el.getBoundingClientRect(); return { top: r.top + scrollY, h: r.height }; })()`);
     if (settled) {
       const fit = Math.max(Number(opt.height), Math.ceil(settled.top + settled.h + 1));
       if (fit !== height) {
-        height = fit; note = fit > Number(opt.height) ? `viewport raised to ${height}px so the slice is on screen without scrolling (vh-based sizes differ)` : "";
+        height = fit; note = fit > Number(opt.height) ? `viewport raised to ${height}px so the section is on screen without scrolling (vh-based sizes differ)` : "";
         await send("Emulation.setDeviceMetricsOverride", { width, height, deviceScaleFactor: 1, mobile: false }); await sleep(500);
       }
     }
     // The dev server can re-render or Fast-Refresh the page after load; wait
-    // for the slice to be back in the DOM before touching it.
-    const waitForSlice = async () => { for (let i = 0; i < 20; i++) { if (await ev(`!!(${SLICE})`)) return true; await sleep(500); } return false; };
-    if (!(await waitForSlice())) { summary.push(`== ${width}px: slice disappeared after load (page re-rendered?) — rerun`); continue; }
+    // for the section to be back in the DOM before touching it.
+    const waitForSection = async () => { for (let i = 0; i < 20; i++) { if (await ev(`!!(${SECTION})`)) return true; await sleep(500); } return false; };
+    if (!(await waitForSection())) { summary.push(`== ${width}px: section disappeared after load (page re-rendered?) — rerun`); continue; }
     if (opt.before) { await ev(`(async () => { ${opt.before}; return true; })()`); await sleep(700); }
     if (opt.hover) {
-      const c = await ev(`(() => { const el = (${SLICE}).querySelector(${JSON.stringify(opt.hover)}); if (!el) return null; const r = el.getBoundingClientRect(); return { x: r.left + r.width / 2, y: r.top + r.height / 2 }; })()`);
+      const c = await ev(`(() => { const el = (${SECTION}).querySelector(${JSON.stringify(opt.hover)}); if (!el) return null; const r = el.getBoundingClientRect(); return { x: r.left + r.width / 2, y: r.top + r.height / 2 }; })()`);
       if (c) { await send("Input.dispatchMouseEvent", { type: "mouseMoved", x: c.x, y: c.y, button: "none" }); await sleep(500); }
-      else note = (note ? note + "; " : "") + `--hover "${opt.hover}" matched nothing in the slice`;
+      else note = (note ? note + "; " : "") + `--hover "${opt.hover}" matched nothing in the section`;
     } else await send("Input.dispatchMouseEvent", { type: "mouseMoved", x: 1, y: 1, button: "none" });
-    if (!(await waitForSlice())) { summary.push(`== ${width}px: slice disappeared after --before/--hover — rerun`); continue; }
+    if (!(await waitForSection())) { summary.push(`== ${width}px: section disappeared after --before/--hover — rerun`); continue; }
     console.error(`… ${width}px: measuring`);
 
     // Tag and read everything QA compares: text, painted boxes, layout gaps, media.
     const m = await ev(`(() => {
-      const root = ${SLICE}, R = root.getBoundingClientRect();
+      const root = ${SECTION}, R = root.getBoundingClientRect();
       const rel = (r) => ({ x: +(r.left - R.left).toFixed(2), y: +(r.top - R.top).toFixed(2), w: +r.width.toFixed(2), h: +r.height.toFixed(2) });
       const shown = (el) => { const r = el.getBoundingClientRect(); const cs = getComputedStyle(el); return r.width > 0 && r.height > 0 && cs.visibility !== 'hidden' && +cs.opacity > 0 && !el.closest('[inert],[aria-hidden="true"]'); };
       const label = (el) => el.tagName.toLowerCase() + ([...el.classList].slice(0, 3).map((c) => '.' + c).join(''));
       // Remember elements in a page-side registry rather than tagging them with
       // an attribute: the page may still be hydrating, and React reports any
       // attribute it did not render itself as a hydration mismatch.
-      const reg = (window.__sliceQa = new Map()), ids = new Map();
+      const reg = (window.__sectionQa = new Map()), ids = new Map();
       const tag = (el) => { if (ids.has(el)) return ids.get(el); const k = 'q' + ids.size; ids.set(el, k); reg.set(k, el); return k; };
       const texts = [], boxes = [], layouts = [], media = [];
       for (const el of [root, ...root.querySelectorAll('*')]) {
@@ -176,7 +179,7 @@ try {
         if ((painted || el === root) && boxes.length < 150) boxes.push({ id: tag(el), el: label(el), rect: rel(el.getBoundingClientRect()), bg: cs.backgroundColor, bgImage: cs.backgroundImage === 'none' ? null : cs.backgroundImage.slice(0, 80),
           border: [cs.borderTopWidth, cs.borderRightWidth, cs.borderBottomWidth, cs.borderLeftWidth].join(' ') + ' ' + cs.borderTopColor, radius: [cs.borderTopLeftRadius, cs.borderTopRightRadius, cs.borderBottomRightRadius, cs.borderBottomLeftRadius].join(' '),
           shadow: cs.boxShadow === 'none' ? null : cs.boxShadow, padding: [cs.paddingTop, cs.paddingRight, cs.paddingBottom, cs.paddingLeft].join(' ') });
-        // Padding on any element (StyledContainer, which carries the slice's
+        // Padding on any element (StyledContainer, which carries the section's
         // top/bottom padding, is display:block), gaps on flex and grid ones.
         const flexy = cs.display.includes('flex') || cs.display.includes('grid');
         if (layouts.length < 150) {
@@ -188,10 +191,10 @@ try {
           media.push({ id: tag(el), el: label(el), rect: rel(el.getBoundingClientRect()), natural: el.naturalWidth ? el.naturalWidth + 'x' + el.naturalHeight : null, fit: cs.objectFit, position: cs.objectPosition, color: el.tagName === 'svg' ? cs.color : null, alt: el.getAttribute('alt'), src: (el.currentSrc || el.getAttribute('src') || '').split('?')[0].split('/').pop() });
         }
       }
-      // The section's painted background may sit on the slice root or an ancestor.
+      // The section's painted background may sit on its root or an ancestor.
       let bgEl = root; while (bgEl && getComputedStyle(bgEl).backgroundColor === 'rgba(0, 0, 0, 0)') bgEl = bgEl.parentElement;
-      return { slice: { type: root.dataset.sliceType, variation: root.dataset.sliceVariation, rect: { x: +(R.left).toFixed(2), w: +R.width.toFixed(2), h: +R.height.toFixed(2) }, background: bgEl ? getComputedStyle(bgEl).backgroundColor : 'transparent', backgroundFrom: bgEl ? label(bgEl) : null },
-        viewport: { width: innerWidth, height: innerHeight }, overflowX: document.documentElement.scrollWidth - document.documentElement.clientWidth, sliceOverflowX: root.scrollWidth - root.clientWidth, texts, boxes, layouts, media };
+      return { section: { name: root.dataset.section || label(root), rect: { x: +(R.left).toFixed(2), w: +R.width.toFixed(2), h: +R.height.toFixed(2) }, background: bgEl ? getComputedStyle(bgEl).backgroundColor : 'transparent', backgroundFrom: bgEl ? label(bgEl) : null },
+        viewport: { width: innerWidth, height: innerHeight }, overflowX: document.documentElement.scrollWidth - document.documentElement.clientWidth, sectionOverflowX: root.scrollWidth - root.clientWidth, texts, boxes, layouts, media };
     })()`);
 
     // The font file Chrome actually drew each text with (catches fallbacks).
@@ -199,16 +202,16 @@ try {
     await send("DOM.getDocument", { depth: -1 });
     for (const t of m.texts) {
       try {
-        const { result } = await send("Runtime.evaluate", { expression: `window.__sliceQa.get(${JSON.stringify(t.id)})` });
+        const { result } = await send("Runtime.evaluate", { expression: `window.__sectionQa.get(${JSON.stringify(t.id)})` });
         const { nodeId } = await send("DOM.requestNode", { objectId: result.objectId });
         const { fonts } = await send("CSS.getPlatformFontsForNode", { nodeId });
         t.platformFont = fonts.map((f) => `${f.familyName}${f.postScriptName ? " [" + f.postScriptName + "]" : ""}${f.isCustomFont ? "" : " (LOCAL FALLBACK)"}`).join(" + ");
       } catch { t.platformFont = "?"; }
     }
 
-    // Slice-only screenshot, then the Figma comparison when a render was given.
+    // Section-only screenshot, then the Figma comparison when a render was given.
     await ev(`(() => { scrollTo(0, 0); return true; })()`);
-    const r = await ev(`(() => { const b = (${SLICE}).getBoundingClientRect(); return { x: b.left, y: b.top, w: b.width, h: b.height, scrollY }; })()`);
+    const r = await ev(`(() => { const b = (${SECTION}).getBoundingClientRect(); return { x: b.left, y: b.top, w: b.width, h: b.height, scrollY }; })()`);
     if (r.scrollY !== 0) note = (note ? note + "; " : "") + `page was scrolled to ${r.scrollY}px at capture`;
     const live = (await send("Page.captureScreenshot", { format: "png", clip: { x: r.x, y: r.y, width: r.w, height: r.h, scale: 1 } })).data;
     fs.writeFileSync(path.join(dir, "live.png"), Buffer.from(live, "base64"));
@@ -262,7 +265,7 @@ try {
       const s = "#" + rgb.map((x) => Math.round(Math.min(255, Math.max(0, x))).toString(16).padStart(2, "0")).join("");
       return alpha !== undefined && alpha < 1 ? `${s}@${alpha}` : s;
     };
-    summary.push(`== ${width}px  ${m.slice.type}/${m.slice.variation}  ${m.slice.rect.w}x${m.slice.rect.h}  bg ${hex(m.slice.background)} (from ${m.slice.backgroundFrom})  page overflow-x ${m.overflowX}px${note ? "  [" + note + "]" : ""}`);
+    summary.push(`== ${width}px  ${LABEL}  ${m.section.rect.w}x${m.section.rect.h}  bg ${hex(m.section.background)} (from ${m.section.backgroundFrom})  page overflow-x ${m.overflowX}px${note ? "  [" + note + "]" : ""}`);
     if (m.figma) summary.push(`   figma ${m.figma.figmaSize.join("x")} vs live ${m.figma.liveSize.join("x")}; ${(m.figma.changedPixelShare * 100).toFixed(1)}% of pixels differ noticeably`);
     for (const t of m.texts) {
       const v = t.vsFigma && !t.vsFigma.outside ? `  ink×${t.vsFigma.inkRatio} Δ${t.vsFigma.dx},${t.vsFigma.dy}` : "";
