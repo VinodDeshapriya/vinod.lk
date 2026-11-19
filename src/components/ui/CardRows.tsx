@@ -28,6 +28,7 @@ export default function CardRows<T>({
             return (
               <li
                 key={i}
+                data-reveal
                 className={clsx("lg:flex-1 lg:min-w-0", oddLast && i === total - 1 && "sm:max-lg:col-span-2")}
               >
                 {children(item, i)}

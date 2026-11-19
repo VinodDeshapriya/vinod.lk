@@ -58,6 +58,7 @@ export default function ReviewCarousel({ children }: { children: React.ReactNode
     <div className="w-full flex flex-col items-center gap-6 md:gap-10">
       <ul
         ref={ref}
+        data-reveal-stagger
         aria-label="Client reviews"
         className={clsx(
           // extra room so the card shadow isn't clipped, cancelled by negative margins

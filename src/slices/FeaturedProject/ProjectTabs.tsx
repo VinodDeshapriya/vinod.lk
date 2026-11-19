@@ -15,6 +15,7 @@ import { PrismicNextImage } from "@prismicio/next";
 import StyledButton from "@/components/ui/StyledButton";
 import { findFallback, type ProjectStatus } from "./projects";
 import { playTicks, prepareTick } from "./tickSound";
+import { smoothScrollTo } from "@/components/motion/scrollTo";
 
 type PrismicProject = Content.FeaturedProjectSliceDefaultPrimaryProjectsItem;
 
@@ -158,7 +159,7 @@ export default function ProjectTabs({
       const next = ((i % count) + count) % count;
       if (pin.on) {
         // In scroll mode a click scrolls to that project; the scroll does the rest.
-        window.scrollTo({ top: scrollFor(next), behavior: "smooth" });
+        smoothScrollTo(scrollFor(next));
         return;
       }
       if (user) {

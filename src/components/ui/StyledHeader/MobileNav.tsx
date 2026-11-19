@@ -64,6 +64,7 @@ export default function MobileNav({
       </button>
 
       <div
+        data-lenis-prevent
         id={`${baseId}-sheet`}
         className={clsx(
           "lg:hidden fixed inset-x-0 top-16 bottom-0 z-40 bg-white overflow-y-auto overscroll-contain transition-[opacity,visibility] duration-150 ease-out motion-reduce:transition-none",

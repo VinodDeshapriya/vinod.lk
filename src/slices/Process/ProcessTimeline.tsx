@@ -6,6 +6,7 @@ import PrismicTitle from "@/components/ui/PrismicTitle";
 import clsx from "clsx";
 import ArrowForward from "atd-icons/dist/ArrowForward";
 import StyledContainer from "@/components/ui/StyledContainer";
+import { smoothScrollTo } from "@/components/motion/scrollTo";
 
 const pad = (n: number) => String(n).padStart(2, "0");
 
@@ -72,7 +73,7 @@ export default function ProcessTimeline({ primary }: { primary: Primary }) {
     const el = stepRefs.current[i];
     if (!el) return;
     const top = el.getBoundingClientRect().top + window.scrollY - window.innerHeight * 0.45 + 40;
-    window.scrollTo({ top, behavior: "smooth" });
+    smoothScrollTo(top);
   };
 
   const current = steps[active] ?? steps[0];
@@ -218,7 +219,7 @@ export default function ProcessTimeline({ primary }: { primary: Primary }) {
           </div>
         </div>
 
-        <ol ref={listRef} className="flex flex-col">
+        <ol ref={listRef} data-reveal-stagger className="flex flex-col">
           {steps.map((s, i) => {
             const isActive = i === active;
             const isLast = i === n - 1;

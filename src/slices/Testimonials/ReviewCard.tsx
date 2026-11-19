@@ -117,7 +117,7 @@ export default function ReviewCard({ name, meta, rating, review }: Props) {
           <h3 id={titleId} className="sr-only">
             Review by {name}
           </h3>
-          <div className="overflow-y-auto overscroll-contain px-6 sm:px-8 pt-5 pb-6 flex flex-col gap-4">
+          <div data-lenis-prevent className="overflow-y-auto overscroll-contain px-6 sm:px-8 pt-5 pb-6 flex flex-col gap-4">
             <span aria-hidden className="font-title italic text-[64px] leading-[40px] h-8 text-primary-light/30">“</span>
             <PrismicRichText field={review} components={paragraph("text-body-base text-text-heading")} />
           </div>

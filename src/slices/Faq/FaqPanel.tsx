@@ -68,7 +68,7 @@ export default function FaqPanel({ primary }: { primary: Primary }) {
           </PrismicNextLink>
         </div>
 
-        <ul className="relative flex-1 min-w-0">
+        <ul data-reveal-stagger className="relative flex-1 min-w-0">
           {faqs.map((faq, i) => {
             const isOpen = open === i;
             const id = `faq-${i}`;

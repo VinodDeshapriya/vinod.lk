@@ -61,7 +61,7 @@ const Compare = ({ slice }: CompareProps) => {
 
       {/* Mobile: lanes stack. Tablet: two lanes side by side whose rows line up
           (CSS subgrid). Desktop: label column + two lanes. */}
-      <div className="flex flex-col gap-5 md:max-lg:grid md:max-lg:grid-cols-2 md:max-lg:gap-x-4 md:max-lg:gap-y-0 lg:flex-row items-stretch">
+      <div data-reveal-stagger className="flex flex-col gap-5 md:max-lg:grid md:max-lg:grid-cols-2 md:max-lg:gap-x-4 md:max-lg:gap-y-0 lg:flex-row items-stretch">
         {/* Row labels (desktop only) */}
         <ul className="hidden lg:flex flex-col w-[280px] shrink-0 pt-px">
           <li className="h-[200px]" aria-hidden />

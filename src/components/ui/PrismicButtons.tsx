@@ -14,6 +14,7 @@ export default function PrismicButtons({
   if (!filled.length) return null;
   return (
     <div
+      data-reveal
       className={clsx(
         "flex flex-col sm:flex-row gap-[18px] w-full sm:w-auto",
         className,
