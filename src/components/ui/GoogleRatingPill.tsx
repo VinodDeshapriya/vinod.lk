@@ -28,13 +28,17 @@ export default function GoogleRatingPill({
     );
   }
 
+  // Figma testimonial_variants1 "Google rating": a pill on tablet/desktop,
+  // a stacked card with a full-width button on mobile.
   return (
-    <div className="flex flex-col sm:flex-row items-center gap-4 sm:gap-7 bg-white border border-border-primary rounded-3xl sm:rounded-full p-4 sm:py-3.5 sm:pl-6 sm:pr-3.5">
+    <div className="w-full sm:w-auto flex flex-col sm:flex-row items-center gap-3 sm:gap-7 bg-white border border-border-primary rounded-lg sm:rounded-full p-4 sm:py-3.5 sm:pl-6 sm:pr-3.5">
       <div className="flex items-center gap-4">
         <GoogleColor size={36} />
         <div className="flex flex-col gap-0.5">
-          <p className="text-body-base-bold text-text-heading">Excellent on Google</p>
-          <div className="flex items-center gap-2 text-body-small">
+          <p className="font-medium text-[16px] leading-[26px] sm:text-[18px] sm:leading-[30px] text-text-heading">
+            Excellent on Google
+          </p>
+          <div className="flex items-center gap-2 text-[16px] leading-6">
             <span className="text-text-heading">{d.google_rating}</span>
             <Stars />
             {count ? <span className="text-text-inactive">({count})</span> : null}
@@ -44,7 +48,7 @@ export default function GoogleRatingPill({
       {isFilled.link(d.google_review_link) && (
         <PrismicNextLink
           field={d.google_review_link}
-          className="btn btn-primary min-w-0! h-12! text-body-base-bold"
+          className="btn btn-primary min-w-0! w-full sm:w-auto h-[46px]! sm:h-12! px-6! font-medium text-[16px] leading-[26px] sm:text-[18px] sm:leading-[30px]"
         >
           {d.google_review_link.text || "Review us on Google"}
         </PrismicNextLink>

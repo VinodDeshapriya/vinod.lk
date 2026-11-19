@@ -20,13 +20,17 @@ const Testimonials = ({ slice, context }: TestimonialsProps) => {
       as="section"
       slice={{ primary: { top_padding: "Full", bottom_padding: "Full" } }}
       parentClassName="bg-offwhite-2"
-      className="flex flex-col gap-10 items-center"
+      className="flex flex-col gap-6 md:gap-10 items-center"
     >
       <div
         data-slice-type={slice.slice_type}
         className="flex flex-col gap-6 items-center w-full"
       >
-        <SectionHeading title={title} intro={intro} />
+        <SectionHeading
+          title={title}
+          intro={intro}
+          className="max-md:px-5 md:max-lg:px-8 max-md:[&>h2]:text-[36px]! max-md:[&>h2]:leading-[42px]! max-md:[&>h2]:tracking-[-0.8px]! max-md:[&>p]:text-[16px]! max-md:[&>p]:leading-[26px]!"
+        />
         {show_google_rating && <GoogleRatingPill settings={context?.settings} />}
       </div>
       <ReviewCarousel>

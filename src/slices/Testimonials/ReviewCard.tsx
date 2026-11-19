@@ -24,8 +24,8 @@ function Author({ name, meta }: Pick<Props, "name" | "meta">) {
         {name?.charAt(0)}
       </div>
       <div className="flex flex-col gap-0.5 min-w-0">
-        <p className="text-body-base-bold text-text-heading truncate">{name}</p>
-        {meta && <p className="text-body-small text-text-inactive truncate">{meta}</p>}
+        <p className="font-medium text-[16px] leading-[26px] md:text-[18px] md:leading-[30px] text-text-heading truncate">{name}</p>
+        {meta && <p className="text-[16px] leading-6 text-text-inactive truncate">{meta}</p>}
       </div>
     </div>
   );
@@ -60,24 +60,26 @@ export default function ReviewCard({ name, meta, rating, review }: Props) {
   const close = () => dialogRef.current?.close();
 
   return (
-    <li className="snap-start shrink-0 w-[85%] sm:w-[calc((100%-20px)/2)] lg:w-[calc((100%-40px)/3)] bg-white border border-border-secondary rounded-md shadow-[0_8px_24px_0_rgba(10,18,33,0.05)] px-7 py-8 flex flex-col gap-5">
+    <li className="snap-start shrink-0 w-full sm:w-[calc((100%-20px)/2)] lg:w-[calc((100%-40px)/3)] bg-white border border-border-secondary rounded-2xl shadow-[0_8px_24px_0_rgba(10,18,33,0.05)] max-sm:min-h-[431px] sm:max-lg:min-h-[467px] px-5 md:px-7 py-8 flex flex-col gap-5">
       <Stars count={stars} />
-      <div ref={textRef} className="line-clamp-6 lg:min-h-[180px]">
-        <PrismicRichText field={review} components={paragraph("text-body-base text-text-heading")} />
+      <div ref={textRef} className="line-clamp-6">
+        <PrismicRichText
+          field={review}
+          components={paragraph("text-[16px] leading-[26px] md:text-[18px] md:leading-[30px] text-text-heading")}
+        />
       </div>
-      <div className="grow" />
+      <div className="grow min-h-px" />
       {clamped && (
         <button
           ref={triggerRef}
           type="button"
           onClick={open}
           aria-haspopup="dialog"
-          className="group self-start inline-flex items-center gap-1.5 text-body-small font-medium text-primary-light"
+          className="group self-start text-[16px] leading-6 font-medium text-primary-light"
         >
           <span className="bg-[linear-gradient(currentColor,currentColor)] bg-[length:0%_1px] bg-left-bottom bg-no-repeat transition-[background-size] duration-300 group-hover:bg-[length:100%_1px]">
             Read more
           </span>
-          <span aria-hidden className="transition-transform duration-200 group-hover:translate-x-0.5">→</span>
         </button>
       )}
       <div className="border-t border-border-secondary pt-5">
