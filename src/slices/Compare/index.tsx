@@ -90,14 +90,14 @@ const Compare = ({ slice }: CompareProps) => {
             className={clsx(
               "relative flex-1 min-w-0 overflow-hidden rounded-lg flex flex-col md:max-lg:grid md:max-lg:grid-rows-subgrid",
               lane.dark
-                ? "border-[1.5px] border-primary-light text-white shadow-[0_24px_60px_0_rgba(20,128,247,0.28)] bg-[linear-gradient(116deg,#080d1a_0%,#0a1733_46%,#0f479e_71%)]"
+                ? "grain border-[1.5px] border-primary-light text-white shadow-[0_24px_60px_0_rgba(20,128,247,0.28)] bg-[linear-gradient(to_bottom_right,#080d1a_0%,#0a1733_65%,#0f479e_100%)]"
                 : "bg-white border border-border-primary shadow-[0_16px_48px_0_rgba(10,18,33,0.06)]",
             )}
           >
             {lane.dark && (
               <div
                 aria-hidden
-                className="absolute -top-36 left-1/3 w-[420px] h-[320px] rounded-full bg-primary-light/40 blur-[90px]"
+                className="absolute -top-[140px] left-[180px] w-[420px] h-[320px] rounded-full bg-primary-light/45 blur-[60px]"
               />
             )}
             <div className="relative flex flex-col gap-3 px-5 pt-8 pb-3 md:px-6 lg:p-8 lg:pb-0 lg:h-[200px]">

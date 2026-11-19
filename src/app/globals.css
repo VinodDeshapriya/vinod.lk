@@ -117,3 +117,17 @@ h1, h2, h3, h4, h5, h6 {
     clip-path 1.3s var(--ease-expo);
   transition-delay: var(--reveal-delay, 0ms);
 }
+
+/* Figma film grain (image fill at 11%) for dark sections; put on a positioned element. */
+.grain {
+  isolation: isolate;
+}
+.grain::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  pointer-events: none;
+  background: url("/images/noise.webp") repeat 0 0 / 256px;
+  opacity: 0.11;
+}
