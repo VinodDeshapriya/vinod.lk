@@ -100,14 +100,15 @@ export default function StyledFooter({
           </div>
         </div>
 
-        <div className="flex flex-col sm:flex-row gap-4 sm:items-center justify-between rounded-[20px] bg-white/5 border border-white/8 p-4 sm:py-3 sm:pl-7 sm:pr-3">
-          <p className="flex items-center gap-2.5 text-body-base-bold">
-            <span className="size-2 shrink-0 rounded-full bg-secondary-light" />
+        {/* Figma footer "Strip": 70px bar (tablet/desktop), stacked with a full-width button on mobile */}
+        <div className="flex flex-col sm:flex-row gap-0.5 sm:gap-4 sm:items-center justify-between rounded-[20px] bg-white/5 border border-white/8 py-3 pr-3 pl-5 sm:pl-7 sm:h-[70px]">
+          <p className="flex items-center gap-2.5 text-[16px] leading-6 text-white max-sm:min-h-14 max-sm:items-start">
+            <span className="hidden sm:block size-2 shrink-0 rounded-full bg-secondary-light" />
             {footerStrap.text}
           </p>
           <Link
             href={footerStrap.cta.href}
-            className="btn-book flex items-center justify-center gap-2 px-[18px] py-2.5 rounded-full bg-primary-light text-white text-body-small hover:bg-white hover:text-text-heading! transition-colors"
+            className="btn-book shrink-0 flex items-center justify-center gap-2 h-11 px-[18px] rounded-full bg-primary-light text-white text-[16px] leading-6 hover:bg-white hover:text-text-heading! transition-colors"
           >
             {footerStrap.cta.label}
             <ArrowForward size={16} />
