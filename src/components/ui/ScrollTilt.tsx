@@ -44,11 +44,18 @@ export default function ScrollTilt({
       const top = wrap.getBoundingClientRect().top;
       target = Math.min(1, Math.max(0, (vh * 0.62 - top) / (vh * 0.52)));
     };
+    // The effect scales with the card's width: full strength at 1200px+, gentler on
+    // phones so a short image doesn't leave a big gap (smaller drop and shrink, less tilt).
+    let k = 1;
+    const size = () => {
+      k = Math.min(1, Math.max(0.25, wrap.offsetWidth / 1200));
+    };
     const apply = (p: number) => {
       const e = 1 - Math.pow(1 - p, 3); // ease-out cubic
-      const tilt = maxTilt * (1 - e);
-      const scale = minScale + (1 - minScale) * e;
-      const y = lift * (1 - e);
+      const tilt = maxTilt * (0.55 + 0.45 * k) * (1 - e);
+      const start = 1 - (1 - minScale) * k;
+      const scale = start + (1 - start) * e;
+      const y = lift * k * (1 - e);
       card.style.transform = `translate3d(0, ${y.toFixed(2)}px, 0) scale(${scale.toFixed(4)}) rotateX(${tilt.toFixed(3)}deg)`;
     };
     const tick = () => {
@@ -60,6 +67,7 @@ export default function ScrollTilt({
       if (current !== target) frame = requestAnimationFrame(tick);
     };
     const onScroll = () => {
+      size();
       measure();
       if (!frame) frame = requestAnimationFrame(tick);
     };

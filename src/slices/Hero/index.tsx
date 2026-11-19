@@ -83,7 +83,7 @@ function CentredHero({ slice }: { slice: Variation<"default"> }) {
       </div>
 
       {isFilled.image(showcase_image) && (
-        <div className="mt-10 px-4 lg:px-[25px]">
+        <div className="mt-8 md:mt-10 px-4 lg:px-[25px]">
           {/* Tilts back and eases flat as the page scrolls (awmedia.marketing pattern). */}
           <ScrollTilt className="mx-auto max-w-[1390px] rounded-md lg:rounded-lg overflow-hidden bg-primary-dark shadow-[0_40px_80px_-30px_rgba(10,23,51,0.45)]">
             <PrismicNextImage
