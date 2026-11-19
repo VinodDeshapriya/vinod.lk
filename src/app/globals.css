@@ -84,7 +84,7 @@ h1, h2, h3, h4, h5, h6 {
 /* ------------------------------------------------------------------
    Scroll reveals (awmedia.marketing style). `js-reveal` is set on <html>
    by an inline script before paint, only when motion is allowed, so
-   nothing is ever hidden without JS. RevealOnScroll adds `.is-in`.
+   nothing is ever hidden without JS. RevealOnScroll adds `data-in`.
    ------------------------------------------------------------------ */
 :root {
   --ease-expo: cubic-bezier(0.16, 1, 0.3, 1);
@@ -97,17 +97,17 @@ h1, h2, h3, h4, h5, h6 {
   transition-delay: var(--reveal-delay, 0ms);
 }
 /* fade up */
-.js-reveal :is(main h1 ~ p, main h2 + p, main [data-reveal], main [data-reveal-stagger] > *):not(.is-in) {
+.js-reveal :is(main h1 ~ p, main h2 + p, main [data-reveal], main [data-reveal-stagger] > *):not([data-in]) {
   opacity: 0;
   transform: translateY(26px);
 }
 /* headings rise out of a mask, like awmedia's line reveal */
-.js-reveal :is(main h1, main h2):not(.is-in) {
+.js-reveal :is(main h1, main h2):not([data-in]) {
   transform: translateY(0.6em);
   clip-path: inset(-0.2em -0.2em 100% -0.2em);
   opacity: 0.001;
 }
-.js-reveal :is(main h1, main h2).is-in {
+.js-reveal :is(main h1, main h2)[data-in] {
   clip-path: inset(-0.2em -0.2em -0.4em -0.2em);
 }
 .js-reveal :is(main h1, main h2) {

@@ -6,7 +6,7 @@ import { usePathname } from "next/navigation";
  * Scroll reveals like awmedia.marketing. Which elements reveal is decided in
  * CSS (`REVEAL` in globals.css): headings rise out of a mask, intros and
  * cards fade up, children of [data-reveal-stagger] follow one after another.
- * This only adds `.is-in` as each element enters the screen.
+ * This only adds `data-in` as each element enters the screen.
  */
 export const REVEAL_SELECTOR = [
   "main h1",
@@ -45,7 +45,8 @@ export default function RevealOnScroll() {
           .forEach((e) => {
             for (const el of watchers.get(e.target) ?? []) {
               el.style.setProperty("--reveal-delay", `${Math.min(n++, 6) * 90}ms`);
-              el.classList.add("is-in");
+              // An attribute, not a class: React re-renders reset className but leave this alone.
+              el.dataset.in = "";
             }
             watchers.delete(e.target);
             io.unobserve(e.target);
@@ -56,7 +57,7 @@ export default function RevealOnScroll() {
 
     const scan = () =>
       document.querySelectorAll<HTMLElement>(REVEAL_SELECTOR).forEach((el) => {
-        if (el.classList.contains("is-in") || el.dataset.revealWatched) return;
+        if (el.dataset.in !== undefined || el.dataset.revealWatched) return;
         el.dataset.revealWatched = "1";
         const target = /^H[12]$/.test(el.tagName) && el.parentElement ? el.parentElement : el;
         const list = watchers.get(target);
