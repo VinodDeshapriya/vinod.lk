@@ -62,9 +62,10 @@ const StyledHeader = ({ mainMenu, headerCta }: StyledHeaderProps) => {
     <header className="sticky top-0 z-50">
       <div
         className={clsx(
-          "relative transition-[margin,border-radius]",
+          "relative mx-auto transition-[width,margin,border-radius]",
           ease,
-          floating ? "mx-2 mt-1 rounded-[30px] lg:mt-1" : "mx-0 mt-0 rounded-none",
+          // Like lev.com: never wider than 1440px; floating, it is an inset pill up to 1440px wide.
+          floating ? "w-[min(1440px,calc(100%-16px))] mt-1 rounded-[30px]" : "w-full mt-0 rounded-none",
         )}
       >
         {/* Frosted-glass layer: fades in once the bar floats. */}
@@ -81,7 +82,7 @@ const StyledHeader = ({ mainMenu, headerCta }: StyledHeaderProps) => {
         />
         <div
           className={clsx(
-            "relative flex items-center h-16 transition-[height,padding]",
+            "relative mx-auto max-w-[1440px] flex items-center h-16 transition-[height,padding]",
             ease,
             floating ? "px-4 lg:h-[60px] lg:px-4" : "px-4 md:px-10 lg:h-[68px] xl:px-20",
           )}
