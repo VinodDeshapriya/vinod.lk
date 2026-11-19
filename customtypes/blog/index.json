@@ -19,6 +19,22 @@
           "placeholder": ""
         }
       },
+      "display_title": {
+        "type": "StructuredText",
+        "config": {
+          "label": "Display title",
+          "placeholder": "Optional. The title with highlighted (italic) words for the article page",
+          "allowTargetBlank": true,
+          "single": "heading1,em"
+        }
+      },
+      "cover_title": {
+        "type": "Text",
+        "config": {
+          "label": "Cover title",
+          "placeholder": "Optional shorter title for the navy cover, e.g. UX vs UI: What's the Difference?"
+        }
+      },
       "tag": {
         "type": "Text",
         "config": {
@@ -54,6 +70,37 @@
           "placeholder": ""
         }
       },
+      "featured": {
+        "type": "Boolean",
+        "config": {
+          "label": "Featured on the blog page",
+          "default_value": false
+        }
+      },
+      "related_service_title": {
+        "type": "Text",
+        "config": {
+          "label": "Related service title",
+          "placeholder": "Website Design"
+        }
+      },
+      "related_service_text": {
+        "type": "Text",
+        "config": {
+          "label": "Related service text",
+          "placeholder": ""
+        }
+      },
+      "related_service_link": {
+        "type": "Link",
+        "config": {
+          "label": "Related service link",
+          "select": null,
+          "allowText": true,
+          "allowTargetBlank": true,
+          "repeat": false
+        }
+      },
       "slices": {
         "type": "Slices",
         "fieldset": "Slice Zone",
@@ -62,10 +109,16 @@
             "rich_text": {
               "type": "SharedSlice"
             },
-            "call_to_action": {
+            "article_table": {
+              "type": "SharedSlice"
+            },
+            "article_callout": {
               "type": "SharedSlice"
             },
             "faq": {
+              "type": "SharedSlice"
+            },
+            "call_to_action": {
               "type": "SharedSlice"
             }
           }

@@ -1,10 +1,14 @@
 import clsx from "clsx";
 import type { RichTextField } from "@prismicio/client";
 import PrismicTitle from "./PrismicTitle";
+import Eyebrow from "./Eyebrow";
 
 interface SectionHeadingProps {
   title: RichTextField | null | undefined;
   intro?: React.ReactNode;
+  eyebrow?: React.ReactNode;
+  /** Extra content under the intro (e.g. a chip). */
+  children?: React.ReactNode;
   className?: string;
   /** Use on dark backgrounds. */
   inverted?: boolean;
@@ -14,6 +18,8 @@ interface SectionHeadingProps {
 export default function SectionHeading({
   title,
   intro,
+  eyebrow,
+  children,
   className,
   inverted = false,
 }: SectionHeadingProps) {
@@ -24,8 +30,14 @@ export default function SectionHeading({
         className,
       )}
     >
+      {eyebrow && (
+        <Eyebrow inverted={inverted} className="mb-1.5">
+          {eyebrow}
+        </Eyebrow>
+      )}
       <PrismicTitle
         field={title}
+        emClassName={inverted ? "text-secondary-light" : undefined}
         className={clsx(
           "text-title-2x-large",
           inverted ? "text-white" : "text-text-heading",
@@ -41,6 +53,7 @@ export default function SectionHeading({
           {intro}
         </p>
       )}
+      {children}
     </div>
   );
 }

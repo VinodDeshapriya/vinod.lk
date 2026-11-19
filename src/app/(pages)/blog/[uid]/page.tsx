@@ -1,10 +1,10 @@
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
-import { SliceZone } from "@prismicio/react";
+import { isFilled, type Content } from "@prismicio/client";
 import { createClient } from "@/prismicio";
-import { components } from "@/slices";
-import StyledContainer from "@/components/ui/StyledContainer";
+import ArticleView from "@/components/blog/ArticleView";
 import { getLayoutData } from "@/lib/layoutData";
+import { blogOrderings } from "@/lib/blog";
 
 type Params = { uid: string };
 
@@ -13,51 +13,26 @@ const getPost = (uid: string) =>
     .getByUID("blog", uid)
     .catch(() => null);
 
-export async function generateMetadata({
-  params,
-}: {
-  params: Promise<Params>;
-}): Promise<Metadata> {
+export async function generateMetadata({ params }: { params: Promise<Params> }): Promise<Metadata> {
   const post = await getPost((await params).uid);
   if (!post) return {};
   return {
     title: post.data.meta_title || post.data.title,
     description: post.data.meta_description || post.data.excerpt,
+    openGraph: isFilled.image(post.data.meta_image) ? { images: [post.data.meta_image.url] } : undefined,
   };
 }
 
 export default async function BlogPost({ params }: { params: Promise<Params> }) {
   const post = await getPost((await params).uid);
   if (!post) notFound();
-  const { settings } = await getLayoutData();
-  const { title, tag, publish_date, read_minutes } = post.data;
-
-  return (
-    <article>
-      <StyledContainer
-        slice={{ primary: { top_padding: "Full", bottom_padding: "None" } }}
-        className="max-w-[760px]! flex flex-col gap-4"
-      >
-        {tag && (
-          <span className="self-start px-3 py-1.5 rounded-full bg-info-bg text-xs font-medium uppercase tracking-[0.12em] text-primary-light">
-            {tag}
-          </span>
-        )}
-        <h1 className="text-title-x-large text-text-heading">{title}</h1>
-        <p className="text-body-small text-text-inactive">
-          {publish_date &&
-            new Date(publish_date).toLocaleDateString("en-GB", {
-              day: "numeric",
-              month: "short",
-              year: "numeric",
-            })}
-          {publish_date && read_minutes ? " · " : ""}
-          {read_minutes ? `${read_minutes} min read` : ""}
-        </p>
-      </StyledContainer>
-      <SliceZone slices={post.data.slices} components={components} context={{ settings }} />
-    </article>
-  );
+  const [{ settings }, latest] = await Promise.all([
+    getLayoutData(),
+    createClient()
+      .getAllByType("blog", { limit: 4, orderings: blogOrderings })
+      .catch(() => [] as Content.BlogDocument[]),
+  ]);
+  return <ArticleView post={post} settings={settings} latest={latest} />;
 }
 
 export async function generateStaticParams() {

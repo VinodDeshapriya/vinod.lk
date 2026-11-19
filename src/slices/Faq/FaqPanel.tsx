@@ -8,7 +8,7 @@ import { PrismicRichText } from "@prismicio/react";
 import { PrismicNextLink } from "@prismicio/next";
 import PrismicTitle from "@/components/ui/PrismicTitle";
 
-type Primary = Content.FaqSlice["primary"];
+type Primary = Content.FaqSliceDefaultPrimary;
 
 /** Client part of the Faq slice (accordion). */
 export default function FaqPanel({ primary }: { primary: Primary }) {

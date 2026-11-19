@@ -1,0 +1,135 @@
+{
+  "id": "skills_services",
+  "type": "SharedSlice",
+  "name": "SkillsServices",
+  "description": "Intro and skill tags on the left, a linked service list on the right (About \u203a What I do)",
+  "variations": [
+    {
+      "id": "default",
+      "type": "SharedSliceVariation",
+      "name": "Default",
+      "docURL": "...",
+      "version": "initial",
+      "description": "Default",
+      "imageUrl": "",
+      "primary": {
+        "eyebrow": {
+          "type": "Text",
+          "config": {
+            "label": "Eyebrow",
+            "placeholder": ""
+          }
+        },
+        "title": {
+          "type": "StructuredText",
+          "config": {
+            "label": "Title",
+            "allowTargetBlank": true,
+            "single": "heading2,em"
+          }
+        },
+        "intro": {
+          "type": "Text",
+          "config": {
+            "label": "Intro",
+            "placeholder": ""
+          }
+        },
+        "skills_label": {
+          "type": "Text",
+          "config": {
+            "label": "Skills label",
+            "placeholder": "Skills"
+          }
+        },
+        "skills": {
+          "type": "Text",
+          "config": {
+            "label": "Skills",
+            "placeholder": "Comma-separated skills"
+          }
+        },
+        "services": {
+          "type": "Group",
+          "config": {
+            "label": "Services",
+            "repeat": true,
+            "fields": {
+              "icon": {
+                "type": "Select",
+                "config": {
+                  "label": "Icon",
+                  "options": [
+                    "check",
+                    "eye",
+                    "trend",
+                    "layers",
+                    "shield",
+                    "clock",
+                    "smile",
+                    "target",
+                    "heart",
+                    "document",
+                    "code",
+                    "chat",
+                    "support",
+                    "alert",
+                    "calendar",
+                    "users",
+                    "key",
+                    "grid",
+                    "database",
+                    "sparkles",
+                    "form",
+                    "flow",
+                    "pen",
+                    "tag",
+                    "rocket",
+                    "refresh",
+                    "phone",
+                    "cart",
+                    "desktop",
+                    "link",
+                    "pin",
+                    "school",
+                    "briefcase"
+                  ],
+                  "default_value": "check"
+                }
+              },
+              "title": {
+                "type": "Text",
+                "config": {
+                  "label": "Title",
+                  "placeholder": ""
+                }
+              },
+              "text": {
+                "type": "Text",
+                "config": {
+                  "label": "Text",
+                  "placeholder": ""
+                }
+              },
+              "link": {
+                "type": "Link",
+                "config": {
+                  "label": "Link",
+                  "select": null,
+                  "allowText": true,
+                  "allowTargetBlank": true,
+                  "repeat": false,
+                  "variants": [
+                    "Primary",
+                    "Secondary"
+                  ]
+                }
+              }
+            }
+          }
+        }
+      },
+      "items": {}
+    }
+  ]
+}

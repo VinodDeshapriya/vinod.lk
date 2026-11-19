@@ -62,6 +62,33 @@
             },
             "rich_text": {
               "type": "SharedSlice"
+            },
+            "feature_cards": {
+              "type": "SharedSlice"
+            },
+            "image_cards": {
+              "type": "SharedSlice"
+            },
+            "split_list": {
+              "type": "SharedSlice"
+            },
+            "story_arc": {
+              "type": "SharedSlice"
+            },
+            "experience": {
+              "type": "SharedSlice"
+            },
+            "skills_services": {
+              "type": "SharedSlice"
+            },
+            "steps_showcase": {
+              "type": "SharedSlice"
+            },
+            "contact_form": {
+              "type": "SharedSlice"
+            },
+            "blog_index": {
+              "type": "SharedSlice"
             }
           }
         }

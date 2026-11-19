@@ -1,18 +1,32 @@
 import type { Content } from "@prismicio/client";
 import { PrismicRichText, type SliceComponentProps } from "@prismicio/react";
 import StyledContainer from "@/components/ui/StyledContainer";
+import { articleProse } from "@/components/blog/articleStyles";
+import { slugify } from "@/lib/blog";
+import type { SliceContext } from "@/lib/sliceContext";
 
-export type RichTextProps = SliceComponentProps<Content.RichTextSlice>;
+export type RichTextProps = SliceComponentProps<Content.RichTextSlice, SliceContext>;
 
-/** Long-form content (blog posts, legal pages). */
-const RichText = ({ slice }: RichTextProps) => (
-  <StyledContainer
-    as="section"
-    slice={{ primary: { top_padding: "Half", bottom_padding: "Half" } }}
-    className="max-w-[760px]! prose-content text-body-base text-text-description [&_h2]:text-title-medium [&_h2]:text-text-heading [&_h2]:mt-10 [&_h2]:mb-4 [&_h3]:text-title-base [&_h3]:text-text-heading [&_h3]:mt-8 [&_h3]:mb-3 [&_p]:mb-5 [&_ul]:list-disc [&_ol]:list-decimal [&_ul,&_ol]:pl-6 [&_ul,&_ol]:mb-5 [&_a]:text-primary-light [&_a]:underline [&_strong]:text-text-heading [&_img]:rounded-md [&_img]:my-6"
-  >
-    <PrismicRichText field={slice.primary.content} />
-  </StyledContainer>
-);
+/** Long-form content (blog posts, legal pages). Headings get ids for the article's contents list. */
+const RichText = ({ slice, context }: RichTextProps) => {
+  const content = (
+    <PrismicRichText
+      field={slice.primary.content}
+      components={{
+        heading2: ({ children, text }) => <h2 id={slugify(text ?? "")}>{children}</h2>,
+      }}
+    />
+  );
+  if (context?.inArticle) return <div className={articleProse}>{content}</div>;
+  return (
+    <StyledContainer
+      as="section"
+      slice={{ primary: { top_padding: "Half", bottom_padding: "Half" } }}
+      className={`max-w-[760px]! ${articleProse}`}
+    >
+      {content}
+    </StyledContainer>
+  );
+};
 
 export default RichText;

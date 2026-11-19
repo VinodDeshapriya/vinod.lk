@@ -1,0 +1,160 @@
+"use client";
+import { useState } from "react";
+import clsx from "clsx";
+import type { LinkField } from "@prismicio/client";
+import { PrismicNextLink } from "@prismicio/next";
+
+type Status = { state: "idle" | "sending" | "sent" | "error"; message?: string };
+
+const inputClass =
+  "w-full h-[50px] px-4 rounded-[12px] border border-border-primary bg-white text-body-small text-text-heading placeholder:text-text-placeholder focus:outline-none focus:border-primary-light focus:ring-3 focus:ring-primary-light/15";
+
+function Label({ children, required, optional }: { children: React.ReactNode; required?: boolean; optional?: boolean }) {
+  return (
+    <span className="text-body-small font-medium text-text-heading">
+      {children}
+      {required && <span className="text-primary-light">*</span>}
+      {optional && <span className="font-normal text-text-inactive"> (optional)</span>}
+    </span>
+  );
+}
+
+function Choices({ name, options, value, onChange }: { name: string; options: string[]; value: string; onChange: (v: string) => void }) {
+  return (
+    <div className="grid grid-cols-2 gap-2.5">
+      {options.map((o, i) => {
+        const odd = options.length % 2 === 1 && i === options.length - 1;
+        return (
+          <label
+            key={o}
+            className={clsx(
+              "relative cursor-pointer h-12 px-3 rounded-full flex items-center justify-center text-center text-[15px] transition-colors",
+              odd && "col-span-2",
+              value === o ? "bg-primary-light text-white" : "bg-offwhite-2 text-text-heading hover:bg-info-bg",
+            )}
+          >
+            <input type="radio" name={name} value={o} checked={value === o} onChange={() => onChange(o)} className="sr-only" />
+            {o}
+          </label>
+        );
+      })}
+    </div>
+  );
+}
+
+/** Client form for the ContactForm slice. Posts to /api/contact. */
+export default function ProjectForm({
+  services,
+  budgets,
+  submitLabel,
+  successMessage,
+  privacyLink,
+}: {
+  services: string[];
+  budgets: string[];
+  submitLabel: string;
+  successMessage: string;
+  privacyLink: LinkField;
+}) {
+  const [service, setService] = useState(services[0] ?? "");
+  const [budget, setBudget] = useState("");
+  const [status, setStatus] = useState<Status>({ state: "idle" });
+
+  async function onSubmit(e: React.FormEvent<HTMLFormElement>) {
+    e.preventDefault();
+    const form = e.currentTarget;
+    const data = Object.fromEntries(new FormData(form).entries());
+    setStatus({ state: "sending" });
+    try {
+      const res = await fetch("/api/contact", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ ...data, service, budget }),
+      });
+      const json = (await res.json().catch(() => ({}))) as { error?: string };
+      if (!res.ok) throw new Error(json.error || "Something went wrong. Please try WhatsApp or email instead.");
+      form.reset();
+      setStatus({ state: "sent" });
+    } catch (err) {
+      setStatus({ state: "error", message: (err as Error).message });
+    }
+  }
+
+  if (status.state === "sent") {
+    return (
+      <div role="status" className="w-full lg:w-[560px] self-start p-10 rounded-[24px] bg-white border border-border-primary text-center text-body-base text-text-heading">
+        {successMessage}
+      </div>
+    );
+  }
+
+  return (
+    <form
+      onSubmit={onSubmit}
+      className="w-full lg:w-[560px] shrink-0 flex flex-col gap-5 p-6 sm:p-10 rounded-[24px] bg-white border border-border-primary shadow-[0_16px_48px_0_rgba(10,18,33,0.06)]"
+    >
+      <div className="grid sm:grid-cols-2 gap-4">
+        <label className="flex flex-col gap-2">
+          <Label required>Name</Label>
+          <input name="name" required autoComplete="name" className={inputClass} />
+        </label>
+        <label className="flex flex-col gap-2">
+          <Label required>Email</Label>
+          <input name="email" type="email" required autoComplete="email" className={inputClass} />
+        </label>
+        <label className="flex flex-col gap-2">
+          <Label optional>Phone or WhatsApp</Label>
+          <input name="phone" type="tel" autoComplete="tel" className={inputClass} />
+        </label>
+        <label className="flex flex-col gap-2">
+          <Label optional>Ideal launch date</Label>
+          <input name="launch" type="month" className={inputClass} />
+        </label>
+      </div>
+      {services.length > 0 && (
+        <fieldset className="flex flex-col gap-2.5">
+          <legend className="mb-2.5"><Label required>What do you need?</Label></legend>
+          <Choices name="service" options={services} value={service} onChange={setService} />
+        </fieldset>
+      )}
+      {budgets.length > 0 && (
+        <fieldset className="flex flex-col gap-2.5">
+          <legend className="mb-2.5"><Label optional>Budget</Label></legend>
+          <Choices name="budget" options={budgets} value={budget} onChange={setBudget} />
+        </fieldset>
+      )}
+      <label className="flex flex-col gap-2">
+        <Label required>What are you trying to achieve?</Label>
+        <textarea
+          name="message"
+          required
+          rows={4}
+          placeholder="A few lines about your business and your goals"
+          className={clsx(inputClass, "h-auto py-3")}
+        />
+      </label>
+      {/* Honeypot for bots */}
+      <input name="company" tabIndex={-1} autoComplete="off" className="hidden" aria-hidden />
+      <label className="flex items-start gap-2.5 text-[13px] leading-5 text-text-description">
+        <input name="consent" type="checkbox" required className="mt-0.5 size-4 accent-primary-light" />
+        <span>
+          Your details are only used to reply to you. I agree to the{" "}
+          <PrismicNextLink field={privacyLink} className="text-primary-light underline">
+            {privacyLink.text || "privacy policy"}
+          </PrismicNextLink>
+          .<span className="text-primary-light">*</span>
+        </span>
+      </label>
+      {status.state === "error" && (
+        <p role="alert" className="text-body-small text-error-primary">{status.message}</p>
+      )}
+      <button
+        type="submit"
+        disabled={status.state === "sending"}
+        className="h-[50px] rounded-full bg-primary-light text-white text-body-base-bold hover:bg-button-primary-hover disabled:opacity-60 transition-colors"
+      >
+        {status.state === "sending" ? "Sending…" : submitLabel}
+      </button>
+    </form>
+  );
+}

@@ -1,0 +1,144 @@
+{
+  "id": "story_arc",
+  "type": "SharedSlice",
+  "name": "StoryArc",
+  "description": "Three story cards joined by arrows, then a quote (About \u203a My story)",
+  "variations": [
+    {
+      "id": "default",
+      "type": "SharedSliceVariation",
+      "name": "Default",
+      "docURL": "...",
+      "version": "initial",
+      "description": "Default",
+      "imageUrl": "",
+      "primary": {
+        "eyebrow": {
+          "type": "Text",
+          "config": {
+            "label": "Eyebrow",
+            "placeholder": ""
+          }
+        },
+        "title": {
+          "type": "StructuredText",
+          "config": {
+            "label": "Title",
+            "allowTargetBlank": true,
+            "single": "heading2,em"
+          }
+        },
+        "intro": {
+          "type": "Text",
+          "config": {
+            "label": "Intro",
+            "placeholder": ""
+          }
+        },
+        "acts": {
+          "type": "Group",
+          "config": {
+            "label": "Acts",
+            "repeat": true,
+            "fields": {
+              "icon": {
+                "type": "Select",
+                "config": {
+                  "label": "Icon",
+                  "options": [
+                    "check",
+                    "eye",
+                    "trend",
+                    "layers",
+                    "shield",
+                    "clock",
+                    "smile",
+                    "target",
+                    "heart",
+                    "document",
+                    "code",
+                    "chat",
+                    "support",
+                    "alert",
+                    "calendar",
+                    "users",
+                    "key",
+                    "grid",
+                    "database",
+                    "sparkles",
+                    "form",
+                    "flow",
+                    "pen",
+                    "tag",
+                    "rocket",
+                    "refresh",
+                    "phone",
+                    "cart",
+                    "desktop",
+                    "link",
+                    "pin",
+                    "school",
+                    "briefcase"
+                  ],
+                  "default_value": "check"
+                }
+              },
+              "label": {
+                "type": "Text",
+                "config": {
+                  "label": "Label",
+                  "placeholder": ""
+                }
+              },
+              "title": {
+                "type": "StructuredText",
+                "config": {
+                  "label": "Title",
+                  "allowTargetBlank": true,
+                  "single": "paragraph,em"
+                }
+              },
+              "text": {
+                "type": "Text",
+                "config": {
+                  "label": "Text",
+                  "placeholder": ""
+                }
+              },
+              "chips": {
+                "type": "Text",
+                "config": {
+                  "label": "Chips",
+                  "placeholder": "Comma-separated, e.g. BSc in IT, UI/UX"
+                }
+              },
+              "highlight": {
+                "type": "Boolean",
+                "config": {
+                  "label": "Highlight",
+                  "default_value": false
+                }
+              }
+            }
+          }
+        },
+        "quote": {
+          "type": "StructuredText",
+          "config": {
+            "label": "Quote",
+            "allowTargetBlank": true,
+            "single": "paragraph,em"
+          }
+        },
+        "location": {
+          "type": "Text",
+          "config": {
+            "label": "Location",
+            "placeholder": ""
+          }
+        }
+      },
+      "items": {}
+    }
+  ]
+}

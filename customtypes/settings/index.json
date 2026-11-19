@@ -188,6 +188,58 @@
           "thumbnails": []
         }
       }
+    },
+    "Blog": {
+      "author_name": {
+        "type": "Text",
+        "config": {
+          "label": "Author name",
+          "placeholder": "Vinod Deshapriya"
+        }
+      },
+      "author_bio": {
+        "type": "Text",
+        "config": {
+          "label": "Author bio",
+          "placeholder": "UX engineer in Sri Lanka..."
+        }
+      },
+      "author_photo": {
+        "type": "Image",
+        "config": {
+          "label": "Author photo",
+          "constraint": {
+            "width": 96,
+            "height": 96
+          },
+          "thumbnails": []
+        }
+      },
+      "article_cta_eyebrow": {
+        "type": "Text",
+        "config": {
+          "label": "Article sidebar CTA eyebrow",
+          "placeholder": "Free 20-minute call"
+        }
+      },
+      "article_cta_title": {
+        "type": "StructuredText",
+        "config": {
+          "label": "Article sidebar CTA title",
+          "allowTargetBlank": true,
+          "single": "heading3,em"
+        }
+      },
+      "article_cta_link": {
+        "type": "Link",
+        "config": {
+          "label": "Article sidebar CTA link",
+          "select": null,
+          "allowText": true,
+          "allowTargetBlank": true,
+          "repeat": false
+        }
+      }
     }
   }
 }

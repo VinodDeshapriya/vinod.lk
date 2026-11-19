@@ -1,0 +1,68 @@
+{
+  "id": "article_callout",
+  "type": "SharedSlice",
+  "name": "ArticleCallout",
+  "description": "Inline call to action or pull quote inside a blog article",
+  "variations": [
+    {
+      "id": "default",
+      "type": "SharedSliceVariation",
+      "name": "Call to action",
+      "docURL": "...",
+      "version": "initial",
+      "description": "Call to action",
+      "imageUrl": "",
+      "primary": {
+        "title": {
+          "type": "Text",
+          "config": {
+            "label": "Title",
+            "placeholder": ""
+          }
+        },
+        "text": {
+          "type": "Text",
+          "config": {
+            "label": "Text",
+            "placeholder": ""
+          }
+        },
+        "link": {
+          "type": "Link",
+          "config": {
+            "label": "Link",
+            "select": null,
+            "allowText": true,
+            "allowTargetBlank": true,
+            "repeat": false,
+            "variants": [
+              "Primary",
+              "Secondary"
+            ]
+          }
+        }
+      },
+      "items": {}
+    },
+    {
+      "id": "quote",
+      "type": "SharedSliceVariation",
+      "name": "Pull quote",
+      "docURL": "...",
+      "version": "initial",
+      "description": "Pull quote",
+      "imageUrl": "",
+      "primary": {
+        "quote": {
+          "type": "StructuredText",
+          "config": {
+            "label": "Quote",
+            "allowTargetBlank": true,
+            "single": "paragraph,em"
+          }
+        }
+      },
+      "items": {}
+    }
+  ]
+}

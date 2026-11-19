@@ -1,0 +1,284 @@
+{
+  "id": "feature_cards",
+  "type": "SharedSlice",
+  "name": "FeatureCards",
+  "description": "Centred heading with a grid of icon cards",
+  "variations": [
+    {
+      "id": "default",
+      "type": "SharedSliceVariation",
+      "name": "Light",
+      "docURL": "...",
+      "version": "initial",
+      "description": "Light cards with an icon tile (Sound familiar, Simple pricing, Systems I build, AI tools)",
+      "imageUrl": "",
+      "primary": {
+        "eyebrow": {
+          "type": "Text",
+          "config": {
+            "label": "Eyebrow",
+            "placeholder": ""
+          }
+        },
+        "title": {
+          "type": "StructuredText",
+          "config": {
+            "label": "Title",
+            "allowTargetBlank": true,
+            "single": "heading2,em"
+          }
+        },
+        "intro": {
+          "type": "Text",
+          "config": {
+            "label": "Intro",
+            "placeholder": ""
+          }
+        },
+        "cards": {
+          "type": "Group",
+          "config": {
+            "label": "Cards",
+            "repeat": true,
+            "fields": {
+              "icon": {
+                "type": "Select",
+                "config": {
+                  "label": "Icon",
+                  "options": [
+                    "check",
+                    "eye",
+                    "trend",
+                    "layers",
+                    "shield",
+                    "clock",
+                    "smile",
+                    "target",
+                    "heart",
+                    "document",
+                    "code",
+                    "chat",
+                    "support",
+                    "alert",
+                    "calendar",
+                    "users",
+                    "key",
+                    "grid",
+                    "database",
+                    "sparkles",
+                    "form",
+                    "flow",
+                    "pen",
+                    "tag",
+                    "rocket",
+                    "refresh",
+                    "phone",
+                    "cart",
+                    "desktop",
+                    "link",
+                    "pin",
+                    "school",
+                    "briefcase"
+                  ],
+                  "default_value": "check"
+                }
+              },
+              "title": {
+                "type": "Text",
+                "config": {
+                  "label": "Title",
+                  "placeholder": ""
+                }
+              },
+              "text": {
+                "type": "Text",
+                "config": {
+                  "label": "Text",
+                  "placeholder": ""
+                }
+              }
+            }
+          }
+        }
+      },
+      "items": {}
+    },
+    {
+      "id": "dark",
+      "type": "SharedSliceVariation",
+      "name": "Dark",
+      "docURL": "...",
+      "version": "initial",
+      "description": "Dark band with glassy cards. Tick 'show numbers' to show 01, 02... instead of icons (Why UX-led, What I believe)",
+      "imageUrl": "",
+      "primary": {
+        "eyebrow": {
+          "type": "Text",
+          "config": {
+            "label": "Eyebrow",
+            "placeholder": ""
+          }
+        },
+        "title": {
+          "type": "StructuredText",
+          "config": {
+            "label": "Title",
+            "allowTargetBlank": true,
+            "single": "heading2,em"
+          }
+        },
+        "intro": {
+          "type": "Text",
+          "config": {
+            "label": "Intro",
+            "placeholder": ""
+          }
+        },
+        "show_numbers": {
+          "type": "Boolean",
+          "config": {
+            "label": "Show numbers",
+            "default_value": false
+          }
+        },
+        "cards": {
+          "type": "Group",
+          "config": {
+            "label": "Cards",
+            "repeat": true,
+            "fields": {
+              "icon": {
+                "type": "Select",
+                "config": {
+                  "label": "Icon",
+                  "options": [
+                    "check",
+                    "eye",
+                    "trend",
+                    "layers",
+                    "shield",
+                    "clock",
+                    "smile",
+                    "target",
+                    "heart",
+                    "document",
+                    "code",
+                    "chat",
+                    "support",
+                    "alert",
+                    "calendar",
+                    "users",
+                    "key",
+                    "grid",
+                    "database",
+                    "sparkles",
+                    "form",
+                    "flow",
+                    "pen",
+                    "tag",
+                    "rocket",
+                    "refresh",
+                    "phone",
+                    "cart",
+                    "desktop",
+                    "link",
+                    "pin",
+                    "school",
+                    "briefcase"
+                  ],
+                  "default_value": "check"
+                }
+              },
+              "title": {
+                "type": "Text",
+                "config": {
+                  "label": "Title",
+                  "placeholder": ""
+                }
+              },
+              "text": {
+                "type": "Text",
+                "config": {
+                  "label": "Text",
+                  "placeholder": ""
+                }
+              }
+            }
+          }
+        }
+      },
+      "items": {}
+    },
+    {
+      "id": "numbered",
+      "type": "SharedSliceVariation",
+      "name": "Numbered links",
+      "docURL": "...",
+      "version": "initial",
+      "description": "Numbered service cards that link to their pages (Services)",
+      "imageUrl": "",
+      "primary": {
+        "eyebrow": {
+          "type": "Text",
+          "config": {
+            "label": "Eyebrow",
+            "placeholder": ""
+          }
+        },
+        "title": {
+          "type": "StructuredText",
+          "config": {
+            "label": "Title",
+            "allowTargetBlank": true,
+            "single": "heading2,em"
+          }
+        },
+        "intro": {
+          "type": "Text",
+          "config": {
+            "label": "Intro",
+            "placeholder": ""
+          }
+        },
+        "cards": {
+          "type": "Group",
+          "config": {
+            "label": "Cards",
+            "repeat": true,
+            "fields": {
+              "title": {
+                "type": "Text",
+                "config": {
+                  "label": "Title",
+                  "placeholder": ""
+                }
+              },
+              "text": {
+                "type": "Text",
+                "config": {
+                  "label": "Text",
+                  "placeholder": ""
+                }
+              },
+              "link": {
+                "type": "Link",
+                "config": {
+                  "label": "Link",
+                  "select": null,
+                  "allowText": true,
+                  "allowTargetBlank": true,
+                  "repeat": false,
+                  "variants": [
+                    "Primary",
+                    "Secondary"
+                  ]
+                }
+              }
+            }
+          }
+        }
+      },
+      "items": {}
+    }
+  ]
+}

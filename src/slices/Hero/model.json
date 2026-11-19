@@ -2,15 +2,224 @@
   "id": "hero",
   "type": "SharedSlice",
   "name": "Hero",
-  "description": "Centred hero with buttons, showcase image and client logo marquee (Figma hero_variants4)",
+  "description": "Page hero: centred, split with image (service pages) or with portrait photos (About)",
   "variations": [
     {
       "id": "default",
       "type": "SharedSliceVariation",
-      "name": "Centred with showcase",
+      "name": "Centred",
       "docURL": "...",
       "version": "initial",
-      "description": "Centred hero with buttons, showcase image and client logo marquee (Figma hero_variants4)",
+      "description": "Centred hero with optional checkmarks, showcase image and client logo marquee (Figma hero_variants4)",
+      "imageUrl": "",
+      "primary": {
+        "eyebrow": {
+          "type": "Text",
+          "config": {
+            "label": "Eyebrow",
+            "placeholder": ""
+          }
+        },
+        "title": {
+          "type": "StructuredText",
+          "config": {
+            "label": "Title",
+            "allowTargetBlank": true,
+            "single": "heading1,em"
+          }
+        },
+        "title_size": {
+          "type": "Select",
+          "config": {
+            "label": "Title size",
+            "options": [
+              "Large",
+              "Medium"
+            ],
+            "default_value": "Large"
+          }
+        },
+        "description": {
+          "type": "Text",
+          "config": {
+            "label": "Description",
+            "placeholder": ""
+          }
+        },
+        "buttons": {
+          "type": "Group",
+          "config": {
+            "label": "Buttons",
+            "repeat": true,
+            "fields": {
+              "link": {
+                "type": "Link",
+                "config": {
+                  "label": "Link",
+                  "select": null,
+                  "allowText": true,
+                  "allowTargetBlank": true,
+                  "repeat": false,
+                  "variants": [
+                    "Primary",
+                    "Secondary"
+                  ]
+                }
+              }
+            }
+          }
+        },
+        "highlights": {
+          "type": "Group",
+          "config": {
+            "label": "Highlights",
+            "repeat": true,
+            "fields": {
+              "text": {
+                "type": "Text",
+                "config": {
+                  "label": "Text",
+                  "placeholder": "Free 20-minute call"
+                }
+              }
+            }
+          }
+        },
+        "showcase_image": {
+          "type": "Image",
+          "config": {
+            "label": "Showcase image",
+            "constraint": {},
+            "thumbnails": []
+          }
+        },
+        "logos_label": {
+          "type": "Text",
+          "config": {
+            "label": "Logos label",
+            "placeholder": "Trusted by growing brands across Sri Lanka"
+          }
+        },
+        "logos": {
+          "type": "Group",
+          "config": {
+            "label": "Logos",
+            "repeat": true,
+            "fields": {
+              "logo": {
+                "type": "Image",
+                "config": {
+                  "label": "Logo",
+                  "constraint": {},
+                  "thumbnails": []
+                }
+              }
+            }
+          }
+        }
+      },
+      "items": {}
+    },
+    {
+      "id": "split",
+      "type": "SharedSliceVariation",
+      "name": "Split with image",
+      "docURL": "...",
+      "version": "initial",
+      "description": "Breadcrumb, copy on the left, image with a badge on the right (service pages)",
+      "imageUrl": "",
+      "primary": {
+        "parent_link": {
+          "type": "Link",
+          "config": {
+            "label": "Parent link",
+            "select": null,
+            "allowText": true,
+            "allowTargetBlank": true,
+            "repeat": false,
+            "variants": [
+              "Primary",
+              "Secondary"
+            ]
+          }
+        },
+        "eyebrow": {
+          "type": "Text",
+          "config": {
+            "label": "Eyebrow",
+            "placeholder": ""
+          }
+        },
+        "title": {
+          "type": "StructuredText",
+          "config": {
+            "label": "Title",
+            "allowTargetBlank": true,
+            "single": "heading1,em"
+          }
+        },
+        "description": {
+          "type": "Text",
+          "config": {
+            "label": "Description",
+            "placeholder": ""
+          }
+        },
+        "buttons": {
+          "type": "Group",
+          "config": {
+            "label": "Buttons",
+            "repeat": true,
+            "fields": {
+              "link": {
+                "type": "Link",
+                "config": {
+                  "label": "Link",
+                  "select": null,
+                  "allowText": true,
+                  "allowTargetBlank": true,
+                  "repeat": false,
+                  "variants": [
+                    "Primary",
+                    "Secondary"
+                  ]
+                }
+              }
+            }
+          }
+        },
+        "image": {
+          "type": "Image",
+          "config": {
+            "label": "Image",
+            "constraint": {},
+            "thumbnails": []
+          }
+        },
+        "badge_title": {
+          "type": "Text",
+          "config": {
+            "label": "Badge title",
+            "placeholder": ""
+          }
+        },
+        "badge_text": {
+          "type": "Text",
+          "config": {
+            "label": "Badge text",
+            "placeholder": ""
+          }
+        }
+      },
+      "items": {}
+    },
+    {
+      "id": "portrait",
+      "type": "SharedSliceVariation",
+      "name": "Centred with photos",
+      "docURL": "...",
+      "version": "initial",
+      "description": "Centred copy above a portrait and a wide working photo, each with a badge (About)",
       "imageUrl": "",
       "primary": {
         "eyebrow": {
@@ -58,36 +267,34 @@
             }
           }
         },
-        "showcase_image": {
+        "portrait": {
           "type": "Image",
           "config": {
-            "label": "Showcase image",
+            "label": "Portrait",
             "constraint": {},
             "thumbnails": []
           }
         },
-        "logos_label": {
+        "portrait_badge": {
           "type": "Text",
           "config": {
-            "label": "Logos label",
-            "placeholder": "Trusted by growing brands across Sri Lanka"
+            "label": "Portrait badge",
+            "placeholder": ""
           }
         },
-        "logos": {
-          "type": "Group",
+        "photo": {
+          "type": "Image",
           "config": {
-            "label": "Logos",
-            "repeat": true,
-            "fields": {
-              "logo": {
-                "type": "Image",
-                "config": {
-                  "label": "Logo",
-                  "constraint": {},
-                  "thumbnails": []
-                }
-              }
-            }
+            "label": "Photo",
+            "constraint": {},
+            "thumbnails": []
+          }
+        },
+        "photo_badge": {
+          "type": "Text",
+          "config": {
+            "label": "Photo badge",
+            "placeholder": ""
           }
         }
       },

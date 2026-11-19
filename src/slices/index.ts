@@ -3,17 +3,28 @@
 import dynamic from "next/dynamic";
 
 export const components = {
+  article_callout: dynamic(() => import("./ArticleCallout")),
+  article_table: dynamic(() => import("./ArticleTable")),
+  blog_index: dynamic(() => import("./BlogIndex")),
   blog_preview: dynamic(() => import("./BlogPreview")),
   call_to_action: dynamic(() => import("./CallToAction")),
   compare: dynamic(() => import("./Compare")),
+  contact_form: dynamic(() => import("./ContactForm")),
+  experience: dynamic(() => import("./Experience")),
   faq: dynamic(() => import("./Faq")),
+  feature_cards: dynamic(() => import("./FeatureCards")),
   featured_project: dynamic(() => import("./FeaturedProject")),
   hero: dynamic(() => import("./Hero")),
+  image_cards: dynamic(() => import("./ImageCards")),
   logo_bar: dynamic(() => import("./LogoBar")),
   process: dynamic(() => import("./Process")),
   reasons: dynamic(() => import("./Reasons")),
   rich_text: dynamic(() => import("./RichText")),
   services_grid: dynamic(() => import("./ServicesGrid")),
+  skills_services: dynamic(() => import("./SkillsServices")),
+  split_list: dynamic(() => import("./SplitList")),
   stats: dynamic(() => import("./Stats")),
+  steps_showcase: dynamic(() => import("./StepsShowcase")),
+  story_arc: dynamic(() => import("./StoryArc")),
   testimonials: dynamic(() => import("./Testimonials")),
 };

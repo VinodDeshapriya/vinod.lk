@@ -4,6 +4,118 @@ Newest entry first. Use the `update-progress` skill to add entries.
 
 ---
 
+## 2026-11-19 — All remaining pages built as Prismic slices
+
+### Source of truth
+
+The 13 Figma page frames on 🔥 Design: About (19268:10145), Services (19268:13294), How it works (19268:29866), Contact (19268:27825), Blog (19268:23533), Blog article template (19268:23942) and the 7 service pages (19268:13803 … 19268:16244). Hidden "(old, hidden)" sections were skipped.
+
+### Code
+
+- **New slices:** FeatureCards (light / dark / numbered), ImageCards (numbered / bento), SplitList (checklist / platforms / grid), StoryArc, Experience, SkillsServices, StepsShowcase, ContactForm, BlogIndex, ArticleTable, ArticleCallout (CTA / quote).
+- **New variations:** Hero › split (service pages) and portrait (About), plus `title_size` and `highlights` on the centred hero; Faq › simple (inside articles).
+- **Blog:** `/blog` is now a Prismic `page` (uid `blog`) with the BlogIndex slice; the placeholder route is gone. `/blog/:uid` rebuilt to the Figma template (`src/components/blog/ArticleView.tsx`): contents list from H2s, sticky sidebar CTA, related service, author box, "More from the blog". Blog type gained `display_title`, `cover_title`, `featured` and related-service fields; Settings gained a Blog tab (author, sidebar CTA).
+- **Contact form:** `/api/contact`, emails through Resend when `RESEND_API_KEY` + `CONTACT_TO_EMAIL` are set.
+- **Images:** 47 Figma exports at 2x in `public/images/pages/` (hero photos, About photos, illustrations).
+- **Seeds:** `scripts/seed/pages-content.mjs` (12 pages) and `blog-content.mjs` (website-cost article).
+- FeaturedProject now has `id="work"`; "See Recent Work" buttons point to `/#work` because no `/work` page is designed.
+
+### Verified
+
+- `tsc`, `eslint`, `next build` pass (build run with the fonts served locally, as Google Fonts is blocked in the sandbox).
+- Every page rendered from the seed and compared with its Figma frame at 1440 px; heights within ~1% except Services and Contact (~4%, spacing). Fixed after comparison: card row split (3 then the rest), belief panel, current-job highlight, How it works title size and step images, contact form sizes, split-list layouts, article lead.
+- No horizontal overflow at 390 px on any page.
+
+### Open items
+
+1. **Push the models** from Slice Machine (13 new/changed slices, `page`, `blog`, `settings`), then create the page documents in Prismic.
+2. Fill the `[ADD: …]` notes copied from Figma (FAQ answers, hourly rate, logo concepts, tech stack, booking link, article intro).
+3. No `/work`, `/pricing`, `/privacy-policy`, `/terms`, `/industries/*` or `/ecommerce-website-sri-lanka` pages are designed yet; menus still link to some of them.
+4. Main menu "How It Works" points to `/#process`; it can now point to `/how-it-works`. AI page URL is `/ai-solutions-sri-lanka` (menus use `/ai-for-business-sri-lanka`).
+5. Contact form needs a Resend account (or another mail service) before launch.
+6. Only one blog article is designed; the other six from the Blog page need writing.
+
+
+## 2026-11-19 — Dev server reload loop ("flashing screen") fixed
+
+### Source of truth
+
+Vinod reported the local site flashing. Reproduced against his running `npm run dev` with headless Chrome: about 6 full page reloads per second, without end.
+
+### Why it happened
+
+On every HMR connect, the dev server sent `{"type":"reloadPage"}` with `TurbopackInternalError: Failed to write app endpoint /(pages)/page … Cell … no longer exists in task directory_tree_to_loader_tree`. That route (`src/app/(pages)/page.tsx`) was deleted in `55469af` when `/` moved to `[[...uid]]`. Turbopack's persistent dev cache in `.next/dev` (588 MB) still held the old endpoint, so each load hit it and asked the browser to reload. No project file was changing: only `.next/dev` was written during the loop. Clearing `.next/cache` earlier did not help, because the Turbopack cache lives in `.next/dev`.
+
+### Fix
+
+Stopped the Next process of the running `npm run dev` (Slice Machine left on 1203), ran `rm -rf .next`, and restarted. No code changed.
+
+### Verified
+
+| Page | Navigations in window | `reloadPage` messages | Console errors |
+| --- | --- | --- | --- |
+| `/` at 1440, 15 s | 1 | 0 | 0 |
+| `/` at 375, 8 s | 1 | 0 | 0 |
+| `/blog`, 8 s | 1 | 0 | 0 |
+
+### Open items
+
+1. If the loop returns after deleting or renaming a route, stop the dev server, run `rm -rf .next` and start it again.
+2. Vinod's browser logged a hydration attribute mismatch earlier. It did not appear in a clean headless profile, so it is probably a browser extension. Check it in an incognito window if it keeps showing.
+
+## 2026-11-19 — Launch release published
+
+Vinod approved, and release `av7MnxMAABoIDiRJ` was published over MCP. Its 6 documents are covered in the next entry down.
+
+### Verified
+
+| Check | Expected | Actual |
+| --- | --- | --- |
+| `get_documents` on the 6 ids | `published` at the release versions | all 6 `published`, version ids match the release |
+| `GET /` on a local dev server (with `.next/cache` cleared) | 200 | 200 |
+| Section headings on `/` | 12 sections | 11 (H1 and 10 H2s) in seed order. `BlogPreview` returns `null` because no `blog` documents are published ([`BlogPreview`](src/slices/BlogPreview/index.tsx#L33)) |
+| Header and footer | from Prismic | "Industries" column, "Business Systems" dropdown item and "Matara, Sri Lanka" present; no "ATD Starter" or lorem ipsum |
+
+### Open items
+
+1. Publish at least one `blog` post, or the home page has no blog section.
+2. The open items of the entry below still apply: the duplicate CTA copy, the empty social and review links, and the missing home meta.
+
+## 2026-11-19 — Home, menus and Settings staged in Prismic (not yet published)
+
+### Source of truth
+
+[`home-content.mjs`](scripts/seed/home-content.mjs) for the home slices, and [`site.ts`](src/data/site.ts) for nav, footer and contact details. The Google rating (5.0, 3 reviews) comes from the old `src/data/testimonials.ts` in git history.
+
+### Content
+
+Release **"vinod.lk launch content: home, menus, settings"** (`av7MnxMAABoIDiRJ`) in `vinod-portfolio` holds 6 documents:
+
+| Document | Id | Note |
+| --- | --- | --- |
+| `page` `home` | `av7NIxMAAC0ADiVA` | New. 12 slices in the order of the old home page |
+| `settings` | `avbJIRIAAC0Ayx-M` | Starter content fully replaced |
+| `main_menu` | `avbKFBIAACsAyyEh` | The archived starter document, rewritten. A single-instance type rejects a second document (`custom_type_single_conflict`) while the archived one exists |
+| `menu` `footer-company` / `footer-services` / `footer-industries` | `av7MqBMAACcADiRa`, `av7MxxMAACsADiSU`, `av7MyRMAACwADiSb` | New, `order` 1–3 |
+
+- **Images:** the 9 images were uploaded to the media library from the public GitHub raw URLs of `public/images/` on `dev`.
+- **Internal links:** stored as Web links with relative URLs (`/contact`). Prismic keeps them unchanged, as checked by reading a document back.
+- **Converter:** the editor-shape JSON was generated from the seed by a one-off script that reads the field types from `src/slices/*/model.json`. The script was not added to the repo.
+
+### Verified
+
+- All 6 documents are listed in the release.
+- Read-back of the home page: 12 slice keys in order, hero image origin set, 5 FAQ questions, and both CTA titles with their `em` spans.
+- **Not verified:** rendering on the site. That needs the release to be published, or Prismic previews to be set up (previews report `notSetUp`).
+
+### Open items
+
+1. **Publish the release.** This waits for Vinod's go-ahead.
+2. The first CallToAction repeats the ServicesGrid title and intro ("Websites, branding and systems, all under one roof"). This was carried over unchanged from the old `page.tsx`. Check it against Figma.
+3. `social_links` and `google_review_link` in Settings are empty, because no real URLs exist yet.
+4. The home page has no `meta_title` or `meta_description`. Settings has generic ones.
+5. Prismic previews are not set up (Settings → Previews), so a release cannot be viewed on the site before it is published.
+
 ## 2026-11-19 — Starter documents archived in Prismic
 
 ### Source of truth

@@ -1,0 +1,57 @@
+{
+  "id": "blog_index",
+  "type": "SharedSlice",
+  "name": "BlogIndex",
+  "description": "Blog hero with category filter, featured post and paged article grid (Blog)",
+  "variations": [
+    {
+      "id": "default",
+      "type": "SharedSliceVariation",
+      "name": "Default",
+      "docURL": "...",
+      "version": "initial",
+      "description": "Default",
+      "imageUrl": "",
+      "primary": {
+        "eyebrow": {
+          "type": "Text",
+          "config": {
+            "label": "Eyebrow",
+            "placeholder": ""
+          }
+        },
+        "title": {
+          "type": "StructuredText",
+          "config": {
+            "label": "Title",
+            "allowTargetBlank": true,
+            "single": "heading1,em"
+          }
+        },
+        "intro": {
+          "type": "Text",
+          "config": {
+            "label": "Intro",
+            "placeholder": ""
+          }
+        },
+        "list_title": {
+          "type": "StructuredText",
+          "config": {
+            "label": "List title",
+            "allowTargetBlank": true,
+            "single": "heading2,em"
+          }
+        },
+        "posts_per_page": {
+          "type": "Number",
+          "config": {
+            "label": "Posts per page",
+            "placeholder": "6"
+          }
+        }
+      },
+      "items": {}
+    }
+  ]
+}

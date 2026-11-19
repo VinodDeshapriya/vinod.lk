@@ -10,14 +10,14 @@ const btn = (url, text, variant = "Primary") => ({ link: link(url, text, variant
 let n = 0;
 const slice = (slice_type, primary) => ({ id: `${slice_type}$${n++}`, slice_type, slice_label: null, variation: "default", version: "initial", primary, items: [] });
 const quote = btn("/contact", "Get a Free Quote");
-const cta = (t, em, intro) => slice("call_to_action", { title: [h("heading2", t, [em])], intro, background_image: {}, buttons: [quote, btn("/work", "See Recent Work", "Secondary")] });
+const cta = (t, em, intro) => slice("call_to_action", { title: [h("heading2", t, [em])], intro, background_image: {}, buttons: [quote, btn("/#work", "See Recent Work", "Secondary")] });
 
 export const homeSlices = [
   slice("hero", {
     eyebrow: "System-Led UX Engineer in Sri Lanka",
     title: [h("heading1", "Designed for people.\nBuilt faster.", ["faster"])],
     description: "Fast, mobile-first websites, brands and business systems for Sri Lankan businesses. Every site is designed for you, built to rank on Google, and made to turn visitors into enquiries.",
-    buttons: [quote, btn("/work", "See Recent Work", "Secondary")],
+    buttons: [quote, btn("/#work", "See Recent Work", "Secondary")],
     showcase_image: img("/images/home/hero-showcase.png", 1390, 772, "Absoliq website shown in a browser window"),
     logos_label: "Trusted by growing brands across Sri Lanka",
     logos: [["absoliq",152,30,"Absoliq"],["enjoy-sri-lanka",155,40,"Enjoy Sri Lanka"],["matara-bodhiya",173,40,"Matara Bodhiya"],["janangana",211,40,"Janangana"],["sun2earth",152,40,"Sun2Earth"],["ceylon-track",36,48,"Ceylon Track"],["somerset-blue",100,38,"Somerset Blue"]]
@@ -51,7 +51,7 @@ export const homeSlices = [
       ["Development","Website Development","Fast, secure websites built on WordPress, Shopify or custom code, with ecommerce, payments and bookings built in.","/website-development-sri-lanka"],
       ["Social","Social Media Marketing","Scroll-stopping post designs, captions and ad creative for Facebook, Instagram and TikTok.","/social-media-marketing-sri-lanka"],
       ["Systems","Business Systems","Booking systems, CRMs, client portals and custom tools that replace spreadsheets and paperwork.","/custom-software-sri-lanka"],
-      ["AI","AI for Business","AI chatbots, automations and smart workflows that answer customers and save your team time.","/ai-for-business-sri-lanka"],
+      ["AI","AI for Business","AI chatbots, automations and smart workflows that answer customers and save your team time.","/ai-solutions-sri-lanka"],
     ].map(([label, title, description, url]) => ({ label, title, description, link: link(url, title) })),
     buttons: [btn("/services", "All services", "Secondary")],
   }),

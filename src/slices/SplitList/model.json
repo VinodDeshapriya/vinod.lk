@@ -1,0 +1,346 @@
+{
+  "id": "split_list",
+  "type": "SharedSlice",
+  "name": "SplitList",
+  "description": "Heading, text and button on the left, a list on the right",
+  "variations": [
+    {
+      "id": "default",
+      "type": "SharedSliceVariation",
+      "name": "Checklist",
+      "docURL": "...",
+      "version": "initial",
+      "description": "Scenario cards with a check (Is this right for you?)",
+      "imageUrl": "",
+      "primary": {
+        "eyebrow": {
+          "type": "Text",
+          "config": {
+            "label": "Eyebrow",
+            "placeholder": ""
+          }
+        },
+        "title": {
+          "type": "StructuredText",
+          "config": {
+            "label": "Title",
+            "allowTargetBlank": true,
+            "single": "heading2,em"
+          }
+        },
+        "intro": {
+          "type": "Text",
+          "config": {
+            "label": "Intro",
+            "placeholder": ""
+          }
+        },
+        "buttons": {
+          "type": "Group",
+          "config": {
+            "label": "Buttons",
+            "repeat": true,
+            "fields": {
+              "link": {
+                "type": "Link",
+                "config": {
+                  "label": "Link",
+                  "select": null,
+                  "allowText": true,
+                  "allowTargetBlank": true,
+                  "repeat": false,
+                  "variants": [
+                    "Primary",
+                    "Secondary"
+                  ]
+                }
+              }
+            }
+          }
+        },
+        "items": {
+          "type": "Group",
+          "config": {
+            "label": "Items",
+            "repeat": true,
+            "fields": {
+              "icon": {
+                "type": "Select",
+                "config": {
+                  "label": "Icon",
+                  "options": [
+                    "check",
+                    "eye",
+                    "trend",
+                    "layers",
+                    "shield",
+                    "clock",
+                    "smile",
+                    "target",
+                    "heart",
+                    "document",
+                    "code",
+                    "chat",
+                    "support",
+                    "alert",
+                    "calendar",
+                    "users",
+                    "key",
+                    "grid",
+                    "database",
+                    "sparkles",
+                    "form",
+                    "flow",
+                    "pen",
+                    "tag",
+                    "rocket",
+                    "refresh",
+                    "phone",
+                    "cart",
+                    "desktop",
+                    "link",
+                    "pin",
+                    "school",
+                    "briefcase"
+                  ],
+                  "default_value": "check"
+                }
+              },
+              "label": {
+                "type": "Text",
+                "config": {
+                  "label": "Label",
+                  "placeholder": ""
+                }
+              },
+              "text": {
+                "type": "Text",
+                "config": {
+                  "label": "Text",
+                  "placeholder": ""
+                }
+              }
+            }
+          }
+        }
+      },
+      "items": {}
+    },
+    {
+      "id": "platforms",
+      "type": "SharedSliceVariation",
+      "name": "Platforms",
+      "docURL": "...",
+      "version": "initial",
+      "description": "'If you need ... choose ...' rows; tick 'highlight' for the dark row (Platforms)",
+      "imageUrl": "",
+      "primary": {
+        "eyebrow": {
+          "type": "Text",
+          "config": {
+            "label": "Eyebrow",
+            "placeholder": ""
+          }
+        },
+        "title": {
+          "type": "StructuredText",
+          "config": {
+            "label": "Title",
+            "allowTargetBlank": true,
+            "single": "heading2,em"
+          }
+        },
+        "intro": {
+          "type": "Text",
+          "config": {
+            "label": "Intro",
+            "placeholder": ""
+          }
+        },
+        "buttons": {
+          "type": "Group",
+          "config": {
+            "label": "Buttons",
+            "repeat": true,
+            "fields": {
+              "link": {
+                "type": "Link",
+                "config": {
+                  "label": "Link",
+                  "select": null,
+                  "allowText": true,
+                  "allowTargetBlank": true,
+                  "repeat": false,
+                  "variants": [
+                    "Primary",
+                    "Secondary"
+                  ]
+                }
+              }
+            }
+          }
+        },
+        "items": {
+          "type": "Group",
+          "config": {
+            "label": "Items",
+            "repeat": true,
+            "fields": {
+              "need": {
+                "type": "Text",
+                "config": {
+                  "label": "Need",
+                  "placeholder": ""
+                }
+              },
+              "platform": {
+                "type": "Text",
+                "config": {
+                  "label": "Platform",
+                  "placeholder": ""
+                }
+              },
+              "monogram": {
+                "type": "Text",
+                "config": {
+                  "label": "Monogram",
+                  "placeholder": "W"
+                }
+              },
+              "highlight": {
+                "type": "Boolean",
+                "config": {
+                  "label": "Highlight",
+                  "default_value": false
+                }
+              }
+            }
+          }
+        }
+      },
+      "items": {}
+    },
+    {
+      "id": "grid",
+      "type": "SharedSliceVariation",
+      "name": "Card grid",
+      "docURL": "...",
+      "version": "initial",
+      "description": "Two-by-two icon cards (What I'll need from you)",
+      "imageUrl": "",
+      "primary": {
+        "eyebrow": {
+          "type": "Text",
+          "config": {
+            "label": "Eyebrow",
+            "placeholder": ""
+          }
+        },
+        "title": {
+          "type": "StructuredText",
+          "config": {
+            "label": "Title",
+            "allowTargetBlank": true,
+            "single": "heading2,em"
+          }
+        },
+        "intro": {
+          "type": "Text",
+          "config": {
+            "label": "Intro",
+            "placeholder": ""
+          }
+        },
+        "buttons": {
+          "type": "Group",
+          "config": {
+            "label": "Buttons",
+            "repeat": true,
+            "fields": {
+              "link": {
+                "type": "Link",
+                "config": {
+                  "label": "Link",
+                  "select": null,
+                  "allowText": true,
+                  "allowTargetBlank": true,
+                  "repeat": false,
+                  "variants": [
+                    "Primary",
+                    "Secondary"
+                  ]
+                }
+              }
+            }
+          }
+        },
+        "items": {
+          "type": "Group",
+          "config": {
+            "label": "Items",
+            "repeat": true,
+            "fields": {
+              "icon": {
+                "type": "Select",
+                "config": {
+                  "label": "Icon",
+                  "options": [
+                    "check",
+                    "eye",
+                    "trend",
+                    "layers",
+                    "shield",
+                    "clock",
+                    "smile",
+                    "target",
+                    "heart",
+                    "document",
+                    "code",
+                    "chat",
+                    "support",
+                    "alert",
+                    "calendar",
+                    "users",
+                    "key",
+                    "grid",
+                    "database",
+                    "sparkles",
+                    "form",
+                    "flow",
+                    "pen",
+                    "tag",
+                    "rocket",
+                    "refresh",
+                    "phone",
+                    "cart",
+                    "desktop",
+                    "link",
+                    "pin",
+                    "school",
+                    "briefcase"
+                  ],
+                  "default_value": "check"
+                }
+              },
+              "label": {
+                "type": "Text",
+                "config": {
+                  "label": "Label",
+                  "placeholder": ""
+                }
+              },
+              "text": {
+                "type": "Text",
+                "config": {
+                  "label": "Text",
+                  "placeholder": ""
+                }
+              }
+            }
+          }
+        }
+      },
+      "items": {}
+    }
+  ]
+}

@@ -2,15 +2,15 @@
   "id": "faq",
   "type": "SharedSlice",
   "name": "Faq",
-  "description": "Dark FAQ panel with accordion (Figma faq_variants1)",
+  "description": "Questions and answers",
   "variations": [
     {
       "id": "default",
       "type": "SharedSliceVariation",
-      "name": "Default",
+      "name": "Dark panel",
       "docURL": "...",
       "version": "initial",
-      "description": "Dark FAQ panel with accordion (Figma faq_variants1)",
+      "description": "Dark panel with intro on the left and an accordion on the right (Figma faq_variants1)",
       "imageUrl": "",
       "primary": {
         "eyebrow": {
@@ -42,13 +42,60 @@
             "select": null,
             "allowText": true,
             "allowTargetBlank": true,
-            "repeat": false
+            "repeat": false,
+            "variants": [
+              "Primary",
+              "Secondary"
+            ]
           }
         },
         "faqs": {
           "type": "Group",
           "config": {
-            "label": "FAQs",
+            "label": "Faqs",
+            "repeat": true,
+            "fields": {
+              "question": {
+                "type": "Text",
+                "config": {
+                  "label": "Question",
+                  "placeholder": ""
+                }
+              },
+              "answer": {
+                "type": "StructuredText",
+                "config": {
+                  "label": "Answer",
+                  "allowTargetBlank": true,
+                  "multi": "paragraph,strong,em,hyperlink"
+                }
+              }
+            }
+          }
+        }
+      },
+      "items": {}
+    },
+    {
+      "id": "simple",
+      "type": "SharedSliceVariation",
+      "name": "Simple list",
+      "docURL": "...",
+      "version": "initial",
+      "description": "Plain list for inside a blog article; the title also feeds the article's contents list",
+      "imageUrl": "",
+      "primary": {
+        "heading": {
+          "type": "Text",
+          "config": {
+            "label": "Heading",
+            "placeholder": "Frequently asked questions"
+          }
+        },
+        "faqs": {
+          "type": "Group",
+          "config": {
+            "label": "Faqs",
             "repeat": true,
             "fields": {
               "question": {

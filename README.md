@@ -46,19 +46,39 @@ Repository: **vinod-portfolio** (`slicemachine.config.json`).
 | Document type | Used for |
 | --- | --- |
 | `page` | Every page. UID `home` is `/`, any other UID is `/:uid`. Built from slices |
-| `blog` | Blog posts at `/blog/:uid`; the Blog Preview slice lists the latest ones |
-| `settings` (single) | Header button, phones, email, location, WhatsApp, social + legal links, footer text, Google rating, default SEO |
+| `blog` | Blog posts at `/blog/:uid` (template: `src/components/blog/ArticleView.tsx`). Tick **Featured** for the big card on `/blog`; **Cover title** is the shorter title on the navy cover |
+| `settings` (single) | Header button, phones, email, location, WhatsApp, social + legal links, footer text, Google rating, default SEO, blog author + article sidebar CTA |
 | `main_menu` (single) | Header navigation (with optional dropdown links) |
 | `menu` (repeatable) | Footer columns, sorted by `order` |
 
 Slices (`src/slices/`), one per Figma component in the 📦 Components page:
 Hero, LogoBar, Testimonials, FeaturedProject, ServicesGrid, CallToAction, Compare, Stats, Process, Reasons, BlogPreview, Faq, RichText.
 
+Inner-page slices (Figma page frames):
+
+| Slice | Variations | Used on |
+| --- | --- | --- |
+| Hero | Centred (title size Large/Medium, optional checkmarks), Split with image, Centred with photos | Every page |
+| FeatureCards | Light, Dark, Numbered links | Service pages, Services, About (beliefs) |
+| ImageCards | Numbered, Bento | "What you get", "Every build includes", "Websites I build" |
+| SplitList | Checklist, Platforms, Card grid | "Is this right for you", "Platforms", "What I'll need" |
+| StoryArc, Experience, SkillsServices | – | About |
+| StepsShowcase | – | How it works |
+| ContactForm | – | Contact (posts to `/api/contact`) |
+| BlogIndex | – | Blog (tabs from post tags, featured post, paging) |
+| ArticleTable, ArticleCallout (CTA / pull quote), Faq › Simple list | – | Inside blog posts |
+
+Card-picking icons (`icon` select fields) map to atd-icons in `src/components/ui/SliceIcon.tsx`.
+
 **Changing a model:** run `npm run dev`, edit in Slice Machine (http://localhost:1203), then **Push** from Slice Machine. It also regenerates `prismicio-types.d.ts` and `src/slices/index.ts`.
 
 If Settings / Main Menu / Footer Menu are empty, the header and footer fall back to `src/data/site.ts`.
 
-`scripts/seed/home-content.mjs` holds the home page content in slice form (used to create the first `home` document).
+`scripts/seed/` holds the content each page was created from, in slice form: `home-content.mjs`, `pages-content.mjs` (the other 12 pages) and `blog-content.mjs` (the website-cost article).
+
+`scripts/slice-specs.py` + `scripts/gen-slice-models.py` generated the inner-page slice models (`python3 scripts/gen-slice-models.py` rewrites the listed slices' `model.json`). After the first push, editing in Slice Machine is fine; the script is only a shortcut.
+
+**Contact form email:** set `RESEND_API_KEY` and `CONTACT_TO_EMAIL` (optionally `CONTACT_FROM_EMAIL`) in the hosting environment. Without them the form answers with "message me on WhatsApp or email" and logs the enquiry.
 
 ## Project configuration
 
