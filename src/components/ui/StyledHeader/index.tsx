@@ -4,7 +4,8 @@ import Image from "next/image";
 import Link from "next/link";
 import { useEffect, useRef, useState } from "react";
 import { type NavItem } from "@/types/nav";
-import { headerCta, siteSettings } from "@/data/site";
+import { siteSettings } from "@/data/site";
+import type { HeaderCta } from "@/lib/layoutData";
 import StyledButton from "../StyledButton";
 import StyledContainer from "../StyledContainer";
 import DesktopMenu from "./DesktopMenu";
@@ -15,9 +16,10 @@ export { isBreakpoint };
 
 interface StyledHeaderProps {
   mainMenu?: NavItem[];
+  headerCta: HeaderCta;
 }
 
-const StyledHeader = ({ mainMenu }: StyledHeaderProps) => {
+const StyledHeader = ({ mainMenu, headerCta }: StyledHeaderProps) => {
   const [stickyMenu, setStickyMenu] = useState(true);
   const lastScrollY = useRef(0);
   const headerRef = useRef<HTMLElement>(null);
@@ -82,6 +84,7 @@ const StyledHeader = ({ mainMenu }: StyledHeaderProps) => {
 
         <MobileMenu
           mainMenu={mainMenu}
+          headerCta={headerCta}
           visibility={clsx({
             "xl:hidden": isBreakpoint("xl"),
             "lg:hidden": isBreakpoint("lg"),

@@ -1,0 +1,5 @@
+[
+  { "type": "page", "uid": "home", "path": "/" },
+  { "type": "page", "path": "/:uid" },
+  { "type": "blog", "path": "/blog/:uid" }
+]

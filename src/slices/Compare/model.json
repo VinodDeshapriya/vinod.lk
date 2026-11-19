@@ -1,0 +1,145 @@
+{
+  "id": "compare",
+  "type": "SharedSlice",
+  "name": "Compare",
+  "description": "Two-lane comparison table (Figma content_compare_variants1)",
+  "variations": [
+    {
+      "id": "default",
+      "type": "SharedSliceVariation",
+      "name": "Default",
+      "docURL": "...",
+      "version": "initial",
+      "description": "Two-lane comparison table (Figma content_compare_variants1)",
+      "imageUrl": "",
+      "primary": {
+        "title": {
+          "type": "StructuredText",
+          "config": {
+            "label": "Title",
+            "allowTargetBlank": true,
+            "single": "heading2,em"
+          }
+        },
+        "intro": {
+          "type": "Text",
+          "config": {
+            "label": "Intro",
+            "placeholder": ""
+          }
+        },
+        "lane_1_pill": {
+          "type": "Text",
+          "config": {
+            "label": "Lane 1 pill",
+            "placeholder": ""
+          }
+        },
+        "lane_1_name": {
+          "type": "Text",
+          "config": {
+            "label": "Lane 1 name",
+            "placeholder": ""
+          }
+        },
+        "lane_1_tagline": {
+          "type": "Text",
+          "config": {
+            "label": "Lane 1 tagline",
+            "placeholder": ""
+          }
+        },
+        "lane_2_pill": {
+          "type": "Text",
+          "config": {
+            "label": "Lane 2 pill",
+            "placeholder": ""
+          }
+        },
+        "lane_2_name": {
+          "type": "Text",
+          "config": {
+            "label": "Lane 2 name",
+            "placeholder": ""
+          }
+        },
+        "lane_2_tagline": {
+          "type": "Text",
+          "config": {
+            "label": "Lane 2 tagline (dark lane)",
+            "placeholder": ""
+          }
+        },
+        "rows": {
+          "type": "Group",
+          "config": {
+            "label": "Rows",
+            "repeat": true,
+            "fields": {
+              "label": {
+                "type": "Text",
+                "config": {
+                  "label": "Row label",
+                  "placeholder": ""
+                }
+              },
+              "icon": {
+                "type": "Select",
+                "config": {
+                  "label": "Icon",
+                  "options": [
+                    "clock",
+                    "pen",
+                    "document",
+                    "refresh",
+                    "headset",
+                    "trophy",
+                    "shield"
+                  ],
+                  "default_value": "clock"
+                }
+              },
+              "style": {
+                "type": "Select",
+                "config": {
+                  "label": "Value style",
+                  "options": [
+                    "text",
+                    "emphasis",
+                    "check"
+                  ],
+                  "default_value": "text"
+                }
+              },
+              "lane_1_value": {
+                "type": "Text",
+                "config": {
+                  "label": "Lane 1 value",
+                  "placeholder": ""
+                }
+              },
+              "lane_2_value": {
+                "type": "Text",
+                "config": {
+                  "label": "Lane 2 value",
+                  "placeholder": ""
+                }
+              }
+            }
+          }
+        },
+        "cta_link": {
+          "type": "Link",
+          "config": {
+            "label": "Lane button",
+            "select": null,
+            "allowText": true,
+            "allowTargetBlank": true,
+            "repeat": false
+          }
+        }
+      },
+      "items": {}
+    }
+  ]
+}

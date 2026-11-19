@@ -7,9 +7,13 @@ import { MenuProps } from "./DesktopMenu";
 import { MenuFill } from "atd-icons";
 import { isBreakpoint } from "./breakpoint";
 import StyledButton from "../StyledButton";
-import { headerCta } from "@/data/site";
+import type { HeaderCta } from "@/lib/layoutData";
 
-const MobileMenu = ({ mainMenu, visibility }: MenuProps) => {
+const MobileMenu = ({
+  mainMenu,
+  visibility,
+  headerCta,
+}: MenuProps & { headerCta: HeaderCta }) => {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
   const toggleMenu = () => {

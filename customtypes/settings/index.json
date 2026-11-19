@@ -1,0 +1,193 @@
+{
+  "id": "settings",
+  "label": "Settings",
+  "format": "custom",
+  "repeatable": false,
+  "status": true,
+  "json": {
+    "Main": {
+      "site_name": {
+        "type": "Text",
+        "config": {
+          "label": "Site name",
+          "placeholder": ""
+        }
+      },
+      "header_cta": {
+        "type": "Link",
+        "config": {
+          "label": "Header button",
+          "select": null,
+          "allowText": true,
+          "allowTargetBlank": true,
+          "repeat": false
+        }
+      },
+      "phone_numbers": {
+        "type": "Group",
+        "config": {
+          "label": "Phone numbers",
+          "repeat": true,
+          "fields": {
+            "number": {
+              "type": "Text",
+              "config": {
+                "label": "Number",
+                "placeholder": ""
+              }
+            }
+          }
+        }
+      },
+      "email": {
+        "type": "Text",
+        "config": {
+          "label": "Email",
+          "placeholder": ""
+        }
+      },
+      "location": {
+        "type": "Text",
+        "config": {
+          "label": "Location",
+          "placeholder": ""
+        }
+      },
+      "whatsapp_number": {
+        "type": "Text",
+        "config": {
+          "label": "WhatsApp number (digits only)",
+          "placeholder": ""
+        }
+      }
+    },
+    "Footer": {
+      "footer_description": {
+        "type": "Text",
+        "config": {
+          "label": "Footer description",
+          "placeholder": ""
+        }
+      },
+      "footer_strap": {
+        "type": "Text",
+        "config": {
+          "label": "Footer strap text",
+          "placeholder": ""
+        }
+      },
+      "footer_cta": {
+        "type": "Link",
+        "config": {
+          "label": "Footer strap button",
+          "select": null,
+          "allowText": true,
+          "allowTargetBlank": true,
+          "repeat": false
+        }
+      },
+      "social_links": {
+        "type": "Group",
+        "config": {
+          "label": "Social links",
+          "repeat": true,
+          "fields": {
+            "platform": {
+              "type": "Select",
+              "config": {
+                "label": "Platform",
+                "options": [
+                  "Facebook",
+                  "Instagram",
+                  "LinkedIn",
+                  "TikTok",
+                  "YouTube"
+                ],
+                "default_value": "Facebook"
+              }
+            },
+            "link": {
+              "type": "Link",
+              "config": {
+                "label": "Link",
+                "select": null,
+                "allowText": true,
+                "allowTargetBlank": true,
+                "repeat": false
+              }
+            }
+          }
+        }
+      },
+      "legal_links": {
+        "type": "Group",
+        "config": {
+          "label": "Legal links",
+          "repeat": true,
+          "fields": {
+            "link": {
+              "type": "Link",
+              "config": {
+                "label": "Link",
+                "select": null,
+                "allowText": true,
+                "allowTargetBlank": true,
+                "repeat": false
+              }
+            }
+          }
+        }
+      }
+    },
+    "Google": {
+      "google_rating": {
+        "type": "Text",
+        "config": {
+          "label": "Rating",
+          "placeholder": "5.0"
+        }
+      },
+      "google_review_count": {
+        "type": "Number",
+        "config": {
+          "label": "Review count",
+          "placeholder": ""
+        }
+      },
+      "google_review_link": {
+        "type": "Link",
+        "config": {
+          "label": "Review us link",
+          "select": null,
+          "allowText": true,
+          "allowTargetBlank": true,
+          "repeat": false
+        }
+      }
+    },
+    "SEO & Metadata": {
+      "meta_title": {
+        "type": "Text",
+        "config": {
+          "label": "Meta title",
+          "placeholder": ""
+        }
+      },
+      "meta_description": {
+        "type": "Text",
+        "config": {
+          "label": "Meta description",
+          "placeholder": ""
+        }
+      },
+      "meta_image": {
+        "type": "Image",
+        "config": {
+          "label": "Meta image",
+          "constraint": {},
+          "thumbnails": []
+        }
+      }
+    }
+  }
+}

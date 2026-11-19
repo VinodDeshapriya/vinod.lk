@@ -1,0 +1,82 @@
+{
+  "id": "testimonials",
+  "type": "SharedSlice",
+  "name": "Testimonials",
+  "description": "Review cards carousel with Google rating pill (Figma testimonial_variants1)",
+  "variations": [
+    {
+      "id": "default",
+      "type": "SharedSliceVariation",
+      "name": "Default",
+      "docURL": "...",
+      "version": "initial",
+      "description": "Review cards carousel with Google rating pill (Figma testimonial_variants1)",
+      "imageUrl": "",
+      "primary": {
+        "title": {
+          "type": "StructuredText",
+          "config": {
+            "label": "Title",
+            "allowTargetBlank": true,
+            "single": "heading2,em"
+          }
+        },
+        "intro": {
+          "type": "Text",
+          "config": {
+            "label": "Intro",
+            "placeholder": ""
+          }
+        },
+        "show_google_rating": {
+          "type": "Boolean",
+          "config": {
+            "label": "Show Google rating",
+            "default_value": true,
+            "placeholder_true": "true",
+            "placeholder_false": "false"
+          }
+        },
+        "reviews": {
+          "type": "Group",
+          "config": {
+            "label": "Reviews",
+            "repeat": true,
+            "fields": {
+              "name": {
+                "type": "Text",
+                "config": {
+                  "label": "Name",
+                  "placeholder": ""
+                }
+              },
+              "meta": {
+                "type": "Text",
+                "config": {
+                  "label": "Meta",
+                  "placeholder": "3 months ago \u00b7 Company"
+                }
+              },
+              "rating": {
+                "type": "Number",
+                "config": {
+                  "label": "Rating (1-5)",
+                  "placeholder": ""
+                }
+              },
+              "review": {
+                "type": "StructuredText",
+                "config": {
+                  "label": "Review",
+                  "allowTargetBlank": true,
+                  "multi": "paragraph,strong,em"
+                }
+              }
+            }
+          }
+        }
+      },
+      "items": {}
+    }
+  ]
+}

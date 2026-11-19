@@ -1,32 +1,43 @@
 import type { Metadata } from "next";
+import { PrismicPreview } from "@prismicio/next";
 import StyledHeader from "@/components/ui/StyledHeader";
 import StyledFooter from "@/components/ui/StyledFooter";
-import { mainMenu, siteSettings } from "@/data/site";
+import { getLayoutData } from "@/lib/layoutData";
+import { repositoryName } from "@/prismicio";
 import projectConfig from "../../project.config";
 import { fontVariables } from "./fonts";
 
 import "./globals.css";
 
-export const metadata: Metadata = {
-  metadataBase: new URL(projectConfig.baseUrl),
-  title: {
-    default: siteSettings.name,
-    template: `%s | ${siteSettings.name}`,
-  },
-  description: siteSettings.description,
-};
+export async function generateMetadata(): Promise<Metadata> {
+  const { site, settings } = await getLayoutData();
+  return {
+    metadataBase: new URL(projectConfig.baseUrl),
+    title: { default: site.name, template: `%s | ${site.name}` },
+    description: settings?.data.meta_description || site.description,
+  };
+}
 
-export default function RootLayout({
+export default async function RootLayout({
   children,
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+  const { mainMenu, headerCta, site, footerMenus, legalLinks, footerStrap } =
+    await getLayoutData();
+
   return (
     <html lang="en" className={`${fontVariables} h-full antialiased`}>
       <body id="top" className="min-h-full flex flex-col">
-        <StyledHeader mainMenu={mainMenu} />
+        <StyledHeader mainMenu={mainMenu} headerCta={headerCta} />
         <main className="grow">{children}</main>
-        <StyledFooter />
+        <StyledFooter
+          site={site}
+          footerMenus={footerMenus}
+          legalLinks={legalLinks}
+          footerStrap={footerStrap}
+        />
+        <PrismicPreview repositoryName={repositoryName} />
       </body>
     </html>
   );

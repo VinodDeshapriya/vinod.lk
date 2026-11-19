@@ -4,6 +4,45 @@ Newest entry first. Use the `update-progress` skill to add entries.
 
 ---
 
+## 2026-11-19 — Prismic + Slice Machine: home sections become slices (dev branch)
+
+### Source of truth
+
+Conversation with Vinod: put the common Figma components (📦 Components page, `1:356`) into Prismic repository `vinod-portfolio` as slices; work on the `dev` branch. Chosen approach: **new slice set, retire the old starter slices and documents**.
+
+### What changed in code
+
+| File | Change |
+| --- | --- |
+| [`package.json`](package.json) | `@prismicio/client`, `@prismicio/next`, `@prismicio/react`, `slice-machine-ui`, `@slicemachine/adapter-next`, `prismic-ts-codegen`, `concurrently`; `npm run dev` starts Next + Slice Machine |
+| [`slicemachine.config.json`](slicemachine.config.json), [`src/prismicio.ts`](src/prismicio.ts), [`src/prismicio-routes.json`](src/prismicio-routes.json) | Repository `vinod-portfolio`, one library `./src/slices`, routes `/`, `/:uid`, `/blog/:uid` |
+| [`customtypes/`](customtypes) | New models: `page`, `blog`, `settings`, `main_menu`, `menu` (replace the starter's 9 types) |
+| [`src/slices/`](src/slices) | 13 slices: Hero, LogoBar, Testimonials, FeaturedProject, ServicesGrid, CallToAction, Compare, Stats, Process, Reasons, BlogPreview, Faq, RichText — converted from `src/components/sections/home/*` (removed) |
+| [`src/app/(pages)/[[...uid]]/page.tsx`](src/app/(pages)/[[...uid]]/page.tsx), [`blog/[uid]`](src/app/(pages)/blog/[uid]/page.tsx) | Prismic-driven pages; old `/`, `/about`, `/work`, `/contact` placeholders removed |
+| [`src/lib/layoutData.ts`](src/lib/layoutData.ts), [`layout.tsx`](src/app/layout.tsx) | Header/footer from `settings` / `main_menu` / `menu`, fallback `src/data/site.ts`; `PrismicPreview` |
+| [`src/app/api/{preview,exit-preview,revalidate}`](src/app/api), [`slice-simulator`](src/app/slice-simulator/page.tsx) | Copied from the starter |
+| [`PrismicTitle`](src/components/ui/PrismicTitle.tsx), [`PrismicButtons`](src/components/ui/PrismicButtons.tsx), [`GoogleRatingPill`](src/components/ui/GoogleRatingPill.tsx), [`LogoMarquee`](src/components/ui/LogoMarquee.tsx) | New shared helpers; `StyledButton` accepts a Prismic `field` again; `Highlight` removed (italic in rich text instead) |
+| [`scripts/seed/home-content.mjs`](scripts/seed/home-content.mjs) | Home content in slice shape |
+
+### Why
+
+- **Slice ids are new** (`hero`, `call_to_action`, `faq`…), not variations of the starter's `hero_section`/`c_t_a`/`f_a_qs`: the vinod.lk designs share no fields with those models.
+- **Google rating lives in Settings** and reaches slices through SliceZone `context`, so Testimonials and Stats show the same figure.
+- **Compare row height** is derived from text length (84/96/108px) instead of a field, to keep the model simple.
+- **Project tags** are one Text field separated by `|` (commas appear inside tags like "Colombo, Sri Lanka").
+
+### Verified
+
+`npx tsc --noEmit` and `npm run lint` clean. Rendered all 12 home slices from `scripts/seed/home-content.mjs` through a temporary local route at 1440px: visually identical to the previous section-based page (BlogPreview hidden only because the sandbox could not reach Prismic). Not built against the live repository — Prismic is unreachable from the build sandbox.
+
+### Open items
+
+1. **Push models** from Slice Machine. The push removes the starter's 20 slices and 4 custom types (`author`, `blog_categories`, `blog_tag`, `service`); their 42 documents should be archived first or the push may be refused.
+2. Create the `home` page, `settings`, `main_menu` and footer `menu` documents (content ready in `scripts/seed/home-content.mjs` and `src/data/site.ts`) and upload the images to the media library.
+3. Figma components not yet built as slices: hero_variants1–3, contact_variants1, content_split_variants1, content_deliverables_variants1, Service Area.
+4. Project skills (`section-from-design`, `section-design-qa`, `pages-from-design`) still describe the no-CMS workflow.
+5. `blog` index page (`/blog`) is still a placeholder.
+
 ## 2026-11-19 — Project skills rewritten for the no-CMS setup
 
 ### Source of truth

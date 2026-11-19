@@ -1,6 +1,7 @@
 "use client";
 
 import clsx from "clsx";
+import type { LinkField } from "@prismicio/client";
 import { BUTTON_VARIANTS } from "@/lib/buttonTypes";
 import DynamicIcon from "./DynamicIcon";
 import ButtonWrapper from "./ButtonWrapper";
@@ -17,6 +18,8 @@ export interface StyledButtonProps {
   type?: "button" | "submit" | "reset";
   className?: string;
   link?: string;
+  /** Prismic link field. Its text is the label and its variant picks the style. */
+  field?: LinkField | null;
   target?: string;
   children?: React.ReactNode;
   disabled?: boolean;
@@ -29,11 +32,20 @@ const StyledButton = ({
   type = "button",
   className = "",
   link = "",
+  field,
   children,
   disabled = false,
   target,
   onClick,
 }: StyledButtonProps) => {
+  const fieldText =
+    field && "text" in field ? (field.text as string | undefined) : undefined;
+  const fieldVariant =
+    field && "variant" in field ? (field.variant as string | undefined) : undefined;
+  if (fieldVariant && fieldVariant in VARIANT_LOOKUP) {
+    variant = fieldVariant as ButtonVariantName;
+  }
+  label = label || fieldText || "";
   if (!label && !children) return null;
 
   const variantDef = VARIANT_LOOKUP[variant] as {
@@ -52,6 +64,7 @@ const StyledButton = ({
       className={clsx("btn text-body-base-bold", variantDef.class, className)}
       onClick={onClick}
       link={link}
+      field={field}
       target={target}
     >
       {icon && iconAlignment === "left" && (

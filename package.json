@@ -3,14 +3,19 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "dev": "next -p 1204",
+    "dev": "concurrently \"npm:next:dev\" \"npm:slicemachine\" --names \"next,slicemachine\" --prefix-colors blue,magenta",
     "build": "next build",
     "start": "next start -p 1204",
     "lint": "eslint",
     "setup": "npm run figma:sync",
-    "figma:sync": "node scripts/figma-to-css.mjs"
+    "figma:sync": "node scripts/figma-to-css.mjs",
+    "next:dev": "next -p 1204",
+    "slicemachine": "start-slicemachine -p 1203"
   },
   "dependencies": {
+    "@prismicio/client": "^7.23.1",
+    "@prismicio/next": "^2.4.0",
+    "@prismicio/react": "^3.5.1",
     "atd-icons": "^3.1.0",
     "clsx": "^2.1.1",
     "next": "16.2.6",
@@ -19,12 +24,16 @@
     "react-hook-form": "^7.76.1"
   },
   "devDependencies": {
+    "@slicemachine/adapter-next": "^0.3.100",
     "@tailwindcss/postcss": "^4",
     "@types/node": "^20",
     "@types/react": "^19",
     "@types/react-dom": "^19",
+    "concurrently": "^9.2.5",
     "eslint": "^9",
     "eslint-config-next": "16.2.6",
+    "prismic-ts-codegen": "^0.1.31",
+    "slice-machine-ui": "^2.21.6",
     "tailwindcss": "^4",
     "typescript": "^5"
   }

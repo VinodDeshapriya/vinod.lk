@@ -1,6 +1,6 @@
 # vinod.lk
 
-Personal website for Vinod — Next.js 16 + Tailwind CSS v4, following the AT Digital Next.js starter setup (without Prismic).
+Personal website for Vinod — Next.js 16 + Tailwind CSS v4 + Prismic (Slice Machine), following the AT Digital Next.js + Prismic starter setup.
 
 ## Project setup
 
@@ -11,11 +11,13 @@ Personal website for Vinod — Next.js 16 + Tailwind CSS v4, following the AT Di
 
 ## Running the project locally
 
-Run `npm run dev` to start the [project](http://localhost:1204).
+Run `npm run dev` to start the [project](http://localhost:1204) and [Slice Machine](http://localhost:1203).
 
 | Script | What it does |
 | --- | --- |
-| `npm run dev` | Dev server on port 1204 |
+| `npm run dev` | Next.js on port 1204 + Slice Machine on port 1203 |
+| `npm run next:dev` | Next.js only |
+| `npm run slicemachine` | Slice Machine only |
 | `npm run build` | Production build |
 | `npm run start` | Serve the production build on port 1204 |
 | `npm run lint` | ESLint |
@@ -37,9 +39,26 @@ src/lib/buttonTypes.ts    Button variants
 project.config.ts         Site name + base URL
 ```
 
-## Content
+## Content (Prismic)
 
-There is no CMS. Edit navigation, footer and contact details in `src/data/site.ts`; edit page content in `src/app/(pages)/**/page.tsx`. The **last** item in `mainMenu` renders as the header CTA button.
+Repository: **vinod-portfolio** (`slicemachine.config.json`).
+
+| Document type | Used for |
+| --- | --- |
+| `page` | Every page. UID `home` is `/`, any other UID is `/:uid`. Built from slices |
+| `blog` | Blog posts at `/blog/:uid`; the Blog Preview slice lists the latest ones |
+| `settings` (single) | Header button, phones, email, location, WhatsApp, social + legal links, footer text, Google rating, default SEO |
+| `main_menu` (single) | Header navigation (with optional dropdown links) |
+| `menu` (repeatable) | Footer columns, sorted by `order` |
+
+Slices (`src/slices/`), one per Figma component in the 📦 Components page:
+Hero, LogoBar, Testimonials, FeaturedProject, ServicesGrid, CallToAction, Compare, Stats, Process, Reasons, BlogPreview, Faq, RichText.
+
+**Changing a model:** run `npm run dev`, edit in Slice Machine (http://localhost:1203), then **Push** from Slice Machine. It also regenerates `prismicio-types.d.ts` and `src/slices/index.ts`.
+
+If Settings / Main Menu / Footer Menu are empty, the header and footer fall back to `src/data/site.ts`.
+
+`scripts/seed/home-content.mjs` holds the home page content in slice form (used to create the first `home` document).
 
 ## Project configuration
 

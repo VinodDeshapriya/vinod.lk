@@ -1,0 +1,49 @@
+{
+  "id": "main_menu",
+  "label": "Main Menu",
+  "format": "custom",
+  "repeatable": false,
+  "status": true,
+  "json": {
+    "Main": {
+      "links": {
+        "type": "Group",
+        "config": {
+          "label": "Links",
+          "repeat": true,
+          "fields": {
+            "link": {
+              "type": "Link",
+              "config": {
+                "label": "Link",
+                "select": null,
+                "allowText": true,
+                "allowTargetBlank": true,
+                "repeat": false
+              }
+            },
+            "sub_links": {
+              "type": "Group",
+              "config": {
+                "label": "Dropdown links",
+                "repeat": true,
+                "fields": {
+                  "link": {
+                    "type": "Link",
+                    "config": {
+                      "label": "Link",
+                      "select": null,
+                      "allowText": true,
+                      "allowTargetBlank": true,
+                      "repeat": false
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}

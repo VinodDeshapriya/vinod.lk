@@ -1,12 +1,13 @@
 import clsx from "clsx";
+import type { RichTextField } from "@prismicio/client";
+import PrismicTitle from "./PrismicTitle";
 
 interface SectionHeadingProps {
-  title: React.ReactNode;
+  title: RichTextField | null | undefined;
   intro?: React.ReactNode;
   className?: string;
   /** Use on dark backgrounds. */
   inverted?: boolean;
-  as?: "h1" | "h2";
 }
 
 /** Centred section title + intro, as used by every home page section. */
@@ -15,7 +16,6 @@ export default function SectionHeading({
   intro,
   className,
   inverted = false,
-  as: Heading = "h2",
 }: SectionHeadingProps) {
   return (
     <div
@@ -24,14 +24,13 @@ export default function SectionHeading({
         className,
       )}
     >
-      <Heading
+      <PrismicTitle
+        field={title}
         className={clsx(
           "text-title-2x-large",
           inverted ? "text-white" : "text-text-heading",
         )}
-      >
-        {title}
-      </Heading>
+      />
       {intro && (
         <p
           className={clsx(

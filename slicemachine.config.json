@@ -1,0 +1,6 @@
+{
+  "repositoryName": "vinod-portfolio",
+  "adapter": "@slicemachine/adapter-next",
+  "libraries": ["./src/slices"],
+  "localSliceSimulatorURL": "http://localhost:1204/slice-simulator"
+}

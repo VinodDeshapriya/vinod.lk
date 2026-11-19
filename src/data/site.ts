@@ -1,4 +1,7 @@
 /**
+ * FALLBACK site-wide content, used when the Prismic Settings / Main Menu /
+ * Footer Menu documents are empty. Edit those in Prismic instead.
+ *
  * Site-wide content: navigation, footer and contact details.
  * This replaces the Prismic `settings`, `main_menu` and `menu` documents
  * used in the reference setup — edit here instead of in a CMS.
@@ -23,7 +26,7 @@ export const siteSettings = {
     { label: "LinkedIn", href: "#" },
     { label: "TikTok", href: "#" },
     { label: "YouTube", href: "#" },
-  ] as { label: "Facebook" | "Instagram" | "LinkedIn" | "TikTok" | "YouTube"; href: string }[],
+  ] as { label: string; href: string }[],
 };
 
 /** Main navigation (centre of the header). */

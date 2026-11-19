@@ -1,6 +1,8 @@
 "use client";
 
 import Link from "next/link";
+import { PrismicNextLink } from "@prismicio/next";
+import { isFilled, type LinkField } from "@prismicio/client";
 
 interface ButtonWrapperProps {
   children: React.ReactNode;
@@ -9,6 +11,7 @@ interface ButtonWrapperProps {
   disabled?: boolean;
   link?: string;
   target?: string;
+  field?: LinkField | null;
   type?: "button" | "submit" | "reset";
 }
 
@@ -18,19 +21,27 @@ const ButtonWrapper = ({
   onClick,
   disabled,
   link,
+  field,
   type,
   target,
 }: ButtonWrapperProps) => {
-  if (link && typeof link === "string" && !link.startsWith("/")) {
+  if (field && isFilled.link(field)) {
+    return (
+      <PrismicNextLink field={field} className={className}>
+        {children}
+      </PrismicNextLink>
+    );
+  }
+  if (link && !link.startsWith("/")) {
     return (
       <a href={link} className={className} target={target} rel="noreferrer">
         {children}
       </a>
     );
   }
-  if (link && typeof link === "string" && link.startsWith("/")) {
+  if (link) {
     return (
-      <Link href={link} className={className} target={target} rel="noreferrer">
+      <Link href={link} className={className} target={target}>
         {children}
       </Link>
     );

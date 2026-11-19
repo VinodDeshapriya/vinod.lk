@@ -8,7 +8,7 @@ import Youtube from "atd-icons/dist/Youtube";
 import ArrowForward from "atd-icons/dist/ArrowForward";
 import ArrowUp from "atd-icons/dist/ArrowUp";
 import StyledContainer from "../StyledContainer";
-import { footerMenus, legalLinks, siteSettings } from "@/data/site";
+import type { LayoutData } from "@/lib/layoutData";
 
 const socialIcons = {
   Facebook,
@@ -21,9 +21,13 @@ const socialIcons = {
 const tel = (n: string) => `tel:${n.replace(/\s/g, "")}`;
 
 /** Figma: Home Page › Footer (19276:1800) */
-export default function StyledFooter() {
-  const { logoWhite, description, email, phones, location, social, name } =
-    siteSettings;
+export default function StyledFooter({
+  site,
+  footerMenus,
+  legalLinks,
+  footerStrap,
+}: Pick<LayoutData, "site" | "footerMenus" | "legalLinks" | "footerStrap">) {
+  const { logoWhite, description, email, phones, location, social, name } = site;
 
   return (
     <footer className="site-footer border-t border-white/6">
@@ -40,7 +44,7 @@ export default function StyledFooter() {
             <p className="text-body-base text-white/75">{description}</p>
             <ul className="flex gap-2.5">
               {social.map(({ label, href }) => {
-                const Icon = socialIcons[label];
+                const Icon = socialIcons[label as keyof typeof socialIcons] ?? Facebook;
                 return (
                   <li key={label}>
                     <a
@@ -99,13 +103,13 @@ export default function StyledFooter() {
         <div className="flex flex-col sm:flex-row gap-4 sm:items-center justify-between rounded-[20px] bg-white/5 border border-white/8 p-4 sm:py-3 sm:pl-7 sm:pr-3">
           <p className="flex items-center gap-2.5 text-body-base-bold">
             <span className="size-2 shrink-0 rounded-full bg-secondary-light" />
-            Web design across Sri Lanka, and for clients overseas
+            {footerStrap.text}
           </p>
           <Link
-            href="/contact"
+            href={footerStrap.cta.href}
             className="btn-book flex items-center justify-center gap-2 px-[18px] py-2.5 rounded-full bg-primary-light text-white text-body-small hover:bg-white hover:text-text-heading! transition-colors"
           >
-            Book a Free Call
+            {footerStrap.cta.label}
             <ArrowForward size={16} />
           </Link>
         </div>
