@@ -100,7 +100,11 @@ export async function getLayoutData() {
       title: m.data.title ?? "",
       links: m.data.links.filter((l) => isFilled.link(l.link)).map((l) => toNav(l.link)),
     }));
-  const footerMenus = prismicFooter.length ? prismicFooter : fallback.footerMenus;
+  // Columns hidden for now (their pages aren't built yet). Remove a title here to bring it back.
+  const HIDDEN_FOOTER_MENUS = ["industries"];
+  const footerMenus = (prismicFooter.length ? prismicFooter : fallback.footerMenus).filter(
+    (m) => !HIDDEN_FOOTER_MENUS.includes(m.title.trim().toLowerCase()),
+  );
 
   const legal = (s?.legal_links ?? []).filter((l) => isFilled.link(l.link)).map((l) => toNav(l.link));
   const legalLinks = legal.length ? legal : fallback.legalLinks;
