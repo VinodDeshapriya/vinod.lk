@@ -1,5 +1,12 @@
 "use client";
-import { useCallback, useEffect, useLayoutEffect, useMemo, useRef, useState } from "react";
+import {
+  useCallback,
+  useEffect,
+  useLayoutEffect,
+  useMemo,
+  useRef,
+  useState,
+} from "react";
 import Image from "next/image";
 import clsx from "clsx";
 import type { Content, ImageField, LinkField } from "@prismicio/client";
@@ -17,7 +24,10 @@ type Item = {
   summary: string;
   status: ProjectStatus | null;
   tags: string[];
-  logo: { field: ImageField } | { src: string; width: number; height: number } | null;
+  logo:
+    | { field: ImageField }
+    | { src: string; width: number; height: number }
+    | null;
   image: { field: ImageField } | { src: string } | null;
   link: { field: LinkField } | { href: string } | null;
 };
@@ -25,7 +35,10 @@ type Item = {
 /** Prismic wins field by field; the Figma fallback fills whatever is empty. */
 function toItem(p: PrismicProject): Item {
   const fb = findFallback(p.name);
-  const tags = (p.tags ?? "").split("|").map((t) => t.trim()).filter(Boolean);
+  const tags = (p.tags ?? "")
+    .split("|")
+    .map((t) => t.trim())
+    .filter(Boolean);
   const fromCms = !!p.headline;
   return {
     name: p.name || fb?.name || "",
@@ -34,8 +47,16 @@ function toItem(p: PrismicProject): Item {
     status: fromCms ? (p.is_live ? "live" : null) : (fb?.status ?? null),
     tags: tags.length ? tags : (fb?.tags ?? []),
     logo: isFilled.image(p.logo) ? { field: p.logo } : fb ? fb.logo : null,
-    image: isFilled.image(p.image) ? { field: p.image } : fb ? { src: fb.image } : null,
-    link: isFilled.link(p.link) ? { field: p.link } : fb ? { href: fb.url } : null,
+    image: isFilled.image(p.image)
+      ? { field: p.image }
+      : fb
+        ? { src: fb.image }
+        : null,
+    link: isFilled.link(p.link)
+      ? { field: p.link }
+      : fb
+        ? { href: fb.url }
+        : null,
   };
 }
 
@@ -51,15 +72,23 @@ export default function ProjectTabs({
 }) {
   const items = projects.map(toItem).filter((x) => x.name);
   const [active, setActive] = useState(0);
-  const [geo, setGeo] = useState<{ centers: number[]; width: number }>({ centers: [], width: 0 });
+  const [geo, setGeo] = useState<{ centers: number[]; width: number }>({
+    centers: [],
+    width: 0,
+  });
   const [ready, setReady] = useState(false);
   const [auto, setAuto] = useState(true); // turns off for good once the visitor picks a tab
   const [paused, setPaused] = useState(false);
   const [inView, setInView] = useState(false);
+  // Scroll mode (desktop): the section pins and scrolling steps through projects.
+  const [pin, setPin] = useState({ on: false, top: 0, h: 0, step: 0 });
 
   const rootRef = useRef<HTMLDivElement>(null);
   const scrollerRef = useRef<HTMLDivElement>(null);
   const rulerRef = useRef<HTMLDivElement>(null);
+  const trackRef = useRef<HTMLDivElement>(null);
+  const stickyRef = useRef<HTMLDivElement>(null);
+  const activeRef = useRef(0);
   const tabRefs = useRef<(HTMLButtonElement | null)[]>([]);
   const swipe = useRef<{ x: number; y: number } | null>(null);
 
@@ -68,37 +97,77 @@ export default function ProjectTabs({
   // light marks between them, continued out to both edges.
   const ruler = useMemo(() => {
     const { centers: c, width } = geo;
-    if (c.length === 0 || !width) return { marks: [] as { x: number; major: boolean }[], between: [] as number[] };
+    if (c.length === 0 || !width)
+      return {
+        marks: [] as { x: number; major: boolean }[],
+        between: [] as number[],
+      };
     const between: number[] = [];
     const marks: { x: number; major: boolean }[] = [];
-    const subdivide = (a: number, b: number) => Math.max(4, Math.round(Math.abs(b - a) / TICK));
+    const subdivide = (a: number, b: number) =>
+      Math.max(4, Math.round(Math.abs(b - a) / TICK));
     const first = c.length > 1 ? (c[1] - c[0]) / subdivide(c[0], c[1]) : TICK;
-    const last = c.length > 1 ? (c[c.length - 1] - c[c.length - 2]) / subdivide(c[c.length - 2], c[c.length - 1]) : TICK;
-    for (let x = c[0] - first; x > -1; x -= first) marks.push({ x, major: false });
+    const last =
+      c.length > 1
+        ? (c[c.length - 1] - c[c.length - 2]) /
+          subdivide(c[c.length - 2], c[c.length - 1])
+        : TICK;
+    for (let x = c[0] - first; x > -1; x -= first)
+      marks.push({ x, major: false });
     c.forEach((x, i) => {
       marks.push({ x, major: true });
       if (i < c.length - 1) {
         const n = subdivide(x, c[i + 1]);
         between.push(n);
-        for (let k = 1; k < n; k++) marks.push({ x: x + ((c[i + 1] - x) * k) / n, major: false });
+        for (let k = 1; k < n; k++)
+          marks.push({ x: x + ((c[i + 1] - x) * k) / n, major: false });
       }
     });
-    for (let x = c[c.length - 1] + last; x < width + 1; x += last) marks.push({ x, major: false });
+    for (let x = c[c.length - 1] + last; x < width + 1; x += last)
+      marks.push({ x, major: false });
     return { marks, between };
   }, [geo]);
+
+  const marksBetween = useCallback(
+    (from: number, to: number) =>
+      ruler.between
+        .slice(Math.min(from, to), Math.max(from, to))
+        .reduce((sum, n) => sum + n, 0),
+    [ruler],
+  );
+
+  /** Scroll position (px from page top) where project `i` is showing in scroll mode. */
+  const scrollFor = useCallback(
+    (i: number) => {
+      const t = trackRef.current;
+      if (!t) return 0;
+      return (
+        window.scrollY +
+        t.getBoundingClientRect().top -
+        pin.top +
+        i * pin.step +
+        2
+      );
+    },
+    [pin],
+  );
 
   const go = useCallback(
     (i: number, user = true) => {
       if (!count) return;
       const next = ((i % count) + count) % count;
+      if (pin.on) {
+        // In scroll mode a click scrolls to that project; the scroll does the rest.
+        window.scrollTo({ top: scrollFor(next), behavior: "smooth" });
+        return;
+      }
       if (user) {
         setAuto(false);
-        const [a, b] = [Math.min(active, next), Math.max(active, next)];
-        playTicks(ruler.between.slice(a, b).reduce((s, n) => s + n, 0));
+        playTicks(marksBetween(active, next));
       }
       setActive(next);
     },
-    [count, active, ruler],
+    [count, active, pin.on, scrollFor, marksBetween],
   );
 
   const measure = useCallback(() => {
@@ -106,10 +175,14 @@ export default function ProjectTabs({
     if (!r) return;
     const centers = tabRefs.current
       .slice(0, count)
-      .map((t) => (t ? Math.round(t.offsetLeft + t.offsetWidth / 2 - r.offsetLeft) : 0));
+      .map((t) =>
+        t ? Math.round(t.offsetLeft + t.offsetWidth / 2 - r.offsetLeft) : 0,
+      );
     const width = r.offsetWidth;
     setGeo((g) =>
-      g.width === width && g.centers.join() === centers.join() ? g : { centers, width },
+      g.width === width && g.centers.join() === centers.join()
+        ? g
+        : { centers, width },
     );
   }, [count]);
 
@@ -124,18 +197,99 @@ export default function ProjectTabs({
     };
   }, [measure]);
 
+  useEffect(() => {
+    activeRef.current = active;
+  }, [active]);
+
+  // Decide whether scroll mode fits: wide screen, no reduced motion, and the
+  // tabs + card fit in the window below the navbar.
+  useLayoutEffect(() => {
+    const el = stickyRef.current;
+    if (!el || count < 2) return;
+    const NAV = 84;
+    const decide = () => {
+      const h = el.offsetHeight;
+      const vh = window.innerHeight;
+      const on =
+        window.matchMedia("(min-width: 1024px)").matches &&
+        !window.matchMedia("(prefers-reduced-motion: reduce)").matches &&
+        h + NAV + 16 <= vh;
+      const top = Math.max(NAV, Math.round((vh - h) / 2 + NAV / 3));
+      const step = Math.round(Math.max(360, vh * 0.55));
+      setPin((p) =>
+        p.on === on && p.top === top && p.h === h && p.step === step
+          ? p
+          : { on, top, h, step },
+      );
+    };
+    decide();
+    const ro = new ResizeObserver(decide);
+    ro.observe(el);
+    window.addEventListener("resize", decide);
+    return () => {
+      ro.disconnect();
+      window.removeEventListener("resize", decide);
+    };
+  }, [count]);
+
+  useEffect(() => {
+    if (!pin.on) return;
+    let raf = 0;
+    const update = () => {
+      raf = 0;
+      const t = trackRef.current;
+      if (!t) return;
+      const scrolled = pin.top - t.getBoundingClientRect().top;
+      const next = Math.min(
+        count - 1,
+        Math.max(0, Math.floor(scrolled / pin.step + 0.35)),
+      );
+      if (next !== activeRef.current) {
+        playTicks(marksBetween(activeRef.current, next), 450);
+        activeRef.current = next;
+        setActive(next);
+      }
+    };
+    const onScroll = () => {
+      if (!raf) raf = requestAnimationFrame(update);
+    };
+    update();
+    window.addEventListener("scroll", onScroll, { passive: true });
+    return () => {
+      window.removeEventListener("scroll", onScroll);
+      cancelAnimationFrame(raf);
+    };
+  }, [pin, count, marksBetween]);
+
+  // Browsers only allow sound after the visitor clicks, taps or types somewhere,
+  // so unlock the tick on the first such gesture anywhere on the page.
+  useEffect(() => {
+    const unlock = () => prepareTick();
+    window.addEventListener("pointerdown", unlock, { once: true });
+    window.addEventListener("keydown", unlock, { once: true });
+    return () => {
+      window.removeEventListener("pointerdown", unlock);
+      window.removeEventListener("keydown", unlock);
+    };
+  }, []);
+
   // On small screens the tab row scrolls; keep the active tab in view.
   useEffect(() => {
     const sc = scrollerRef.current;
     const tab = tabRefs.current[active];
     if (!sc || !tab || sc.scrollWidth <= sc.clientWidth) return;
-    sc.scrollTo({ left: tab.offsetLeft - (sc.clientWidth - tab.offsetWidth) / 2, behavior: "smooth" });
+    sc.scrollTo({
+      left: tab.offsetLeft - (sc.clientWidth - tab.offsetWidth) / 2,
+      behavior: "smooth",
+    });
   }, [active]);
 
   useEffect(() => {
     const el = rootRef.current;
     if (!el) return;
-    const io = new IntersectionObserver(([e]) => setInView(e.isIntersecting), { threshold: 0.35 });
+    const io = new IntersectionObserver(([e]) => setInView(e.isIntersecting), {
+      threshold: 0.35,
+    });
     io.observe(el);
     return () => io.disconnect();
   }, []);
@@ -143,17 +297,27 @@ export default function ProjectTabs({
   // Gentle autoplay: only while on screen, never while hovered or focused,
   // and not at all for reduced-motion visitors.
   useEffect(() => {
-    if (!auto || paused || !inView || count < 2 || !autoplayMs) return;
+    if (pin.on || !auto || paused || !inView || count < 2 || !autoplayMs)
+      return;
     if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
     const t = window.setTimeout(() => go(active + 1, false), autoplayMs);
     return () => window.clearTimeout(t);
-  }, [auto, paused, inView, active, count, autoplayMs, go]);
+  }, [pin.on, auto, paused, inView, active, count, autoplayMs, go]);
 
   if (!count) return null;
 
   const onKeyDown = (e: React.KeyboardEvent) => {
     const k = e.key;
-    const next = k === "ArrowRight" ? active + 1 : k === "ArrowLeft" ? active - 1 : k === "Home" ? 0 : k === "End" ? count - 1 : null;
+    const next =
+      k === "ArrowRight"
+        ? active + 1
+        : k === "ArrowLeft"
+          ? active - 1
+          : k === "Home"
+            ? 0
+            : k === "End"
+              ? count - 1
+              : null;
     if (next === null) return;
     e.preventDefault();
     go(next);
@@ -163,105 +327,126 @@ export default function ProjectTabs({
   return (
     <div
       ref={rootRef}
-      className="w-full flex flex-col gap-6 lg:gap-8"
+      className="w-full"
       onMouseEnter={() => setPaused(true)}
       onMouseLeave={() => setPaused(false)}
       onFocusCapture={() => setPaused(true)}
       onBlurCapture={() => setPaused(false)}
     >
-      {/* Tabs + dial ruler */}
       <div
-        ref={scrollerRef}
-        className="-mx-4 md:mx-0 overflow-x-auto [scrollbar-width:none] [&::-webkit-scrollbar]:hidden"
+        ref={trackRef}
+        style={pin.on ? { height: pin.h + (count - 1) * pin.step } : undefined}
       >
-        <div className="relative w-max min-w-full px-4 md:px-0">
+        <div
+          ref={stickyRef}
+          className={clsx("flex flex-col gap-6 lg:gap-8", pin.on && "sticky")}
+          style={pin.on ? { top: pin.top } : undefined}
+        >
+          {/* Tabs + dial ruler */}
           <div
-            role="tablist"
-            aria-label="Recent projects"
-            onKeyDown={(e) => {
-              prepareTick();
-              onKeyDown(e);
-            }}
-            onPointerDown={prepareTick}
-            className="flex lg:grid gap-1 lg:gap-0"
-            style={{ gridTemplateColumns: `repeat(${count}, minmax(0, 1fr))` }}
+            ref={scrollerRef}
+            className="-mx-4 md:mx-0 overflow-x-auto [scrollbar-width:none] [&::-webkit-scrollbar]:hidden"
           >
-            {items.map((x, i) => {
-              const on = i === active;
-              return (
-                <button
-                  key={x.name + i}
-                  ref={(el) => {
-                    tabRefs.current[i] = el;
-                  }}
-                  role="tab"
-                  type="button"
-                  id={`project-tab-${i}`}
-                  aria-selected={on}
-                  aria-controls={`project-panel-${i}`}
-                  tabIndex={on ? 0 : -1}
-                  onClick={() => go(i)}
-                  className={clsx(
-                    "relative h-11 px-4 lg:px-2 whitespace-nowrap text-[17px] lg:text-lg font-semibold tracking-[-0.01em] rounded-full",
-                    "transition-colors duration-300 outline-none focus-visible:ring-2 focus-visible:ring-primary-light/50",
-                    on ? "text-text-heading" : "text-text-heading/40 hover:text-text-heading/75",
-                  )}
-                >
-                  {x.name}
-                </button>
-              );
-            })}
+            <div className="relative w-max min-w-full px-4 md:px-0">
+              <div
+                role="tablist"
+                aria-label="Recent projects"
+                onKeyDown={(e) => {
+                  prepareTick();
+                  onKeyDown(e);
+                }}
+                onPointerDown={prepareTick}
+                className="flex lg:grid gap-1 lg:gap-0"
+                style={{
+                  gridTemplateColumns: `repeat(${count}, minmax(0, 1fr))`,
+                }}
+              >
+                {items.map((x, i) => {
+                  const on = i === active;
+                  return (
+                    <button
+                      key={x.name + i}
+                      ref={(el) => {
+                        tabRefs.current[i] = el;
+                      }}
+                      role="tab"
+                      type="button"
+                      id={`project-tab-${i}`}
+                      aria-selected={on}
+                      aria-controls={`project-panel-${i}`}
+                      tabIndex={on ? 0 : -1}
+                      onClick={() => go(i)}
+                      className={clsx(
+                        "relative h-11 px-4 lg:px-2 whitespace-nowrap text-[17px] lg:text-lg font-semibold tracking-[-0.01em] rounded-full",
+                        "transition-colors duration-300 outline-none focus-visible:ring-2 focus-visible:ring-primary-light/50",
+                        on
+                          ? "text-text-heading"
+                          : "text-text-heading/40 hover:text-text-heading/75",
+                      )}
+                    >
+                      {x.name}
+                    </button>
+                  );
+                })}
+              </div>
+
+              {/* Ruler: the blue marker glides from one dark mark to the next. */}
+              <div
+                ref={rulerRef}
+                aria-hidden
+                className="relative mt-3 h-7 overflow-hidden [mask-image:linear-gradient(to_right,transparent,#000_4%,#000_96%,transparent)]"
+              >
+                {ruler.marks.map((m, i) => (
+                  <span
+                    key={i}
+                    className={clsx(
+                      "absolute bottom-0 w-px -translate-x-1/2",
+                      m.major
+                        ? "h-5 bg-text-heading/55"
+                        : "h-[11px] bg-text-inactive",
+                    )}
+                    style={{ left: `${Math.round(m.x)}px` }}
+                  />
+                ))}
+                {geo.centers.length > 0 && (
+                  <span
+                    className={clsx(
+                      "absolute bottom-0 left-0 h-7 w-0.5 -ml-px rounded-full bg-primary-light shadow-[0_0_12px_rgba(33,118,255,0.55)]",
+                      ready &&
+                        "transition-transform duration-500 motion-reduce:transition-none",
+                      EASE,
+                    )}
+                    style={{
+                      transform: `translateX(${geo.centers[active] ?? 0}px)`,
+                    }}
+                  />
+                )}
+              </div>
+            </div>
           </div>
 
-          {/* Ruler: the blue marker glides from one dark mark to the next. */}
+          {/* Card stack: every project sits in the same cell, so the height never jumps. */}
           <div
-            ref={rulerRef}
-            aria-hidden
-            className="relative mt-3 h-7 overflow-hidden [mask-image:linear-gradient(to_right,transparent,#000_4%,#000_96%,transparent)]"
+            className="grid touch-pan-y"
+            onPointerDown={(e) => {
+              if (e.pointerType === "mouse") return;
+              prepareTick();
+              swipe.current = { x: e.clientX, y: e.clientY };
+            }}
+            onPointerUp={(e) => {
+              const s = swipe.current;
+              swipe.current = null;
+              if (!s) return;
+              const dx = e.clientX - s.x;
+              if (Math.abs(dx) > 50 && Math.abs(dx) > Math.abs(e.clientY - s.y))
+                go(active + (dx < 0 ? 1 : -1));
+            }}
           >
-            {ruler.marks.map((m, i) => (
-              <span
-                key={i}
-                className={clsx(
-                  "absolute bottom-0 w-px -translate-x-1/2",
-                  m.major ? "h-5 bg-text-heading/55" : "h-[11px] bg-text-inactive",
-                )}
-                style={{ left: `${Math.round(m.x)}px` }}
-              />
+            {items.map((p, i) => (
+              <ProjectCard key={p.name + i} p={p} i={i} on={i === active} />
             ))}
-            {geo.centers.length > 0 && (
-              <span
-                className={clsx(
-                  "absolute bottom-0 left-0 h-7 w-0.5 -ml-px rounded-full bg-primary-light shadow-[0_0_12px_rgba(33,118,255,0.55)]",
-                  ready && "transition-transform duration-500 motion-reduce:transition-none",
-                  EASE,
-                )}
-                style={{ transform: `translateX(${geo.centers[active] ?? 0}px)` }}
-              />
-            )}
           </div>
         </div>
-      </div>
-
-      {/* Card stack: every project sits in the same cell, so the height never jumps. */}
-      <div
-        className="grid touch-pan-y"
-        onPointerDown={(e) => {
-          if (e.pointerType === "mouse") return;
-          prepareTick();
-          swipe.current = { x: e.clientX, y: e.clientY };
-        }}
-        onPointerUp={(e) => {
-          const s = swipe.current;
-          swipe.current = null;
-          if (!s) return;
-          const dx = e.clientX - s.x;
-          if (Math.abs(dx) > 50 && Math.abs(dx) > Math.abs(e.clientY - s.y)) go(active + (dx < 0 ? 1 : -1));
-        }}
-      >
-        {items.map((p, i) => (
-          <ProjectCard key={p.name + i} p={p} i={i} on={i === active} />
-        ))}
       </div>
     </div>
   );
@@ -296,7 +481,10 @@ function ProjectCard({ p, i, on }: { p: Item; i: number; on: boolean }) {
           {p.logo && (
             <div {...rise(80)}>
               {"field" in p.logo ? (
-                <PrismicNextImage field={p.logo.field} className="h-10 lg:h-12 w-auto" />
+                <PrismicNextImage
+                  field={p.logo.field}
+                  className="h-10 lg:h-12 w-auto"
+                />
               ) : (
                 <Image
                   src={p.logo.src}
@@ -308,16 +496,31 @@ function ProjectCard({ p, i, on }: { p: Item; i: number; on: boolean }) {
               )}
             </div>
           )}
-          <p className={clsx(rise(140).className, "text-title-base text-text-heading text-balance")} style={rise(140).style}>
+          <p
+            className={clsx(
+              rise(140).className,
+              "text-title-base text-text-heading text-balance",
+            )}
+            style={rise(140).style}
+          >
             {p.headline}
           </p>
         </div>
 
         <div className="flex flex-col gap-4">
-          <p className={clsx(rise(200).className, "text-body-small text-text-heading")} style={rise(200).style}>
+          <p
+            className={clsx(
+              rise(200).className,
+              "text-body-small text-text-heading",
+            )}
+            style={rise(200).style}
+          >
             {p.summary}
           </p>
-          <ul className={clsx(rise(260).className, "flex flex-wrap gap-1.5")} style={rise(260).style}>
+          <ul
+            className={clsx(rise(260).className, "flex flex-wrap gap-1.5")}
+            style={rise(260).style}
+          >
             {p.status === "live" && (
               <li className="flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-info-bg border border-primary-light text-xs leading-4 font-medium text-primary-light">
                 <span className="relative flex size-1.5">
@@ -351,7 +554,12 @@ function ProjectCard({ p, i, on }: { p: Item; i: number; on: boolean }) {
                   variant="Link with Arrow"
                 />
               ) : (
-                <StyledButton link={p.link.href} target="_blank" label="View the project" variant="Link with Arrow" />
+                <StyledButton
+                  link={p.link.href}
+                  target="_blank"
+                  label="View the project"
+                  variant="Link with Arrow"
+                />
               )}
             </div>
           )}
