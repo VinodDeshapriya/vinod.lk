@@ -1,7 +1,6 @@
 import type { Content } from "@prismicio/client";
 import type { SliceComponentProps } from "@prismicio/react";
 import { PrismicNextLink } from "@prismicio/next";
-import ArrowForward from "atd-icons/dist/ArrowForward";
 import StyledContainer from "@/components/ui/StyledContainer";
 import SectionHeading from "@/components/ui/SectionHeading";
 import SliceIcon from "@/components/ui/SliceIcon";
@@ -72,7 +71,7 @@ const FeatureCards = ({ slice }: FeatureCardsProps) => {
           {(c, i) => (
             <PrismicNextLink
               field={c.link}
-              className="group h-full min-h-[240px] flex flex-col gap-2.5 p-7 rounded-[24px] bg-white border border-border-primary shadow-[0_16px_24px_0_rgba(10,18,33,0.05)] hover:border-primary-light transition-colors"
+              className="group h-full flex flex-col gap-2.5 p-7 rounded-[24px] bg-white border border-border-primary shadow-[0_16px_24px_0_rgba(10,18,33,0.05)] transition-[border-color,box-shadow,transform] duration-300 hover:border-primary-light hover:-translate-y-1 hover:shadow-[0_24px_48px_-12px_rgba(20,128,247,0.22)] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-light"
             >
               <span className="flex items-start justify-between pb-8">
                 <span className="font-title font-medium text-[40px] leading-[46px] tracking-[-0.03em] text-primary-light">
@@ -82,15 +81,10 @@ const FeatureCards = ({ slice }: FeatureCardsProps) => {
                   <ArrowUpRight size={16} />
                 </span>
               </span>
-              <h3 className="text-[20px] leading-[28px] font-title font-medium tracking-[-0.01em] text-text-heading">
+              <h3 className="text-[20px] leading-[28px] font-title font-medium tracking-[-0.01em] text-text-heading transition-colors group-hover:text-primary-light">
                 {c.title}
               </h3>
               <p className="text-body-small text-text-description">{c.text}</p>
-              <span className="grow" />
-              <span className="flex items-center gap-1.5 pt-2 text-body-small font-medium text-primary-light">
-                {c.link.text || "Learn more"}
-                <ArrowForward size={14} />
-              </span>
             </PrismicNextLink>
           )}
         </Rows>
