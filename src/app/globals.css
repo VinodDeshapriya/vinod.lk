@@ -1,0 +1,26 @@
+@import "tailwindcss";
+@import "./style-variables/tokens.css";
+@import "./style-variables/typography.css";
+@import "./style-variables/buttons.css";
+@import "./style-variables/footer.css";
+
+:root {
+  --background: #ffffff;
+  --foreground: #171717;
+}
+
+@theme inline {
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --spacing-common-space: var(--spacing-space-1);
+}
+
+body {
+  background: var(--background);
+  color: var(--foreground);
+  font-family: var(--font-body);
+}
+
+h1, h2, h3, h4, h5, h6 {
+  font-family: var(--font-title);
+}

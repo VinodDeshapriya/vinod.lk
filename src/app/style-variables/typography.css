@@ -1,0 +1,111 @@
+.text-title-3x-large {
+  font-family: var(--font-title);
+  font-size: var(--font-size-7xl);
+  line-height: var(--line-height-5xl);
+  font-weight: 400;
+}
+
+.text-title-2x-large {
+  font-family: var(--font-title);
+  font-size: var(--font-size-6xl);
+  line-height: var(--line-height-4xl);
+  font-weight: 450;
+}
+
+.text-title-x-large {
+  font-family: var(--font-title);
+  font-size: var(--font-size-5xl);
+  line-height: var(--line-height-3xl);
+  font-weight: 450;
+}
+
+.text-title-large {
+  font-family: var(--font-title);
+  font-size: var(--font-size-4xl);
+  line-height: var(--line-height-2xl);
+  font-weight: 500;
+}
+
+.text-title-medium {
+  font-family: var(--font-title);
+  font-size: var(--font-size-3xl);
+  line-height: var(--line-height-xl);
+  font-weight: 500;
+}
+
+.text-title-base {
+  font-family: var(--font-title);
+  font-size: var(--font-size-2xl);
+  line-height: var(--line-height-lg);
+  font-weight: 500;
+}
+
+.text-title-base-blog {
+  font-family: var(--font-title);
+  font-size: var(--font-size-xl);
+  line-height: var(--line-height-md);
+  font-weight: 500;
+}
+
+.text-heading6 {
+  font-family: var(--font-title);
+  font-size: var(--font-size-xl);
+  line-height: var(--line-height-xl);
+  font-weight: 600;
+}
+
+.text-body-large {
+  font-family: var(--font-body);
+  font-size: var(--font-size-xl);
+  line-height: var(--line-height-xl);
+  font-weight: 400;
+}
+
+.text-body-medium {
+  font-family: var(--font-body);
+  font-size: var(--font-size-xl);
+  line-height: var(--line-height-xl);
+  font-weight: 400;
+}
+
+.text-body-base {
+  font-family: var(--font-body);
+  font-size: var(--font-size-lg);
+  line-height: var(--line-height-lg);
+  font-weight: 400;
+}
+
+.text-body-small {
+  font-family: var(--font-body);
+  font-size: var(--font-size-md);
+  line-height: var(--line-height-md);
+  font-weight: 400;
+}
+
+.text-body-x-small {
+  font-family: var(--font-body);
+  font-size: var(--font-size-sm);
+  line-height: var(--line-height-sm);
+  font-weight: 400;
+}
+
+.text-body-base-bold {
+  font-family: var(--font-body);
+  font-size: var(--font-size-lg);
+  line-height: var(--line-height-lg);
+  font-weight: 500;
+}
+
+.text-label {
+  font-family: var(--font-body);
+  font-size: var(--font-size-sm);
+  line-height: var(--line-height-sm);
+  font-weight: 500;
+}
+
+.text-caption {
+  font-family: var(--font-body);
+  font-size: var(--font-size-xs);
+  line-height: var(--line-height-xs);
+  font-weight: 400;
+}

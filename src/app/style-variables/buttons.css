@@ -1,0 +1,44 @@
+button,
+a {
+  cursor: pointer !important;
+}
+
+.btn {
+  @apply flex items-center justify-center min-w-50 text-center px-5 h-12.5 transition-all ease-linear cursor-pointer! disabled:opacity-50 whitespace-nowrap;
+}
+
+.btn-primary {
+  color: var(--color-button-primary-text-default);
+  background-color: var(--color-button-primary-default);
+  border: 1px solid var(--color-button-primary-stroke);
+  border-radius: var(--radius-button);
+}
+
+.btn-primary:hover,
+.group:hover .btn-primary {
+  color: var(--color-button-primary-text-hover);
+  background-color: var(--color-button-primary-hover);
+}
+
+.btn-secondary {
+  color: var(--color-button-secondary-text-default);
+  background-color: var(--color-button-secondary-default);
+  border: 1px solid var(--color-button-secondary-stroke);
+  border-radius: var(--radius-button);
+}
+
+.btn-secondary:hover,
+.group:hover .btn-secondary {
+  color: var(--color-button-secondary-text-hover);
+  background-color: var(--color-button-secondary-hover);
+}
+
+.btn-link {
+  color: var(--color-button-link-text-default);
+  @apply px-0 h-auto min-w-0 w-fit;
+}
+
+.btn-link:hover,
+.group:hover .btn-link {
+  color: var(--color-button-link-text-hover);
+}
