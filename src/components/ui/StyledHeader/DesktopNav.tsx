@@ -4,7 +4,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useCallback, useEffect, useId, useRef, useState } from "react";
-import ChevronDown from "atd-icons/dist/ChevronDown";
+import Chevron from "./Chevron";
 import ChevronForward from "atd-icons/dist/ChevronForward";
 import type { NavItem, NavLink } from "@/types/nav";
 import SliceIcon from "../SliceIcon";
@@ -133,7 +133,7 @@ export default function DesktopNav({ mainMenu, floating }: { mainMenu?: NavItem[
                 onClick={() => setOpen(open === i ? null : i)}
               >
                 {item.label}
-                <ChevronDown size={12} aria-hidden className={clsx("transition-[transform,color] duration-200", open === i ? "rotate-180 text-primary-light" : "text-text-inactive")} />
+                <Chevron size={14} className={clsx("-mr-0.5 transition-[transform,color] duration-200", open === i ? "rotate-180 text-primary-light" : "text-text-description")} />
                 {dot}
               </button>
               <DropPanel

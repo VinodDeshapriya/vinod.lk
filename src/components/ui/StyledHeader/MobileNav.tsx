@@ -2,7 +2,7 @@
 import clsx from "clsx";
 import Link from "next/link";
 import { useEffect, useId, useState } from "react";
-import ChevronDown from "atd-icons/dist/ChevronDown";
+import Chevron from "./Chevron";
 import type { NavItem, NavLink } from "@/types/nav";
 import type { HeaderCta } from "@/lib/layoutData";
 import SliceIcon from "../SliceIcon";
@@ -97,7 +97,7 @@ export default function MobileNav({
                     onClick={() => setExpanded(isOpen ? null : i)}
                   >
                     {item.label}
-                    <ChevronDown size={14} aria-hidden className={clsx("text-text-inactive transition-transform duration-200", isOpen && "rotate-180")} />
+                    <Chevron size={18} className={clsx("text-text-description transition-transform duration-200", isOpen && "rotate-180")} />
                   </button>
                   <div
                     id={panelId}
