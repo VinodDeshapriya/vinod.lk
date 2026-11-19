@@ -46,6 +46,6 @@ export const services: Service[] = [
     title: "AI for Business",
     description:
       "AI chatbots, automations and smart workflows that answer customers and save your team time.",
-    href: "/ai-for-business-sri-lanka",
+    href: "/ai-solutions-sri-lanka",
   },
 ];

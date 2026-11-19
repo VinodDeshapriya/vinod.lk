@@ -37,6 +37,62 @@
                       "allowTargetBlank": true,
                       "repeat": false
                     }
+                  },
+                  "description": {
+                    "type": "Text",
+                    "config": {
+                      "label": "Description",
+                      "placeholder": "Short line under the title in the dropdown card"
+                    }
+                  },
+                  "icon": {
+                    "type": "Select",
+                    "config": {
+                      "label": "Icon",
+                      "options": [
+                        "check",
+                        "eye",
+                        "trend",
+                        "layers",
+                        "shield",
+                        "clock",
+                        "smile",
+                        "target",
+                        "heart",
+                        "document",
+                        "code",
+                        "chat",
+                        "support",
+                        "alert",
+                        "calendar",
+                        "users",
+                        "key",
+                        "grid",
+                        "database",
+                        "sparkles",
+                        "form",
+                        "flow",
+                        "pen",
+                        "tag",
+                        "rocket",
+                        "refresh",
+                        "phone",
+                        "cart",
+                        "desktop",
+                        "link",
+                        "pin",
+                        "school",
+                        "briefcase"
+                      ]
+                    }
+                  },
+                  "image": {
+                    "type": "Image",
+                    "config": {
+                      "label": "Image",
+                      "constraint": {},
+                      "thumbnails": []
+                    }
                   }
                 }
               }

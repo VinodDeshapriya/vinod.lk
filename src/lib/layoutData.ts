@@ -2,6 +2,7 @@ import { asLink, isFilled, type Content, type LinkField } from "@prismicio/clien
 import { createClient } from "@/prismicio";
 import type { NavItem } from "@/types/nav";
 import * as fallback from "@/data/site";
+import { withNavDetails } from "@/data/navDetails";
 
 export type SiteData = typeof fallback.siteSettings;
 export type HeaderCta = { label: string; href: string };
@@ -54,10 +55,30 @@ export async function getLayoutData() {
       const subs = (l.sub_links ?? []).filter((x) => isFilled.link(x.link));
       return {
         ...toNav(l.link),
-        drop: subs.length ? [{ links: subs.map((x) => toNav(x.link)) }] : undefined,
+        drop: subs.length
+          ? [
+              {
+                links: subs.map((x) =>
+                  withNavDetails({
+                    ...toNav(x.link),
+                    description: x.description || undefined,
+                    icon: x.icon || undefined,
+                    image: isFilled.image(x.image)
+                      ? { src: x.image.url, alt: x.image.alt ?? undefined }
+                      : undefined,
+                  }),
+                ),
+              },
+            ]
+          : undefined,
       };
     });
-  const mainMenu: NavItem[] = prismicNav.length ? prismicNav : fallback.mainMenu;
+  const mainMenu: NavItem[] = prismicNav.length
+    ? prismicNav
+    : fallback.mainMenu.map((m) => ({
+        ...m,
+        drop: m.drop?.map((c) => ({ ...c, links: c.links?.map(withNavDetails) })),
+      }));
 
   const prismicFooter: FooterMenu[] = [...menus]
     .sort((a, b) => (a.data.order ?? 99) - (b.data.order ?? 99))

@@ -3,16 +3,12 @@ import clsx from "clsx";
 import Image from "next/image";
 import Link from "next/link";
 import { useEffect, useState } from "react";
+import { usePathname } from "next/navigation";
 import { type NavItem } from "@/types/nav";
 import { siteSettings } from "@/data/site";
 import type { HeaderCta } from "@/lib/layoutData";
-import StyledButton from "../StyledButton";
-import StyledContainer from "../StyledContainer";
-import DesktopMenu from "./DesktopMenu";
-import MobileMenu from "./MobileMenu";
-import { isBreakpoint } from "./breakpoint";
-
-export { isBreakpoint };
+import DesktopNav from "./DesktopNav";
+import MobileNav from "./MobileNav";
 
 interface StyledHeaderProps {
   mainMenu?: NavItem[];
@@ -22,19 +18,32 @@ interface StyledHeaderProps {
 /** Scroll distance after which the bar turns into the floating, frosted pill. */
 const FLOAT_AFTER = 24;
 
+export const ease = "duration-200 ease-[cubic-bezier(0.22,1,0.36,1)] motion-reduce:transition-none";
+
 /**
- * Site header. At the top of the page it is a plain full-width bar; once the
- * page scrolls it eases into a floating rounded bar with a frosted-glass
- * background (pattern from lev.com).
+ * Site header, modelled on lev.com:
+ * - desktop (lg+): 68px bar, centred menu, dropdown panels, small CTA pill;
+ * - phone and tablet: 64px bar with CTA pill and a hamburger that opens a full-screen menu;
+ * - after a little scroll the bar eases into a floating, rounded, frosted-glass pill.
  */
 const StyledHeader = ({ mainMenu, headerCta }: StyledHeaderProps) => {
-  const [floating, setFloating] = useState(false);
+  const [scrolled, setScrolled] = useState(false);
+  const [mobileOpen, setMobileOpen] = useState(false);
+  const floating = scrolled && !mobileOpen;
+
+  // Close the mobile menu when the route changes (render-time reset).
+  const pathname = usePathname();
+  const [lastPath, setLastPath] = useState(pathname);
+  if (pathname !== lastPath) {
+    setLastPath(pathname);
+    setMobileOpen(false);
+  }
 
   useEffect(() => {
     let frame = 0;
     const update = () => {
       frame = 0;
-      setFloating(window.scrollY > FLOAT_AFTER);
+      setScrolled(window.scrollY > FLOAT_AFTER);
     };
     const onScroll = () => {
       if (!frame) frame = requestAnimationFrame(update);
@@ -48,7 +57,6 @@ const StyledHeader = ({ mainMenu, headerCta }: StyledHeaderProps) => {
   }, []);
 
   const { logo } = siteSettings;
-  const ease = "duration-200 ease-[cubic-bezier(0.22,1,0.36,1)] motion-reduce:transition-none";
 
   return (
     <header className="sticky top-0 z-50">
@@ -56,7 +64,7 @@ const StyledHeader = ({ mainMenu, headerCta }: StyledHeaderProps) => {
         className={clsx(
           "relative transition-[margin,border-radius]",
           ease,
-          floating ? "mx-2 mt-1 rounded-[30px] lg:mx-3 lg:mt-2" : "mx-0 mt-0 rounded-none",
+          floating ? "mx-2 mt-1 rounded-[30px] lg:mt-1" : "mx-0 mt-0 rounded-none",
         )}
       >
         {/* Frosted-glass layer: fades in once the bar floats. */}
@@ -66,52 +74,40 @@ const StyledHeader = ({ mainMenu, headerCta }: StyledHeaderProps) => {
             "absolute inset-0 rounded-[inherit] border bg-white/75 backdrop-blur-xl backdrop-saturate-150 transition-opacity duration-150 ease-out motion-reduce:transition-none",
             floating
               ? "opacity-100 border-border-primary/70 shadow-[0_12px_40px_0_rgba(10,18,33,0.10)]"
-              : "opacity-0 border-transparent",
+              : mobileOpen
+                ? "opacity-100 border-transparent bg-white! backdrop-blur-none"
+                : "opacity-0 border-transparent",
           )}
         />
-        <div className={clsx("relative transition-[padding]", ease, floating && "lg:px-1")}>
-      <StyledContainer className="flex! items-center! justify-between!">
-        <Link href="/" className="flex items-center">
-          <Image
-            src={logo.src}
-            alt={logo.alt}
-            width={logo.width}
-            height={logo.height}
-            priority
-            className={clsx(
-              "w-auto transition-[height,margin]",
-              ease,
-              floating ? "h-9 my-[10px] lg:h-11 lg:my-[9px]" : "h-10 my-[13px] lg:h-[50px] lg:my-4",
-            )}
-          />
-        </Link>
+        <div
+          className={clsx(
+            "relative flex items-center h-16 transition-[height,padding]",
+            ease,
+            floating ? "px-4 lg:h-[60px] lg:px-4" : "px-4 md:px-10 lg:h-[68px] xl:px-20",
+          )}
+        >
+          <Link href="/" className="relative z-10 flex items-center shrink-0" aria-label={`${logo.alt} home`}>
+            <Image
+              src={logo.src}
+              alt={logo.alt}
+              width={logo.width}
+              height={logo.height}
+              priority
+              className="h-8 lg:h-9 w-auto"
+            />
+          </Link>
 
-        <DesktopMenu
-          mainMenu={mainMenu}
-          visibility={clsx({
-            hidden: true,
-            "xl:block xl:flex-1": isBreakpoint("xl"),
-            "lg:block lg:flex-1": isBreakpoint("lg"),
-          })}
-        />
+          <DesktopNav mainMenu={mainMenu} floating={floating} />
 
-        <div className="hidden lg:block">
-          <StyledButton
-            label={headerCta.label}
-            link={headerCta.href}
-            variant="Secondary"
-          />
-        </div>
-
-        <MobileMenu
-          mainMenu={mainMenu}
-          headerCta={headerCta}
-          visibility={clsx({
-            "xl:hidden": isBreakpoint("xl"),
-            "lg:hidden": isBreakpoint("lg"),
-          })}
-        />
-      </StyledContainer>
+          <div className="ml-auto flex items-center gap-2 lg:gap-5">
+            <Link
+              href={headerCta.href}
+              className="inline-flex items-center h-9 lg:h-8 px-3 lg:px-4 rounded-full bg-primary-light text-white text-[13px] leading-none font-medium whitespace-nowrap hover:bg-button-primary-hover transition-colors"
+            >
+              {headerCta.label}
+            </Link>
+            <MobileNav mainMenu={mainMenu} headerCta={headerCta} open={mobileOpen} setOpen={setMobileOpen} />
+          </div>
         </div>
       </div>
     </header>

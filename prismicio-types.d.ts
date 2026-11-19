@@ -254,6 +254,36 @@ export interface MainMenuDocumentDataLinksSubLinksItem {
 	 * - **Documentation**: https://prismic.io/docs/fields/link
 	 */
 	link: prismic.LinkField<string, string, unknown, prismic.FieldState, never>;
+	
+	/**
+	 * Description field in *Main Menu → Links → Dropdown links*
+	 *
+	 * - **Field Type**: Text
+	 * - **Placeholder**: Short line under the title in the dropdown card
+	 * - **API ID Path**: main_menu.links[].sub_links[].description
+	 * - **Documentation**: https://prismic.io/docs/fields/text
+	 */
+	description: prismic.KeyTextField;
+	
+	/**
+	 * Icon field in *Main Menu → Links → Dropdown links*
+	 *
+	 * - **Field Type**: Select
+	 * - **Placeholder**: *None*
+	 * - **API ID Path**: main_menu.links[].sub_links[].icon
+	 * - **Documentation**: https://prismic.io/docs/fields/select
+	 */
+	icon: prismic.SelectField<"check" | "eye" | "trend" | "layers" | "shield" | "clock" | "smile" | "target" | "heart" | "document" | "code" | "chat" | "support" | "alert" | "calendar" | "users" | "key" | "grid" | "database" | "sparkles" | "form" | "flow" | "pen" | "tag" | "rocket" | "refresh" | "phone" | "cart" | "desktop" | "link" | "pin" | "school" | "briefcase">;
+	
+	/**
+	 * Image field in *Main Menu → Links → Dropdown links*
+	 *
+	 * - **Field Type**: Image
+	 * - **Placeholder**: *None*
+	 * - **API ID Path**: main_menu.links[].sub_links[].image
+	 * - **Documentation**: https://prismic.io/docs/fields/image
+	 */
+	image: prismic.ImageField<never>;
 }
 
 /**
