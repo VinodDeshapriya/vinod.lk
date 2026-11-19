@@ -4,6 +4,31 @@ Newest entry first. Use the `update-progress` skill to add entries.
 
 ---
 
+## 2026-11-19 — Starter documents archived in Prismic
+
+### Source of truth
+
+Open item 1 of the entry below. Vinod archived the documents by hand in the Prismic dashboard. The MCP `archive_documents` tool only removes a document's change from a release, so it cannot archive published documents.
+
+### Content
+
+- Repository `vinod-portfolio`: 41 of the 42 starter documents are archived. That covers every `service`, `author`, `blog_categories`, `blog_tag`, `blog`, `page`, `menu` and `main_menu` document.
+- **Correction to the entry below:** only 15 of the 42 belonged to the four removed types. The rest used types that the new models keep.
+- The `home` page, `main_menu` and footer `menu` documents are gone too. Until the new ones are created, `/` has no Prismic content, and the header and footer fall back to [`site.ts`](src/data/site.ts).
+
+### Verified
+
+| Check | Expected | Actual |
+| --- | --- | --- |
+| `search_documents` (exact, no filter) | 0 starter documents left except Settings | total 1: `settings` `avbJIRIAAC0Ayx-M` |
+| `get_documents` on 7 archived ids, one per type | all `notFound` | all 7 `notFound` |
+
+### Open items
+
+1. **Settings** (`avbJIRIAAC0Ayx-M`) is still published with starter content. Its type stays, so either edit it with the vinod.lk values or archive it and create a new one.
+2. **Push models** from Slice Machine. This should no longer be blocked.
+3. Create the `home`, `main_menu` and footer `menu` documents from [`home-content.mjs`](scripts/seed/home-content.mjs).
+
 ## 2026-11-19 — Prismic + Slice Machine: home sections become slices (dev branch)
 
 ### Source of truth
