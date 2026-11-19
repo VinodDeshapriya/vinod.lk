@@ -59,13 +59,13 @@ export default function DesktopNav({ mainMenu, floating }: { mainMenu?: NavItem[
 
   return (
     <nav ref={navRef} aria-label="Main" className="hidden lg:flex absolute inset-x-0 justify-center pointer-events-none">
-      <ul className="flex items-center gap-1 pointer-events-auto" onMouseLeave={scheduleClose} onMouseEnter={cancelClose}>
+      <ul className="flex items-center gap-2 xl:gap-3 pointer-events-auto" onMouseLeave={scheduleClose} onMouseEnter={cancelClose}>
         {mainMenu.map((item, i) => {
           const links = (item.drop ?? []).flatMap((c) => c.links ?? []);
           const href = hrefOf(item);
           const active = isActive(pathname, href) || links.some((l) => isActive(pathname, hrefOf(l)));
           const pill = clsx(
-            "relative inline-flex h-8 items-center gap-1 px-2 rounded-lg text-[14px] leading-none text-text-heading transition-colors hover:bg-text-heading/5 focus-visible:outline-2 focus-visible:outline-primary-light",
+            "relative inline-flex h-8 items-center gap-1 px-3 rounded-lg text-[14px] leading-none text-text-heading transition-colors hover:bg-text-heading/5 focus-visible:outline-2 focus-visible:outline-primary-light",
             (active || open === i) && "bg-text-heading/5",
           );
           if (!links.length) {
