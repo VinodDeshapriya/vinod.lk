@@ -24,7 +24,7 @@
         "number_of_posts": {
           "type": "Number",
           "config": {
-            "label": "Number of posts (default 3)",
+            "label": "Number of posts (default 6)",
             "placeholder": ""
           }
         },
