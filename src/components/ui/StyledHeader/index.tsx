@@ -102,7 +102,7 @@ const StyledHeader = ({ mainMenu, headerCta }: StyledHeaderProps) => {
           <DesktopNav mainMenu={mainMenu} floating={floating} />
 
           <div className="ml-auto flex items-center gap-2 lg:gap-5 relative z-10">
-            <HeaderCtaButton cta={headerCta} />
+            <HeaderCtaButton cta={headerCta} className="hidden lg:inline-flex" />
             <MobileNav mainMenu={mainMenu} headerCta={headerCta} open={mobileOpen} setOpen={setMobileOpen} />
           </div>
         </div>
