@@ -21,6 +21,16 @@ export default function DesktopNav({ mainMenu, floating }: { mainMenu?: NavItem[
   const pathname = usePathname();
   const baseId = useId();
 
+  // Sliding highlight: glides between links on hover/focus (instant on first appearance).
+  const [hl, setHl] = useState<{ left: number; top: number; width: number; instant: boolean } | null>(null);
+  const [hlShown, setHlShown] = useState(false);
+  const moveHighlight = (el: HTMLElement) => {
+    const target = el.firstElementChild as HTMLElement | null;
+    if (!target) return;
+    setHl({ left: target.offsetLeft, top: target.offsetTop, width: target.offsetWidth, instant: !hlShown && open === null });
+    setHlShown(true);
+  };
+
   const cancelClose = () => {
     if (closeTimer.current) clearTimeout(closeTimer.current);
     closeTimer.current = null;
@@ -59,27 +69,61 @@ export default function DesktopNav({ mainMenu, floating }: { mainMenu?: NavItem[
 
   return (
     <nav ref={navRef} aria-label="Main" className="hidden lg:flex absolute inset-x-0 justify-center pointer-events-none">
-      <ul className="flex items-center gap-2 xl:gap-3 pointer-events-auto" onMouseLeave={scheduleClose} onMouseEnter={cancelClose}>
+      <ul
+        className="relative flex items-center gap-2 xl:gap-3 pointer-events-auto"
+        onMouseLeave={() => {
+          scheduleClose();
+          setHlShown(false);
+        }}
+        onMouseEnter={cancelClose}
+        onBlur={(e) => {
+          if (!e.currentTarget.contains(e.relatedTarget as Node)) setHlShown(false);
+        }}
+      >
+        <li
+          aria-hidden
+          className={clsx(
+            "absolute left-0 top-0 h-8 rounded-full bg-white ring-1 ring-border-primary/70 shadow-[0_1px_2px_rgba(10,18,33,0.06),0_6px_16px_-4px_rgba(10,18,33,0.12)] pointer-events-none motion-reduce:transition-none",
+            hl?.instant
+              ? "transition-opacity duration-150"
+              : "transition-[transform,width,opacity] duration-300 ease-[cubic-bezier(0.22,1,0.36,1)]",
+            hl && (hlShown || open !== null) ? "opacity-100" : "opacity-0",
+          )}
+          style={hl ? { width: hl.width, transform: `translate(${hl.left}px, ${hl.top}px)` } : undefined}
+        />
         {mainMenu.map((item, i) => {
           const links = (item.drop ?? []).flatMap((c) => c.links ?? []);
           const href = hrefOf(item);
           const active = isActive(pathname, href) || links.some((l) => isActive(pathname, hrefOf(l)));
           const pill = clsx(
-            "relative inline-flex h-8 items-center gap-1 px-3 rounded-lg text-[14px] leading-none text-text-heading transition-colors hover:bg-text-heading/5 focus-visible:outline-2 focus-visible:outline-primary-light",
-            (active || open === i) && "bg-text-heading/5",
+            "relative z-10 inline-flex h-8 items-center gap-1 px-3 rounded-full text-[14px] leading-none text-text-heading transition-colors duration-200 focus-visible:outline-2 focus-visible:outline-primary-light",
+            open === i && "text-primary-light",
+          );
+          // Small dot under the link for the current page / section.
+          const dot = active && (
+            <span aria-hidden className="absolute left-1/2 -bottom-1 size-1 -translate-x-1/2 rounded-full bg-primary-light" />
           );
           if (!links.length) {
             return (
-              <li key={i}>
+              <li key={i} onMouseEnter={(e) => moveHighlight(e.currentTarget)} onFocus={(e) => moveHighlight(e.currentTarget)}>
                 <Link href={href} target={item.target} className={pill} aria-current={isActive(pathname, href) ? "page" : undefined} onMouseEnter={() => setOpen(null)}>
                   {item.label}
+                  {dot}
                 </Link>
               </li>
             );
           }
           const panelId = `${baseId}-panel-${i}`;
           return (
-            <li key={i} onMouseEnter={() => { cancelClose(); setOpen(i); }}>
+            <li
+              key={i}
+              onMouseEnter={(e) => {
+                cancelClose();
+                moveHighlight(e.currentTarget);
+                setOpen(i);
+              }}
+              onFocus={(e) => moveHighlight(e.currentTarget)}
+            >
               <button
                 type="button"
                 data-trigger={i}
@@ -89,7 +133,8 @@ export default function DesktopNav({ mainMenu, floating }: { mainMenu?: NavItem[
                 onClick={() => setOpen(open === i ? null : i)}
               >
                 {item.label}
-                <ChevronDown size={12} aria-hidden className={clsx("text-text-inactive transition-transform duration-200", open === i && "rotate-180")} />
+                <ChevronDown size={12} aria-hidden className={clsx("transition-[transform,color] duration-200", open === i ? "rotate-180 text-primary-light" : "text-text-inactive")} />
+                {dot}
               </button>
               <DropPanel
                 id={panelId}
