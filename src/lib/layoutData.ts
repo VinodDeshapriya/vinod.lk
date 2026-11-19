@@ -2,7 +2,7 @@ import { asLink, isFilled, type Content, type LinkField } from "@prismicio/clien
 import { createClient } from "@/prismicio";
 import type { NavItem } from "@/types/nav";
 import * as fallback from "@/data/site";
-import { withNavDetails } from "@/data/navDetails";
+import { navFeatures, withNavDetails } from "@/data/navDetails";
 
 export type SiteData = typeof fallback.siteSettings;
 export type HeaderCta = { label: string; href: string };
@@ -53,8 +53,20 @@ export async function getLayoutData() {
     .filter((l) => isFilled.link(l.link))
     .map((l) => {
       const subs = (l.sub_links ?? []).filter((x) => isFilled.link(x.link));
+      const nav = toNav(l.link);
+      const feature =
+        l.feature_title && isFilled.link(l.feature_link)
+          ? {
+              title: l.feature_title,
+              href: asLink(l.feature_link) ?? "/",
+              image: isFilled.image(l.feature_image)
+                ? { src: l.feature_image.url, alt: l.feature_image.alt ?? undefined }
+                : undefined,
+            }
+          : navFeatures[typeof nav.href === "string" ? nav.href : ""];
       return {
-        ...toNav(l.link),
+        ...nav,
+        feature: subs.length ? feature : undefined,
         drop: subs.length
           ? [
               {
@@ -63,6 +75,7 @@ export async function getLayoutData() {
                     ...toNav(x.link),
                     description: x.description || undefined,
                     icon: x.icon || undefined,
+                    group: x.group || undefined,
                     image: isFilled.image(x.image)
                       ? { src: x.image.url, alt: x.image.alt ?? undefined }
                       : undefined,
@@ -77,6 +90,7 @@ export async function getLayoutData() {
     ? prismicNav
     : fallback.mainMenu.map((m) => ({
         ...m,
+        feature: m.drop ? navFeatures[typeof m.href === "string" ? m.href : ""] : undefined,
         drop: m.drop?.map((c) => ({ ...c, links: c.links?.map(withNavDetails) })),
       }));
 

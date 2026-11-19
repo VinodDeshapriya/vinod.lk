@@ -107,6 +107,17 @@ export default function DesktopNav({ mainMenu, floating }: { mainMenu?: NavItem[
   );
 }
 
+/** Groups dropdown links into columns by their `group` heading, keeping first-seen order. */
+function columnsOf(links: NavLink[]) {
+  const cols: { heading?: string; links: NavLink[] }[] = [];
+  for (const l of links) {
+    const col = cols.find((c) => c.heading === l.group);
+    if (col) col.links.push(l);
+    else cols.push({ heading: l.group, links: [l] });
+  }
+  return cols;
+}
+
 function DropPanel({
   id,
   item,
@@ -122,75 +133,74 @@ function DropPanel({
   floating: boolean;
   onNavigate: () => void;
 }) {
-  const parentHref = hrefOf(item);
+  const cols = columnsOf(links);
+  const feature = item.feature;
+  const tab = open ? 0 : -1;
   return (
     <div
       id={id}
       className={clsx(
-        "fixed inset-x-2 xl:inset-x-10 mx-auto max-w-[1360px] pt-[28px] transition-[opacity,transform,visibility] duration-200 ease-out motion-reduce:transition-none",
+        "fixed inset-x-6 xl:inset-x-[45px] mx-auto max-w-[1300px] pt-[28px] transition-[opacity,transform,visibility] duration-200 ease-out motion-reduce:transition-none",
         floating ? "top-[46px]" : "top-[50px]",
         open ? "visible opacity-100 translate-y-0" : "invisible opacity-0 -translate-y-1 pointer-events-none",
       )}
     >
-      <div className="rounded-[24px] border border-border-primary/70 bg-white/90 backdrop-blur-2xl backdrop-saturate-150 shadow-[0_24px_60px_0_rgba(10,18,33,0.14)] overflow-hidden">
-        <ul className="grid grid-cols-3 xl:grid-cols-4 gap-4 px-10 pt-10 pb-7">
-          {links.map((l, i) => (
-            <li key={i}>
-              <Link
-                href={hrefOf(l)}
-                target={l.target}
-                onClick={onNavigate}
-                tabIndex={open ? 0 : -1}
-                className="group flex flex-col h-full rounded-[18px] p-2 hover:bg-offwhite-2 focus-visible:outline-2 focus-visible:outline-primary-light transition-colors"
-              >
-                {l.image && (
-                  <span className="relative block h-[118px] rounded-[12px] overflow-hidden bg-primary-dark">
-                    <Image
-                      src={l.image.src}
-                      alt={l.image.alt ?? ""}
-                      fill
-                      sizes="320px"
-                      unoptimized={l.image.src.startsWith("http")}
-                      className="object-cover transition-transform duration-500 group-hover:scale-[1.04]"
-                    />
-                  </span>
-                )}
-                <span className="flex items-start gap-3 px-2 pt-4 pb-2">
-                  {l.icon && (
-                    <span className="mt-0.5 p-1.5 rounded-[8px] bg-info-bg text-primary-light shrink-0">
-                      <SliceIcon name={l.icon} size={16} />
-                    </span>
-                  )}
-                  <span className="flex flex-col gap-1">
-                    <span className="text-[16px] leading-6 font-medium text-text-heading group-hover:text-primary-light transition-colors">
-                      {l.label}
-                    </span>
-                    {l.description && <span className="text-[13px] leading-[19px] text-text-description">{l.description}</span>}
-                  </span>
-                </span>
-              </Link>
-            </li>
+      <div className="flex rounded-[24px] border border-border-primary/70 bg-white/90 backdrop-blur-2xl backdrop-saturate-150 shadow-[0_24px_60px_0_rgba(10,18,33,0.14)] overflow-hidden">
+        <div className={clsx("flex-1 grid gap-x-10 px-9 py-10", cols.length > 1 ? "grid-cols-2" : "grid-cols-1")}>
+          {cols.map((col, c) => (
+            <div key={c} className="flex flex-col">
+              {col.heading && <p className="mb-6 text-[15px] leading-5 text-text-inactive">{col.heading}</p>}
+              <ul className="flex flex-col gap-2">
+                {col.links.map((l, i) => (
+                  <li key={i}>
+                    <Link
+                      href={hrefOf(l)}
+                      target={l.target}
+                      onClick={onNavigate}
+                      tabIndex={tab}
+                      className="group -mx-3 flex items-start gap-4 rounded-[14px] px-3 py-3 hover:bg-offwhite-2 focus-visible:outline-2 focus-visible:outline-primary-light transition-colors"
+                    >
+                      <span className="mt-[3px] shrink-0 text-text-heading group-hover:text-primary-light transition-colors">
+                        <SliceIcon name={l.icon ?? "check"} size={22} />
+                      </span>
+                      <span className="flex flex-col gap-1">
+                        <span className="text-[17px] leading-6 font-medium text-text-heading">{l.label}</span>
+                        {l.description && <span className="text-[15px] leading-[22px] text-text-description">{l.description}</span>}
+                      </span>
+                    </Link>
+                  </li>
+                ))}
+              </ul>
+            </div>
           ))}
-        </ul>
-        {parentHref !== "#" && (
-          <div className="flex items-center justify-between px-10 py-4 border-t border-border-secondary">
+        </div>
+
+        {feature && (
+          <div className="hidden xl:flex w-[340px] shrink-0 border-l border-border-secondary p-9">
             <Link
-              href={parentHref}
+              href={feature.href}
               onClick={onNavigate}
-              tabIndex={open ? 0 : -1}
-              className="inline-flex items-center gap-1 text-[14px] text-text-heading hover:text-primary-light transition-colors"
+              tabIndex={tab}
+              className="group flex flex-col gap-5 w-full focus-visible:outline-2 focus-visible:outline-primary-light rounded-[18px]"
             >
-              All {item.label?.toLowerCase()}
-              <ChevronForward size={12} aria-hidden />
-            </Link>
-            <Link
-              href="/how-it-works"
-              onClick={onNavigate}
-              tabIndex={open ? 0 : -1}
-              className="inline-flex items-center gap-1 text-[14px] text-text-description hover:text-primary-light transition-colors"
-            >
-              How a project works
-              <ChevronForward size={12} aria-hidden />
+              {feature.image && (
+                <span className="relative block aspect-[272/170] rounded-[18px] overflow-hidden border border-border-secondary bg-offwhite-2">
+                  <Image
+                    src={feature.image.src}
+                    alt={feature.image.alt ?? ""}
+                    fill
+                    sizes="272px"
+                    unoptimized={feature.image.src.startsWith("http")}
+                    className="object-cover object-top transition-transform duration-500 group-hover:scale-[1.03]"
+                  />
+                </span>
+              )}
+              <span className="flex items-start justify-between gap-4">
+                <span className="text-[17px] leading-6 font-medium text-text-heading group-hover:text-primary-light transition-colors">
+                  {feature.title}
+                </span>
+                <ChevronForward size={14} aria-hidden className="mt-1.5 shrink-0 text-text-inactive group-hover:text-primary-light transition-colors" />
+              </span>
             </Link>
           </div>
         )}

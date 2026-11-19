@@ -93,8 +93,40 @@
                       "constraint": {},
                       "thumbnails": []
                     }
+                  },
+                  "group": {
+                    "type": "Text",
+                    "config": {
+                      "label": "Column heading",
+                      "placeholder": "Items with the same heading share a column, e.g. Design & build"
+                    }
                   }
                 }
+              }
+            },
+            "feature_title": {
+              "type": "Text",
+              "config": {
+                "label": "Dropdown feature: title",
+                "placeholder": "Right-hand card in the dropdown, e.g. Recent build: Absoliq, live in 5 weeks"
+              }
+            },
+            "feature_image": {
+              "type": "Image",
+              "config": {
+                "label": "Dropdown feature: image",
+                "constraint": {},
+                "thumbnails": []
+              }
+            },
+            "feature_link": {
+              "type": "Link",
+              "config": {
+                "label": "Dropdown feature: link",
+                "select": null,
+                "allowText": true,
+                "allowTargetBlank": true,
+                "repeat": false
               }
             }
           }

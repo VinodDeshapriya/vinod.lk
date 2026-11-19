@@ -284,6 +284,16 @@ export interface MainMenuDocumentDataLinksSubLinksItem {
 	 * - **Documentation**: https://prismic.io/docs/fields/image
 	 */
 	image: prismic.ImageField<never>;
+	
+	/**
+	 * Column heading field in *Main Menu → Links → Dropdown links*
+	 *
+	 * - **Field Type**: Text
+	 * - **Placeholder**: Items with the same heading share a column, e.g. Design & build
+	 * - **API ID Path**: main_menu.links[].sub_links[].group
+	 * - **Documentation**: https://prismic.io/docs/fields/text
+	 */
+	group: prismic.KeyTextField;
 }
 
 /**
@@ -309,6 +319,36 @@ export interface MainMenuDocumentDataLinksItem {
 	 * - **Documentation**: https://prismic.io/docs/fields/repeatable-group
 	 */
 	sub_links: prismic.NestedGroupField<Simplify<MainMenuDocumentDataLinksSubLinksItem>>;
+	
+	/**
+	 * Dropdown feature: title field in *Main Menu → Links*
+	 *
+	 * - **Field Type**: Text
+	 * - **Placeholder**: Right-hand card in the dropdown, e.g. Recent build: Absoliq, live in 5 weeks
+	 * - **API ID Path**: main_menu.links[].feature_title
+	 * - **Documentation**: https://prismic.io/docs/fields/text
+	 */
+	feature_title: prismic.KeyTextField;
+	
+	/**
+	 * Dropdown feature: image field in *Main Menu → Links*
+	 *
+	 * - **Field Type**: Image
+	 * - **Placeholder**: *None*
+	 * - **API ID Path**: main_menu.links[].feature_image
+	 * - **Documentation**: https://prismic.io/docs/fields/image
+	 */
+	feature_image: prismic.ImageField<never>;
+	
+	/**
+	 * Dropdown feature: link field in *Main Menu → Links*
+	 *
+	 * - **Field Type**: Link
+	 * - **Placeholder**: *None*
+	 * - **API ID Path**: main_menu.links[].feature_link
+	 * - **Documentation**: https://prismic.io/docs/fields/link
+	 */
+	feature_link: prismic.LinkField<string, string, unknown, prismic.FieldState, never>;
 }
 
 /**
