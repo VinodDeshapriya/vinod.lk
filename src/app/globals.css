@@ -71,3 +71,12 @@ h1, h2, h3, h4, h5, h6 {
 @media (prefers-reduced-motion: reduce) {
   .review-dialog[open], .review-dialog[open]::backdrop { animation: none; }
 }
+
+/* Process: step number swaps in */
+@keyframes step-in {
+  from { opacity: 0; transform: translateY(18px); }
+  to { opacity: 1; transform: none; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .animate-\[step-in_0\.45s_cubic-bezier\(0\.22\,1\,0\.36\,1\)\] { animation: none; }
+}
