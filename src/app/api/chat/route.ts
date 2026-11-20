@@ -2,17 +2,20 @@ import { getSiteKnowledge } from "@/lib/chat/knowledge";
 
 /**
  * Website chat assistant (src/components/layout/LiveChat.tsx).
- * Answers from the site's own Prismic content using Claude.
+ * Answers from the site's own Prismic content.
  *
- * Setup: add ANTHROPIC_API_KEY to .env.local (and to the host's environment variables).
- * Optional: ANTHROPIC_MODEL (defaults to a fast, low-cost model).
+ * Setup (add to .env.local and to the host's environment variables), either:
+ *  - GEMINI_API_KEY (Google AI Studio, aistudio.google.com/apikey). Used first when set.
+ *    Optional GEMINI_MODEL (default gemini-3.5-flash-lite).
+ *  - ANTHROPIC_API_KEY (console.anthropic.com). Optional ANTHROPIC_MODEL.
  */
 
 export const runtime = "nodejs";
 
 type Msg = { role: "user" | "assistant"; content: string };
 
-const MODEL = process.env.ANTHROPIC_MODEL || "claude-haiku-5-5";
+const CLAUDE_MODEL = process.env.ANTHROPIC_MODEL || "claude-haiku-5-5";
+const GEMINI_MODEL = process.env.GEMINI_MODEL || "gemini-3.5-flash-lite";
 const WHATSAPP = "https://wa.me/94775037738";
 
 // Simple per-IP limit: 20 messages per 10 minutes.
@@ -44,8 +47,9 @@ ${knowledge}
 </website_content>`;
 
 export async function POST(request: Request) {
-  const key = process.env.ANTHROPIC_API_KEY;
-  if (!key) {
+  const gemini = process.env.GEMINI_API_KEY;
+  const claude = process.env.ANTHROPIC_API_KEY;
+  if (!gemini && !claude) {
     return Response.json({ error: "not_configured" }, { status: 503 });
   }
 
@@ -67,45 +71,81 @@ export async function POST(request: Request) {
     )
     .slice(-12)
     .map((m) => ({ role: m.role, content: m.content.slice(0, 1500) }));
-  // Anthropic requires the conversation to start with the user.
+  // Both APIs expect the conversation to start with the user.
   while (messages.length && messages[0].role !== "user") messages.shift();
   if (!messages.length || messages.at(-1)?.role !== "user") {
     return Response.json({ error: "bad_request" }, { status: 400 });
   }
 
-  const knowledge = await getSiteKnowledge();
-  const upstream = await fetch("https://api.anthropic.com/v1/messages", {
-    method: "POST",
-    headers: {
-      "content-type": "application/json",
-      "x-api-key": key,
-      "anthropic-version": "2023-06-01",
-    },
-    body: JSON.stringify({
-      model: MODEL,
-      max_tokens: 500,
-      stream: true,
-      system: [
+  const prompt = system(await getSiteKnowledge());
+  const upstream = gemini
+    ? await fetch(
+        `https://generativelanguage.googleapis.com/v1beta/models/${GEMINI_MODEL}:streamGenerateContent?alt=sse`,
         {
-          type: "text",
-          text: system(knowledge),
-          cache_control: { type: "ephemeral" },
+          method: "POST",
+          headers: {
+            "content-type": "application/json",
+            "x-goog-api-key": gemini,
+          },
+          body: JSON.stringify({
+            systemInstruction: { parts: [{ text: prompt }] },
+            contents: messages.map((m) => ({
+              role: m.role === "assistant" ? "model" : "user",
+              parts: [{ text: m.content }],
+            })),
+            generationConfig: { maxOutputTokens: 1024, temperature: 0.4 },
+          }),
         },
-      ],
-      messages,
-    }),
-  });
+      )
+    : await fetch("https://api.anthropic.com/v1/messages", {
+        method: "POST",
+        headers: {
+          "content-type": "application/json",
+          "x-api-key": claude!,
+          "anthropic-version": "2023-06-01",
+        },
+        body: JSON.stringify({
+          model: CLAUDE_MODEL,
+          max_tokens: 500,
+          stream: true,
+          system: [
+            {
+              type: "text",
+              text: prompt,
+              cache_control: { type: "ephemeral" },
+            },
+          ],
+          messages,
+        }),
+      });
 
   if (!upstream.ok || !upstream.body) {
     console.error(
-      "[chat] Anthropic error",
+      `[chat] ${gemini ? "Gemini" : "Anthropic"} error`,
       upstream.status,
       await upstream.text().catch(() => ""),
     );
     return Response.json({ error: "upstream" }, { status: 502 });
   }
 
-  // Re-stream only the text deltas as plain text.
+  /** Pulls the new text out of one streamed event from either API. */
+  const textOf = (evt: Record<string, unknown>): string => {
+    if (gemini) {
+      const parts = (
+        evt as { candidates?: { content?: { parts?: { text?: string }[] } }[] }
+      ).candidates?.[0]?.content?.parts;
+      return parts?.map((p) => p.text ?? "").join("") ?? "";
+    }
+    const e = evt as {
+      type?: string;
+      delta?: { type?: string; text?: string };
+    };
+    return e.type === "content_block_delta" && e.delta?.type === "text_delta"
+      ? (e.delta.text ?? "")
+      : "";
+  };
+
+  // Re-stream only the text as plain text.
   const decoder = new TextDecoder();
   const encoder = new TextEncoder();
   const reader = upstream.body.getReader();
@@ -124,13 +164,8 @@ export async function POST(request: Request) {
             const data = line.slice(5).trim();
             if (!data) continue;
             try {
-              const evt = JSON.parse(data);
-              if (
-                evt.type === "content_block_delta" &&
-                evt.delta?.type === "text_delta"
-              ) {
-                controller.enqueue(encoder.encode(evt.delta.text));
-              }
+              const text = textOf(JSON.parse(data));
+              if (text) controller.enqueue(encoder.encode(text));
             } catch {
               /* ignore keep-alives */
             }
@@ -152,7 +187,8 @@ export async function POST(request: Request) {
 
 /** Development only: shows the text the assistant answers from (open /api/chat in a browser). */
 export async function GET() {
-  if (process.env.NODE_ENV !== "development") return new Response("Not found", { status: 404 });
+  if (process.env.NODE_ENV !== "development")
+    return new Response("Not found", { status: 404 });
   const text = await getSiteKnowledge();
   return new Response(`${text.length} characters\n\n${text}`, {
     headers: { "content-type": "text/plain; charset=utf-8" },
