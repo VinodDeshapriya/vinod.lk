@@ -113,8 +113,8 @@ export async function getLayoutData() {
     text: s?.footer_strap || "Web design across Sri Lanka, and for clients overseas",
     cta:
       s && isFilled.link(s.footer_cta)
-        ? { label: s.footer_cta.text || "Book a Free Call", href: asLink(s.footer_cta) ?? "/contact" }
-        : { label: "Book a Free Call", href: "/contact" },
+        ? { label: s.footer_cta.text || "Book a Free Call", href: asLink(s.footer_cta) ?? "#book-a-call" }
+        : { label: "Book a Free Call", href: "#book-a-call" },
   };
 
   return { settings, site, headerCta, mainMenu, footerMenus, legalLinks, footerStrap };

@@ -8,6 +8,7 @@ import projectConfig from "../../project.config";
 import { fontVariables } from "./fonts";
 
 import SmoothScroll from "@/components/motion/SmoothScroll";
+import BookingModal from "@/components/booking/BookingModal";
 import "./globals.css";
 
 
@@ -41,6 +42,7 @@ export default async function RootLayout({
           footerStrap={footerStrap}
         />
         <SmoothScroll />
+        <BookingModal />
         <PrismicPreview repositoryName={repositoryName} />
       </body>
     </html>
