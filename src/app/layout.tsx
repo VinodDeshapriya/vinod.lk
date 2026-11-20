@@ -9,9 +9,8 @@ import { fontVariables } from "./fonts";
 
 import SmoothScroll from "@/components/motion/SmoothScroll";
 import BookingModal from "@/components/booking/BookingModal";
+import LiveChat from "@/components/layout/LiveChat";
 import "./globals.css";
-
-
 
 export async function generateMetadata(): Promise<Metadata> {
   const { site, settings } = await getLayoutData();
@@ -27,8 +26,17 @@ export default async function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
-  const { mainMenu, headerCta, site, footerMenus, legalLinks, footerStrap } =
-    await getLayoutData();
+  const {
+    mainMenu,
+    headerCta,
+    site,
+    footerMenus,
+    legalLinks,
+    footerStrap,
+    settings,
+  } = await getLayoutData();
+  const whatsapp =
+    settings?.data.whatsapp_number?.replace(/\D/g, "") || "94775037738";
 
   return (
     <html lang="en" className={`${fontVariables} h-full antialiased`}>
@@ -43,6 +51,7 @@ export default async function RootLayout({
         />
         <SmoothScroll />
         <BookingModal />
+        <LiveChat whatsapp={whatsapp} />
         <PrismicPreview repositoryName={repositoryName} />
       </body>
     </html>
