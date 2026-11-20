@@ -180,7 +180,7 @@ export default function ProcessTimeline({ primary }: { primary: Primary }) {
             field={primary.cta_link}
             className="shrink-0 flex items-center justify-center gap-2 h-[50px] md:h-[54px] px-5 rounded-full bg-primary-light font-medium text-[16px] leading-[26px] md:text-[18px] md:leading-[30px] hover:bg-white hover:text-text-heading transition-colors"
           >
-            {primary.cta_link.text || "Book a Free Call"}
+            {primary.cta_link.text || "Get a Free Quote"}
             <ArrowForward size={16} />
           </PrismicNextLink>
         </div>
