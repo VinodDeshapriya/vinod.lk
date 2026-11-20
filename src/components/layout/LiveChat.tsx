@@ -42,9 +42,9 @@ function OnlineDot({
 }) {
   return (
     <span className={`${className || "relative"} flex size-2.5`}>
-      <span className="absolute -inset-1 rounded-full bg-[#25D366]/45 animate-ping [animation-duration:1.8s]" />
+      <span className="absolute -inset-1 rounded-full bg-[#157ff8]/45 animate-ping [animation-duration:1.8s]" />
       <span
-        className={`relative size-2.5 rounded-full bg-[#2BE477] shadow-[0_0_6px_1px_rgba(43,228,119,0.95),0_0_14px_3px_rgba(37,211,102,0.55)] ${ring}`}
+        className={`relative size-2.5 rounded-full bg-[#4da3ff] shadow-[0_0_6px_1px_rgba(77,163,255,0.95),0_0_14px_3px_rgba(21,127,248,0.6)] ${ring}`}
       />
     </span>
   );
