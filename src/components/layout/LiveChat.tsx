@@ -39,12 +39,31 @@ const waLink = (number: string, text: string) =>
 /** Renders **bold**, site paths (/contact) and full URLs in a reply as formatting and links. */
 function RichReply({ text }: { text: string }) {
   const parts = text.split(
-    /(\*\*[^*]+\*\*|https?:\/\/[^\s)]+|(?<![\w.])\/[a-z0-9][a-z0-9/-]*)/gi,
+    /(\[[^\]]+\]\([^)\s]+\)|\*\*[^*]+\*\*|https?:\/\/[^\s)]+|(?<![\w.])\/[a-z0-9][a-z0-9/-]*)/gi,
   );
   return (
     <>
       {parts.map((p, i) => {
         if (!p) return null;
+        const md = p.match(/^\[([^\]]+)\]\(([^)\s]+)\)$/);
+        if (md) {
+          const [, label, href] = md;
+          return href.startsWith("/") ? (
+            <Link key={i} href={href} className="underline text-primary-light">
+              {label}
+            </Link>
+          ) : (
+            <a
+              key={i}
+              href={href}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="underline text-primary-light"
+            >
+              {label}
+            </a>
+          );
+        }
         if (p.startsWith("**") && p.endsWith("**"))
           return <strong key={i}>{p.slice(2, -2)}</strong>;
         if (/^https?:\/\//.test(p))
