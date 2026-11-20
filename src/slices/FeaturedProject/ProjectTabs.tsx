@@ -484,7 +484,7 @@ function ProjectCard({ p, i, on }: { p: Item; i: number; on: boolean }) {
               {"field" in p.logo ? (
                 <PrismicNextImage
                   field={p.logo.field}
-                  className="h-10 lg:h-12 w-auto"
+                  className="h-7 sm:h-9 lg:h-12 w-auto"
                 />
               ) : (
                 <Image
@@ -492,7 +492,7 @@ function ProjectCard({ p, i, on }: { p: Item; i: number; on: boolean }) {
                   alt={`${p.name} logo`}
                   width={p.logo.width}
                   height={p.logo.height}
-                  className="h-10 lg:h-12 w-auto"
+                  className="h-7 sm:h-9 lg:h-12 w-auto"
                 />
               )}
             </div>
