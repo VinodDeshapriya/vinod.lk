@@ -29,7 +29,7 @@ export const fallbackProjects: FallbackProject[] = [
     status: "live",
     tags: ["Colombo, Sri Lanka", "Agency Website", "Landing Pages", "SEO-ready", "UX/UI Design", "Website Development"],
     image: `${dir}/absoliq.webp`,
-    url: "https://absoliq.com/",
+    url: "/work/absoliq",
   },
   {
     name: "Matara Bodhiya",
@@ -41,7 +41,7 @@ export const fallbackProjects: FallbackProject[] = [
     status: "live",
     tags: ["Matara, Sri Lanka", "Religious & Community", "UX/UI Design", "English & Sinhala", "Prismic CMS", "Mobile-first", "Website Development"],
     image: `${dir}/matara-bodhiya.webp`,
-    url: "https://matarabodhiya.org/en",
+    url: "/work/matara-bodhiya",
   },
   {
     name: "Enjoy Sri Lanka",
@@ -53,7 +53,7 @@ export const fallbackProjects: FallbackProject[] = [
     status: "live",
     tags: ["Nugegoda, Sri Lanka", "Inbound Tourism", "Tours & Travel Packages", "UX/UI Design", "Mobile-first", "Website Development", "English & Spanish"],
     image: `${dir}/enjoy-sri-lanka.webp`,
-    url: "https://enjoy-srilanka.com/",
+    url: "/work/enjoy-sri-lanka",
   },
   {
     name: "Janangana",
@@ -65,7 +65,7 @@ export const fallbackProjects: FallbackProject[] = [
     status: "progress",
     tags: ["Matale, Sri Lanka", "Engineering & Architecture", "Corporate Website", "UX/UI Design", "Mobile-first", "Website Development"],
     image: `${dir}/janangana.webp`,
-    url: "https://janangana.com/",
+    url: "/work/janangana",
   },
   {
     name: "Ceylon Tracks",
@@ -89,7 +89,7 @@ export const fallbackProjects: FallbackProject[] = [
     status: "live",
     tags: ["Mirissa, Sri Lanka", "Hospitality", "Boutique Hotel", "UX/UI Design", "Mobile-first", "Website Development"],
     image: `${dir}/somerset-mirissa-blue.webp`,
-    url: "https://somersetmirissablue.com/",
+    url: "/work/somerset-mirissa-blue",
   },
 ];
 

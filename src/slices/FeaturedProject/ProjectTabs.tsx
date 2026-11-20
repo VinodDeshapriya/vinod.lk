@@ -557,7 +557,7 @@ function ProjectCard({ p, i, on }: { p: Item; i: number; on: boolean }) {
               ) : (
                 <StyledButton
                   link={p.link.href}
-                  target="_blank"
+                  target={p.link.href.startsWith("http") ? "_blank" : undefined}
                   label="View the project"
                   variant="Link with Arrow"
                 />
