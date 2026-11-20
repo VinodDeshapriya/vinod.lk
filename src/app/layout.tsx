@@ -8,11 +8,9 @@ import projectConfig from "../../project.config";
 import { fontVariables } from "./fonts";
 
 import SmoothScroll from "@/components/motion/SmoothScroll";
-import RevealOnScroll from "@/components/motion/RevealOnScroll";
 import "./globals.css";
 
-/** Runs before paint: turn on scroll reveals only when motion is allowed. */
-const revealBoot = `try{if(!matchMedia("(prefers-reduced-motion: reduce)").matches)document.documentElement.classList.add("js-reveal")}catch(e){}`;
+
 
 export async function generateMetadata(): Promise<Metadata> {
   const { site, settings } = await getLayoutData();
@@ -32,10 +30,7 @@ export default async function RootLayout({
     await getLayoutData();
 
   return (
-    <html lang="en" className={`${fontVariables} h-full antialiased`} suppressHydrationWarning>
-      <head>
-        <script dangerouslySetInnerHTML={{ __html: revealBoot }} />
-      </head>
+    <html lang="en" className={`${fontVariables} h-full antialiased`}>
       <body id="top" className="min-h-full flex flex-col">
         <StyledHeader mainMenu={mainMenu} headerCta={headerCta} />
         <main className="grow">{children}</main>
@@ -46,7 +41,6 @@ export default async function RootLayout({
           footerStrap={footerStrap}
         />
         <SmoothScroll />
-        <RevealOnScroll />
         <PrismicPreview repositoryName={repositoryName} />
       </body>
     </html>

@@ -62,7 +62,7 @@ export default function BlogCarousel({ posts }: { posts: PostSummary[] }) {
     <div className="w-full flex flex-col items-center gap-6 md:gap-10">
       <ul
         ref={ref}
-        data-reveal-stagger
+        data-reveal
         aria-label="Latest articles"
         className={clsx(
           "w-[calc(100%+32px)] md:w-[calc(100%+80px)] xl:w-[calc(100%+160px)] -mx-4 md:-mx-10 xl:-mx-20",
