@@ -5,6 +5,7 @@ import { isFilled } from "@prismicio/client";
 import { createClient } from "@/prismicio";
 import { components } from "@/slices";
 import { getLayoutData } from "@/lib/layoutData";
+import { pagePath, pageSchema, pageTitle } from "@/lib/seo";
 
 type Params = { uid?: string[] };
 
@@ -24,26 +25,51 @@ export async function generateMetadata({
   const page = await getPage(uidFrom(await params));
   if (!page) return {};
   const { meta_title, meta_description, meta_image, title } = page.data;
+  const ogTitle = meta_title || title || undefined;
+  const images = isFilled.image(meta_image)
+    ? [{ url: meta_image.url }]
+    : undefined;
   return {
-    title: uidFrom(await params) === "home" ? undefined : meta_title || title,
+    title: pageTitle(page),
     description: meta_description,
-    openGraph: isFilled.image(meta_image)
-      ? { images: [{ url: meta_image.url }] }
-      : undefined,
+    alternates: { canonical: pagePath(page) },
+    openGraph: {
+      type: "website",
+      siteName: "Vinod.lk",
+      locale: "en_LK",
+      url: pagePath(page),
+      title: ogTitle,
+      description: meta_description || undefined,
+      images,
+    },
+    twitter: {
+      card: images ? "summary_large_image" : "summary",
+      title: ogTitle,
+      description: meta_description || undefined,
+      images,
+    },
   };
 }
 
 export default async function Page({ params }: { params: Promise<Params> }) {
   const page = await getPage(uidFrom(await params));
   if (!page) notFound();
-  const { settings } = await getLayoutData();
+  const { settings, site } = await getLayoutData();
 
   return (
-    <SliceZone
-      slices={page.data.slices}
-      components={components}
-      context={{ settings }}
-    />
+    <>
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{
+          __html: JSON.stringify(pageSchema(page, site)),
+        }}
+      />
+      <SliceZone
+        slices={page.data.slices}
+        components={components}
+        context={{ settings }}
+      />
+    </>
   );
 }
 

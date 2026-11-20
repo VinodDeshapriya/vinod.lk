@@ -92,6 +92,9 @@
             },
             "work_grid": {
               "type": "SharedSlice"
+            },
+            "legal_content": {
+              "type": "SharedSlice"
             }
           }
         }

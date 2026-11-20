@@ -24,6 +24,7 @@ export const components = {
   featured_project: dynamic(() => import("./FeaturedProject")),
   hero: dynamic(() => import("./Hero")),
   image_cards: dynamic(() => import("./ImageCards")),
+  legal_content: dynamic(() => import("./LegalContent")),
   logo_bar: dynamic(() => import("./LogoBar")),
   process: dynamic(() => import("./Process")),
   reasons: dynamic(() => import("./Reasons")),

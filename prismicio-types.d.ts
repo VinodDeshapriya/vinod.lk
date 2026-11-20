@@ -591,7 +591,7 @@ interface MenuDocumentData {
  */
 export type MenuDocument<Lang extends string = string> = prismic.PrismicDocumentWithUID<Simplify<MenuDocumentData>, "menu", Lang>;
 
-type PageDocumentDataSlicesSlice = HeroSlice | LogoBarSlice | TestimonialsSlice | FeaturedProjectSlice | ServicesGridSlice | CallToActionSlice | CompareSlice | StatsSlice | ProcessSlice | ReasonsSlice | BlogPreviewSlice | FaqSlice | RichTextSlice | FeatureCardsSlice | ImageCardsSlice | SplitListSlice | StoryArcSlice | ExperienceSlice | SkillsServicesSlice | StepsShowcaseSlice | ContactFormSlice | BlogIndexSlice | WorkGridSlice
+type PageDocumentDataSlicesSlice = HeroSlice | LogoBarSlice | TestimonialsSlice | FeaturedProjectSlice | ServicesGridSlice | CallToActionSlice | CompareSlice | StatsSlice | ProcessSlice | ReasonsSlice | BlogPreviewSlice | FaqSlice | RichTextSlice | FeatureCardsSlice | ImageCardsSlice | SplitListSlice | StoryArcSlice | ExperienceSlice | SkillsServicesSlice | StepsShowcaseSlice | ContactFormSlice | BlogIndexSlice | WorkGridSlice | LegalContentSlice
 
 /**
  * Content for Page documents
@@ -4163,6 +4163,84 @@ type ReasonsSliceVariation = ReasonsSliceDefault
 export type ReasonsSlice = prismic.SharedSlice<"reasons", ReasonsSliceVariation>;
 
 /**
+ * Primary content in *LegalContent → Default → Primary*
+ */
+export interface LegalContentSliceDefaultPrimary {
+	/**
+	 * Last updated field in *LegalContent → Default → Primary*
+	 *
+	 * - **Field Type**: Date
+	 * - **Placeholder**: *None*
+	 * - **API ID Path**: legal_content.default.primary.last_updated
+	 * - **Documentation**: https://prismic.io/docs/fields/date
+	 */
+	last_updated: prismic.DateField;
+
+	/**
+	 * Content field in *LegalContent → Default → Primary*
+	 *
+	 * - **Field Type**: Rich Text
+	 * - **Placeholder**: Use Heading 2 for each numbered section; they build the contents list
+	 * - **API ID Path**: legal_content.default.primary.content
+	 * - **Documentation**: https://prismic.io/docs/fields/rich-text
+	 */
+	content: prismic.RichTextField;
+
+	/**
+	 * Contact card title field in *LegalContent → Default → Primary*
+	 *
+	 * - **Field Type**: Text
+	 * - **Placeholder**: Questions about this policy?
+	 * - **API ID Path**: legal_content.default.primary.contact_title
+	 * - **Documentation**: https://prismic.io/docs/fields/text
+	 */
+	contact_title: prismic.KeyTextField;
+
+	/**
+	 * Contact card text field in *LegalContent → Default → Primary*
+	 *
+	 * - **Field Type**: Text
+	 * - **Placeholder**: *None*
+	 * - **API ID Path**: legal_content.default.primary.contact_text
+	 * - **Documentation**: https://prismic.io/docs/fields/text
+	 */
+	contact_text: prismic.KeyTextField;
+
+	/**
+	 * Contact card link field in *LegalContent → Default → Primary*
+	 *
+	 * - **Field Type**: Link
+	 * - **Placeholder**: *None*
+	 * - **API ID Path**: legal_content.default.primary.contact_link
+	 * - **Documentation**: https://prismic.io/docs/fields/link
+	 */
+	contact_link: prismic.LinkField<string, string, unknown, prismic.FieldState, never>;
+}
+
+/**
+ * Default variation for LegalContent Slice
+ *
+ * - **API ID**: `default`
+ * - **Description**: Legal page body with a contents list
+ * - **Documentation**: https://prismic.io/docs/slices
+ */
+export type LegalContentSliceDefault = prismic.SharedSliceVariation<"default", Simplify<LegalContentSliceDefaultPrimary>, never>;
+
+/**
+ * Slice variation for *LegalContent*
+ */
+type LegalContentSliceVariation = LegalContentSliceDefault
+
+/**
+ * LegalContent Shared Slice
+ *
+ * - **API ID**: `legal_content`
+ * - **Description**: Legal page body (Privacy Policy, Terms)
+ * - **Documentation**: https://prismic.io/docs/slices
+ */
+export type LegalContentSlice = prismic.SharedSlice<"legal_content", LegalContentSliceVariation>;
+
+/**
  * Primary content in *rich_text → rich_text → Primary*
  */
 export interface RichTextSliceDefaultPrimary {
@@ -5633,6 +5711,10 @@ declare module "@prismicio/client" {
 			ReasonsSliceDefaultPrimary,
 			ReasonsSliceVariation,
 			ReasonsSliceDefault,
+			LegalContentSlice,
+			LegalContentSliceDefaultPrimary,
+			LegalContentSliceVariation,
+			LegalContentSliceDefault,
 			RichTextSlice,
 			RichTextSliceDefaultPrimary,
 			RichTextSliceVariation,

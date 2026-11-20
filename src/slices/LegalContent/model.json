@@ -1,0 +1,45 @@
+{
+  "id": "legal_content",
+  "type": "SharedSlice",
+  "name": "legal_content",
+  "description": "Legal page body (Privacy Policy, Terms): last-updated date, numbered sections with a sticky contents list, and a contact card",
+  "variations": [
+    {
+      "id": "default",
+      "type": "SharedSliceVariation",
+      "name": "Default",
+      "docURL": "...",
+      "version": "initial",
+      "description": "Legal page body with a contents list",
+      "imageUrl": "",
+      "primary": {
+        "last_updated": {
+          "type": "Date",
+          "config": { "label": "Last updated", "placeholder": "" }
+        },
+        "content": {
+          "type": "StructuredText",
+          "config": {
+            "label": "Content",
+            "placeholder": "Use Heading 2 for each numbered section; they build the contents list",
+            "allowTargetBlank": true,
+            "multi": "paragraph,heading2,heading3,strong,em,hyperlink,list-item,o-list-item"
+          }
+        },
+        "contact_title": {
+          "type": "Text",
+          "config": { "label": "Contact card title", "placeholder": "Questions about this policy?" }
+        },
+        "contact_text": {
+          "type": "Text",
+          "config": { "label": "Contact card text", "placeholder": "" }
+        },
+        "contact_link": {
+          "type": "Link",
+          "config": { "label": "Contact card link", "allowTargetBlank": true, "allowText": true }
+        }
+      },
+      "items": {}
+    }
+  ]
+}
