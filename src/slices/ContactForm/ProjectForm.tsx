@@ -56,7 +56,7 @@ export default function ProjectForm({
   successMessage: string;
   privacyLink: LinkField;
 }) {
-  const [service, setService] = useState(services[0] ?? "");
+  const [service, setService] = useState("");
   const [budget, setBudget] = useState("");
   const [status, setStatus] = useState<Status>({ state: "idle" });
 
@@ -112,10 +112,30 @@ export default function ProjectForm({
         </label>
       </div>
       {services.length > 0 && (
-        <fieldset className="flex flex-col gap-2.5">
-          <legend className="mb-2.5"><Label required>What do you need?</Label></legend>
-          <Choices name="service" options={services} value={service} onChange={setService} />
-        </fieldset>
+        <label className="flex flex-col gap-2">
+          <Label required>What do you need?</Label>
+          <span className="relative">
+            <select
+              name="service"
+              required
+              value={service}
+              onChange={(e) => setService(e.target.value)}
+              className={clsx(inputClass, "appearance-none pr-11 cursor-pointer", !service && "text-text-placeholder")}
+            >
+              <option value="" disabled>
+                Choose a service
+              </option>
+              {services.map((o) => (
+                <option key={o} value={o} className="text-text-heading">
+                  {o}
+                </option>
+              ))}
+            </select>
+            <svg aria-hidden className="pointer-events-none absolute right-4 top-1/2 -translate-y-1/2 text-text-description" width="14" height="14" viewBox="0 0 14 14" fill="none">
+              <path d="M3 5.25L7 9.25L11 5.25" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round" />
+            </svg>
+          </span>
+        </label>
       )}
       {budgets.length > 0 && (
         <fieldset className="flex flex-col gap-2.5">
