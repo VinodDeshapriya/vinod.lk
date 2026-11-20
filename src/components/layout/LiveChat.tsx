@@ -1,7 +1,6 @@
 "use client";
 
 import { Fragment, useEffect, useRef, useState } from "react";
-import Image from "next/image";
 import Link from "next/link";
 import Whatsapp from "atd-icons/dist/Whatsapp";
 import ChatbubbleEllipsesFill from "atd-icons/dist/ChatbubbleEllipsesFill";
@@ -18,7 +17,7 @@ const QUICK_REPLIES = [
 ];
 
 const GREETING =
-  "Hi there 👋 I'm Vinod's assistant. Ask me anything about his services, prices or process, and I'll answer right here.";
+  "Hi there 👋 I'm the Vinod.lk AI assistant. Ask me anything about Vinod's services, prices or process, and I'll answer right away.";
 
 /** Mon–Sat, 09:00–18:00 in Sri Lanka (same hours as the booking calendar). */
 function isOnline(date = new Date()) {
@@ -31,6 +30,50 @@ function isOnline(date = new Date()) {
   const day = parts.find((p) => p.type === "weekday")?.value;
   const hour = Number(parts.find((p) => p.type === "hour")?.value);
   return day !== "Sun" && hour >= 9 && hour < 18;
+}
+
+/** Green status dot with a soft glow and a slow pulse. */
+function OnlineDot({
+  className = "",
+  ring = "",
+}: {
+  className?: string;
+  ring?: string;
+}) {
+  return (
+    <span className={`${className || "relative"} flex size-2.5`}>
+      <span className="absolute -inset-1 rounded-full bg-[#25D366]/45 animate-ping [animation-duration:1.8s]" />
+      <span
+        className={`relative size-2.5 rounded-full bg-[#2BE477] shadow-[0_0_6px_1px_rgba(43,228,119,0.95),0_0_14px_3px_rgba(37,211,102,0.55)] ${ring}`}
+      />
+    </span>
+  );
+}
+
+/** AI assistant avatar: gradient disc with a sparkle mark. */
+function BotAvatar() {
+  return (
+    <span className="relative shrink-0">
+      <span className="grid place-items-center size-11 rounded-full bg-[linear-gradient(135deg,#3b82f6_0%,#6366f1_50%,#22d3ee_100%)] shadow-[0_0_18px_-2px_rgba(99,102,241,0.7)]">
+        <svg
+          viewBox="0 0 24 24"
+          className="size-6 text-white"
+          fill="currentColor"
+          aria-hidden
+        >
+          <path d="M12 2.5c.4 3.9 1.6 6.6 6.9 7.5-5.3.9-6.5 3.6-6.9 7.5-.4-3.9-1.6-6.6-6.9-7.5 5.3-.9 6.5-3.6 6.9-7.5Z" />
+          <path
+            d="M18.5 14.5c.2 1.8.8 3 3 3.4-2.2.4-2.8 1.6-3 3.4-.2-1.8-.8-3-3-3.4 2.2-.4 2.8-1.6 3-3.4Z"
+            opacity=".85"
+          />
+        </svg>
+      </span>
+      <OnlineDot
+        className="absolute -right-0.5 -bottom-0.5"
+        ring="ring-2 ring-[#0a1733]"
+      />
+    </span>
+  );
 }
 
 const waLink = (number: string, text: string) =>
@@ -205,29 +248,15 @@ export default function LiveChat({
       {open && (
         <div
           role="dialog"
-          aria-label="Chat with Vinod's assistant"
+          aria-label="Chat with the Vinod.lk AI assistant"
           className="flex flex-col w-[min(360px,calc(100vw-2rem))] h-[min(560px,calc(100dvh-7rem))] overflow-hidden rounded-[20px] bg-white border border-border-primary shadow-[0_24px_64px_-12px_rgba(10,18,33,0.28)] animate-[booking-in_0.25s_cubic-bezier(0.22,1,0.36,1)] origin-bottom-right"
         >
           <div className="flex items-center gap-3 p-4 text-white bg-[linear-gradient(140deg,#080d1a_0%,#0a1733_55%,#0f4da8_100%)]">
-            <span className="relative shrink-0">
-              <Image
-                src="/images/pages/photos/about-portrait.jpg"
-                alt="Vinod Deshapriya"
-                width={44}
-                height={44}
-                className="size-11 rounded-full object-cover object-top"
-              />
-              <span
-                className={`absolute -right-0.5 -bottom-0.5 size-3 rounded-full ring-2 ring-[#0a1733] ${online ? "bg-[#25D366]" : "bg-white/40"}`}
-              />
-            </span>
+            <BotAvatar />
             <div className="flex-1 min-w-0">
-              <p className="text-body-base-bold">Vinod&apos;s assistant</p>
-              <p className="text-[13px] leading-5 text-white/70">
-                Instant answers ·{" "}
-                {online
-                  ? "Vinod is online"
-                  : "Vinod replies within a working day"}
+              <p className="text-body-base-bold">AI Assistant</p>
+              <p className="flex items-center gap-1.5 text-[13px] leading-5 text-white/75">
+                Online · replies instantly, 24/7
               </p>
             </div>
             <button
@@ -304,6 +333,11 @@ export default function LiveChat({
           >
             <Whatsapp size={16} />
             Talk to Vinod on WhatsApp
+            {online && (
+              <span className="font-normal text-text-inactive">
+                · online now
+              </span>
+            )}
           </a>
           <form
             onSubmit={(e) => {
@@ -341,14 +375,7 @@ export default function LiveChat({
 
       <div className="flex items-center gap-1.5 p-1.5 pl-4 rounded-full bg-[#0a1221]/90 backdrop-blur-md border border-white/10 shadow-[0_12px_32px_-8px_rgba(10,18,33,0.45)]">
         <span className="flex items-center gap-2 pr-1 text-[14px] leading-5 text-white">
-          <span className="relative flex size-2">
-            {online && (
-              <span className="absolute inset-0 rounded-full bg-[#25D366] animate-ping opacity-60" />
-            )}
-            <span
-              className={`relative size-2 rounded-full ${online ? "bg-[#25D366]" : "bg-white/60"}`}
-            />
-          </span>
+          <OnlineDot />
           Live chat
         </span>
         <a
