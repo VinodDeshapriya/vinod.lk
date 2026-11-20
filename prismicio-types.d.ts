@@ -244,11 +244,11 @@ export type BlogDocument<Lang extends string = string> = prismic.PrismicDocument
 type CaseStudyDocumentDataSlicesSlice = CaseHeroSlice | CaseFactsSlice | CaseAboutSlice | CaseChallengeSlice | CaseApproachSlice | CaseDeviceViewerSlice | CaseHighlightsSlice | CaseBuiltSlice | WorkGridSlice | CallToActionSlice | RichTextSlice
 
 /**
- * Content for Case Study documents
+ * Content for Works documents
  */
 interface CaseStudyDocumentData {
 	/**
-	 * Project name field in *Case Study*
+	 * Project name field in *Works*
 	 *
 	 * - **Field Type**: Text
 	 * - **Placeholder**: Absoliq
@@ -259,7 +259,7 @@ interface CaseStudyDocumentData {
 	name: prismic.KeyTextField;
 	
 	/**
-	 * Card summary field in *Case Study*
+	 * Card summary field in *Works*
 	 *
 	 * - **Field Type**: Text
 	 * - **Placeholder**: *None*
@@ -270,7 +270,7 @@ interface CaseStudyDocumentData {
 	summary: prismic.KeyTextField;
 	
 	/**
-	 * Category field in *Case Study*
+	 * Category field in *Works*
 	 *
 	 * - **Field Type**: Text
 	 * - **Placeholder**: Websites
@@ -281,7 +281,7 @@ interface CaseStudyDocumentData {
 	category: prismic.KeyTextField;
 	
 	/**
-	 * Status field in *Case Study*
+	 * Status field in *Works*
 	 *
 	 * - **Field Type**: Select
 	 * - **Placeholder**: *None*
@@ -293,7 +293,7 @@ interface CaseStudyDocumentData {
 	status: prismic.SelectField<"Live" | "Design complete", "filled">;
 	
 	/**
-	 * Live site field in *Case Study*
+	 * Live site field in *Works*
 	 *
 	 * - **Field Type**: Link
 	 * - **Placeholder**: *None*
@@ -304,7 +304,7 @@ interface CaseStudyDocumentData {
 	live_url: prismic.LinkField<string, string, unknown, prismic.FieldState, never>;
 	
 	/**
-	 * Card thumbnail field in *Case Study*
+	 * Card thumbnail field in *Works*
 	 *
 	 * - **Field Type**: Image
 	 * - **Placeholder**: *None*
@@ -315,7 +315,7 @@ interface CaseStudyDocumentData {
 	thumbnail: prismic.ImageField<never>;
 	
 	/**
-	 * Order on the Work page (1 = first) field in *Case Study*
+	 * Order on the Work page (1 = first) field in *Works*
 	 *
 	 * - **Field Type**: Number
 	 * - **Placeholder**: 1
@@ -326,7 +326,7 @@ interface CaseStudyDocumentData {
 	order: prismic.NumberField;
 	
 	/**
-	 * Slice Zone field in *Case Study*
+	 * Slice Zone field in *Works*
 	 *
 	 * - **Field Type**: Slice Zone
 	 * - **Placeholder**: *None*
@@ -335,7 +335,7 @@ interface CaseStudyDocumentData {
 	 * - **Documentation**: https://prismic.io/docs/slices
 	 */
 	slices: prismic.SliceZone<CaseStudyDocumentDataSlicesSlice>;/**
-	 * Meta title field in *Case Study*
+	 * Meta title field in *Works*
 	 *
 	 * - **Field Type**: Text
 	 * - **Placeholder**: *None*
@@ -346,7 +346,7 @@ interface CaseStudyDocumentData {
 	meta_title: prismic.KeyTextField;
 	
 	/**
-	 * Meta description field in *Case Study*
+	 * Meta description field in *Works*
 	 *
 	 * - **Field Type**: Text
 	 * - **Placeholder**: *None*
@@ -357,7 +357,7 @@ interface CaseStudyDocumentData {
 	meta_description: prismic.KeyTextField;
 	
 	/**
-	 * Keywords (comma-separated) field in *Case Study*
+	 * Keywords (comma-separated) field in *Works*
 	 *
 	 * - **Field Type**: Text
 	 * - **Placeholder**: *None*
@@ -368,7 +368,7 @@ interface CaseStudyDocumentData {
 	meta_keywords: prismic.KeyTextField;
 	
 	/**
-	 * Meta image field in *Case Study*
+	 * Meta image field in *Works*
 	 *
 	 * - **Field Type**: Image
 	 * - **Placeholder**: *None*
@@ -380,7 +380,7 @@ interface CaseStudyDocumentData {
 }
 
 /**
- * Case Study document from Prismic
+ * Works document from Prismic
  *
  * - **API ID**: `case_study`
  * - **Repeatable**: `true`
