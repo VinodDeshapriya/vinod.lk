@@ -40,7 +40,7 @@ export const mainMenu: NavItem[] = [
       },
     ],
   },
-  { href: "/#work", label: "Work" },
+  { href: "/work", label: "Work" },
   { href: "/how-it-works", label: "How It Works" },
   { href: "/about", label: "About" },
   { href: "/blog", label: "Blog" },
@@ -59,7 +59,6 @@ export const footerMenus: { title: string; links: NavItem[] }[] = [
     links: [
       { href: "/about", label: "About" },
       { href: "/work", label: "Work" },
-      { href: "/pricing", label: "Pricing" },
       { href: "/blog", label: "Blog" },
       { href: "/contact", label: "Contact" },
     ],

@@ -69,7 +69,7 @@ export function withNavDetails(link: NavLink): NavLink {
 export const navFeatures: Record<string, NavFeature> = {
   "/services": {
     title: "Recent build: Absoliq, live in about 5 weeks.",
-    href: "/#work",
+    href: "/work/absoliq",
     image: { src: "/images/home/project-absoliq.png", alt: "Absoliq website" },
   },
 };
