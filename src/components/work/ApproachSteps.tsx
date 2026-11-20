@@ -1,14 +1,13 @@
 "use client";
 import { useEffect, useRef, useState } from "react";
 import clsx from "clsx";
-import { smoothScrollTo } from "@/components/motion/scrollTo";
 
 const pad = (n: number) => String(n).padStart(2, "0");
 
 /**
  * "Our approach": the left column stays pinned while the steps scroll past.
  * It holds a rolling step counter (odometer, as on awmedia.marketing), a
- * progress bar and a clickable index of the steps. On the right, a timeline
+ * progress bar. On the right, a timeline
  * line fills as you scroll and the card in the middle of the screen lights up.
  */
 export default function ApproachSteps({
@@ -55,13 +54,6 @@ export default function ApproachSteps({
     };
   }, []);
 
-  const goTo = (i: number) => {
-    const el = refs.current[i];
-    if (!el) return;
-    const r = el.getBoundingClientRect();
-    smoothScrollTo(window.scrollY + r.top - window.innerHeight / 2 + Math.min(r.height / 2, 80));
-  };
-
   return (
     <div className="flex flex-col lg:flex-row gap-10 lg:gap-20">
       <div className="lg:w-[400px] shrink-0">
@@ -99,32 +91,6 @@ export default function ApproachSteps({
             </div>
           </div>
 
-          {/* Step index: shows where you are and jumps to any step */}
-          <ul className="hidden lg:flex flex-col gap-1 -ml-3">
-            {steps.map((s, i) => (
-              <li key={s.title}>
-                <button
-                  type="button"
-                  onClick={() => goTo(i)}
-                  aria-current={i === active ? "step" : undefined}
-                  className={clsx(
-                    "group flex w-full items-center gap-3 rounded-full px-3 py-1.5 text-left text-[15px] leading-[22px] transition-colors duration-300 cursor-pointer",
-                    i === active ? "text-white bg-white/[0.07]" : "text-white/45 hover:text-white/80",
-                  )}
-                >
-                  <span
-                    className={clsx(
-                      "text-[12px] font-medium tracking-[0.1em] tabular-nums transition-colors",
-                      i === active ? "text-secondary-light" : "text-white/35",
-                    )}
-                  >
-                    {pad(i + 1)}
-                  </span>
-                  {s.title}
-                </button>
-              </li>
-            ))}
-          </ul>
         </div>
       </div>
 
