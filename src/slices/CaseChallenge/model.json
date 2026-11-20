@@ -1,0 +1,58 @@
+{
+  "id": "case_challenge",
+  "type": "SharedSlice",
+  "name": "case_challenge",
+  "description": "Numbered 2x2 cards (The challenge)",
+  "variations": [
+    {
+      "id": "default",
+      "type": "SharedSliceVariation",
+      "name": "case_challenge",
+      "docURL": "...",
+      "version": "initial",
+      "description": "Title and intro, then large numbered cards",
+      "imageUrl": "",
+      "primary": {
+        "title": {
+          "type": "StructuredText",
+          "config": {
+            "label": "Title",
+            "allowTargetBlank": true,
+            "single": "heading2,em"
+          }
+        },
+        "intro": {
+          "type": "Text",
+          "config": {
+            "label": "Intro",
+            "placeholder": ""
+          }
+        },
+        "items": {
+          "type": "Group",
+          "config": {
+            "label": "Items",
+            "repeat": true,
+            "fields": {
+              "title": {
+                "type": "Text",
+                "config": {
+                  "label": "Title",
+                  "placeholder": ""
+                }
+              },
+              "text": {
+                "type": "Text",
+                "config": {
+                  "label": "Text",
+                  "placeholder": ""
+                }
+              }
+            }
+          }
+        }
+      },
+      "items": {}
+    }
+  ]
+}

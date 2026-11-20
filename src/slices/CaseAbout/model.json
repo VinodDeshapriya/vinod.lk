@@ -1,0 +1,36 @@
+{
+  "id": "case_about",
+  "type": "SharedSlice",
+  "name": "case_about",
+  "description": "Heading on the left, paragraphs on the right (About the client)",
+  "variations": [
+    {
+      "id": "default",
+      "type": "SharedSliceVariation",
+      "name": "case_about",
+      "docURL": "...",
+      "version": "initial",
+      "description": "Two-column text block",
+      "imageUrl": "",
+      "primary": {
+        "title": {
+          "type": "StructuredText",
+          "config": {
+            "label": "Title",
+            "allowTargetBlank": true,
+            "single": "heading2,em"
+          }
+        },
+        "text": {
+          "type": "StructuredText",
+          "config": {
+            "label": "Text",
+            "allowTargetBlank": true,
+            "multi": "paragraph,strong,em,hyperlink"
+          }
+        }
+      },
+      "items": {}
+    }
+  ]
+}

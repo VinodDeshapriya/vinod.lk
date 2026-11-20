@@ -11,9 +11,12 @@ const pad = (n: number) => String(n).padStart(2, "0");
  * line fills as you scroll and the card in the middle of the screen lights up.
  */
 export default function ApproachSteps({
+  heading,
   intro,
   steps,
 }: {
+  /** Section heading; defaults to "Our approach." */
+  heading?: React.ReactNode;
   intro: string;
   steps: { title: string; text: string }[];
 }) {
@@ -58,9 +61,11 @@ export default function ApproachSteps({
     <div className="flex flex-col lg:flex-row gap-10 lg:gap-20">
       <div className="lg:w-[400px] shrink-0">
         <div className="lg:sticky lg:top-28 flex flex-col gap-6">
-          <h2 className="text-title-2x-large text-white">
-            Our <span className="italic text-secondary-light">approach.</span>
-          </h2>
+          {heading ?? (
+            <h2 className="text-title-2x-large text-white">
+              Our <span className="italic text-secondary-light">approach.</span>
+            </h2>
+          )}
           <p className="text-body-base text-white/65 max-w-[400px]">{intro}</p>
 
           <div className="hidden lg:flex flex-col gap-6 pt-4" aria-hidden>

@@ -1,18 +1,40 @@
 import type { Metadata } from "next";
+import { SliceZone } from "@prismicio/react";
+import { asImageSrc } from "@prismicio/client";
+import { createClient } from "@/prismicio";
+import { components } from "@/slices";
+import { getLayoutData } from "@/lib/layoutData";
 import StyledContainer from "@/components/ui/StyledContainer";
-import { caseStudies } from "@/data/caseStudies";
+import { caseStudies, toCard } from "@/data/caseStudies";
 import ProjectCard from "@/components/work/ProjectCard";
 import CaseStudyCta from "@/components/work/CaseStudyCta";
 
-export const metadata: Metadata = {
-  title: "Work: Website Design Case Studies",
-  description:
-    "Website design and build case studies from vinod.lk: consultancies, hotels, tour companies, temples and engineering firms across Sri Lanka.",
-  alternates: { canonical: "/work" },
-};
+/** The Work page is the Prismic page "work"; the local version shows until it exists. */
+const getPage = () =>
+  createClient()
+    .getByUID("page", "work")
+    .catch(() => null);
 
-/** Work index: every case study as a card. */
-export default function WorkPage() {
+export async function generateMetadata(): Promise<Metadata> {
+  const page = await getPage();
+  const image = page ? asImageSrc(page.data.meta_image) : null;
+  return {
+    title: page?.data.meta_title || "Work: Website Design Case Studies",
+    description:
+      page?.data.meta_description ||
+      "Website design and build case studies from vinod.lk: consultancies, hotels, tour companies, temples and engineering firms across Sri Lanka.",
+    alternates: { canonical: "/work" },
+    openGraph: image ? { images: [{ url: image }] } : undefined,
+  };
+}
+
+export default async function WorkPage() {
+  const page = await getPage();
+  if (page) {
+    const { settings } = await getLayoutData();
+    return <SliceZone slices={page.data.slices} components={components} context={{ settings }} />;
+  }
+
   return (
     <>
       <StyledContainer slice={{ primary: { top_padding: "Half", bottom_padding: "Full" } }} className="flex flex-col gap-12 md:gap-16">
@@ -30,7 +52,7 @@ export default function WorkPage() {
         <ul data-reveal-stagger className="grid sm:grid-cols-2 lg:grid-cols-3 gap-5">
           {caseStudies.map((c) => (
             <li key={c.slug}>
-              <ProjectCard c={c} headingLevel="h2" />
+              <ProjectCard c={toCard(c)} headingLevel="h2" />
             </li>
           ))}
         </ul>

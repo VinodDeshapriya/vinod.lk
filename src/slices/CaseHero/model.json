@@ -1,0 +1,81 @@
+{
+  "id": "case_hero",
+  "type": "SharedSlice",
+  "name": "case_hero",
+  "description": "Case study hero: breadcrumb, title, tags, buttons and a laptop + phone mockup",
+  "variations": [
+    {
+      "id": "default",
+      "type": "SharedSliceVariation",
+      "name": "case_hero",
+      "docURL": "...",
+      "version": "initial",
+      "description": "Breadcrumb (from the document name), status pill (from the document), tags, buttons, browser and phone mockups",
+      "imageUrl": "",
+      "primary": {
+        "title": {
+          "type": "StructuredText",
+          "config": {
+            "label": "Title",
+            "allowTargetBlank": true,
+            "single": "heading1,em"
+          }
+        },
+        "intro": {
+          "type": "Text",
+          "config": {
+            "label": "Intro",
+            "placeholder": ""
+          }
+        },
+        "tags": {
+          "type": "Text",
+          "config": {
+            "label": "Tags (separate with |)",
+            "placeholder": "Next.js | Prismic | UX"
+          }
+        },
+        "buttons": {
+          "type": "Group",
+          "config": {
+            "label": "Buttons",
+            "repeat": true,
+            "fields": {
+              "link": {
+                "type": "Link",
+                "config": {
+                  "label": "Link",
+                  "select": null,
+                  "allowTargetBlank": true,
+                  "allowText": true,
+                  "repeat": false,
+                  "variants": [
+                    "Primary",
+                    "Secondary"
+                  ]
+                }
+              }
+            }
+          }
+        },
+        "desktop_image": {
+          "type": "Image",
+          "config": {
+            "label": "Desktop screenshot",
+            "constraint": {},
+            "thumbnails": []
+          }
+        },
+        "mobile_image": {
+          "type": "Image",
+          "config": {
+            "label": "Mobile screenshot",
+            "constraint": {},
+            "thumbnails": []
+          }
+        }
+      },
+      "items": {}
+    }
+  ]
+}

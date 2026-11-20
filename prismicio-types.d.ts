@@ -241,6 +241,155 @@ interface BlogDocumentData {
  */
 export type BlogDocument<Lang extends string = string> = prismic.PrismicDocumentWithUID<Simplify<BlogDocumentData>, "blog", Lang>;
 
+type CaseStudyDocumentDataSlicesSlice = CaseHeroSlice | CaseFactsSlice | CaseAboutSlice | CaseChallengeSlice | CaseApproachSlice | CaseDeviceViewerSlice | CaseHighlightsSlice | CaseBuiltSlice | WorkGridSlice | CallToActionSlice | RichTextSlice
+
+/**
+ * Content for Case Study documents
+ */
+interface CaseStudyDocumentData {
+	/**
+	 * Project name field in *Case Study*
+	 *
+	 * - **Field Type**: Text
+	 * - **Placeholder**: Absoliq
+	 * - **API ID Path**: case_study.name
+	 * - **Tab**: Main
+	 * - **Documentation**: https://prismic.io/docs/fields/text
+	 */
+	name: prismic.KeyTextField;
+	
+	/**
+	 * Card summary field in *Case Study*
+	 *
+	 * - **Field Type**: Text
+	 * - **Placeholder**: *None*
+	 * - **API ID Path**: case_study.summary
+	 * - **Tab**: Main
+	 * - **Documentation**: https://prismic.io/docs/fields/text
+	 */
+	summary: prismic.KeyTextField;
+	
+	/**
+	 * Category field in *Case Study*
+	 *
+	 * - **Field Type**: Text
+	 * - **Placeholder**: Websites
+	 * - **API ID Path**: case_study.category
+	 * - **Tab**: Main
+	 * - **Documentation**: https://prismic.io/docs/fields/text
+	 */
+	category: prismic.KeyTextField;
+	
+	/**
+	 * Status field in *Case Study*
+	 *
+	 * - **Field Type**: Select
+	 * - **Placeholder**: *None*
+	 * - **Default Value**: Live
+	 * - **API ID Path**: case_study.status
+	 * - **Tab**: Main
+	 * - **Documentation**: https://prismic.io/docs/fields/select
+	 */
+	status: prismic.SelectField<"Live" | "Design complete", "filled">;
+	
+	/**
+	 * Live site field in *Case Study*
+	 *
+	 * - **Field Type**: Link
+	 * - **Placeholder**: *None*
+	 * - **API ID Path**: case_study.live_url
+	 * - **Tab**: Main
+	 * - **Documentation**: https://prismic.io/docs/fields/link
+	 */
+	live_url: prismic.LinkField<string, string, unknown, prismic.FieldState, never>;
+	
+	/**
+	 * Card thumbnail field in *Case Study*
+	 *
+	 * - **Field Type**: Image
+	 * - **Placeholder**: *None*
+	 * - **API ID Path**: case_study.thumbnail
+	 * - **Tab**: Main
+	 * - **Documentation**: https://prismic.io/docs/fields/image
+	 */
+	thumbnail: prismic.ImageField<never>;
+	
+	/**
+	 * Order on the Work page (1 = first) field in *Case Study*
+	 *
+	 * - **Field Type**: Number
+	 * - **Placeholder**: 1
+	 * - **API ID Path**: case_study.order
+	 * - **Tab**: Main
+	 * - **Documentation**: https://prismic.io/docs/fields/number
+	 */
+	order: prismic.NumberField;
+	
+	/**
+	 * Slice Zone field in *Case Study*
+	 *
+	 * - **Field Type**: Slice Zone
+	 * - **Placeholder**: *None*
+	 * - **API ID Path**: case_study.slices[]
+	 * - **Tab**: Main
+	 * - **Documentation**: https://prismic.io/docs/slices
+	 */
+	slices: prismic.SliceZone<CaseStudyDocumentDataSlicesSlice>;/**
+	 * Meta title field in *Case Study*
+	 *
+	 * - **Field Type**: Text
+	 * - **Placeholder**: *None*
+	 * - **API ID Path**: case_study.meta_title
+	 * - **Tab**: SEO & Metadata
+	 * - **Documentation**: https://prismic.io/docs/fields/text
+	 */
+	meta_title: prismic.KeyTextField;
+	
+	/**
+	 * Meta description field in *Case Study*
+	 *
+	 * - **Field Type**: Text
+	 * - **Placeholder**: *None*
+	 * - **API ID Path**: case_study.meta_description
+	 * - **Tab**: SEO & Metadata
+	 * - **Documentation**: https://prismic.io/docs/fields/text
+	 */
+	meta_description: prismic.KeyTextField;
+	
+	/**
+	 * Keywords (comma-separated) field in *Case Study*
+	 *
+	 * - **Field Type**: Text
+	 * - **Placeholder**: *None*
+	 * - **API ID Path**: case_study.meta_keywords
+	 * - **Tab**: SEO & Metadata
+	 * - **Documentation**: https://prismic.io/docs/fields/text
+	 */
+	meta_keywords: prismic.KeyTextField;
+	
+	/**
+	 * Meta image field in *Case Study*
+	 *
+	 * - **Field Type**: Image
+	 * - **Placeholder**: *None*
+	 * - **API ID Path**: case_study.meta_image
+	 * - **Tab**: SEO & Metadata
+	 * - **Documentation**: https://prismic.io/docs/fields/image
+	 */
+	meta_image: prismic.ImageField<never>;
+}
+
+/**
+ * Case Study document from Prismic
+ *
+ * - **API ID**: `case_study`
+ * - **Repeatable**: `true`
+ * - **Documentation**: https://prismic.io/docs/content-modeling
+ *
+ * @typeParam Lang - Language API ID of the document.
+ */
+export type CaseStudyDocument<Lang extends string = string> = prismic.PrismicDocumentWithUID<Simplify<CaseStudyDocumentData>, "case_study", Lang>;
+
 /**
  * Item in *Main Menu → Links → Dropdown links*
  */
@@ -442,7 +591,7 @@ interface MenuDocumentData {
  */
 export type MenuDocument<Lang extends string = string> = prismic.PrismicDocumentWithUID<Simplify<MenuDocumentData>, "menu", Lang>;
 
-type PageDocumentDataSlicesSlice = HeroSlice | LogoBarSlice | TestimonialsSlice | FeaturedProjectSlice | ServicesGridSlice | CallToActionSlice | CompareSlice | StatsSlice | ProcessSlice | ReasonsSlice | BlogPreviewSlice | FaqSlice | RichTextSlice | FeatureCardsSlice | ImageCardsSlice | SplitListSlice | StoryArcSlice | ExperienceSlice | SkillsServicesSlice | StepsShowcaseSlice | ContactFormSlice | BlogIndexSlice
+type PageDocumentDataSlicesSlice = HeroSlice | LogoBarSlice | TestimonialsSlice | FeaturedProjectSlice | ServicesGridSlice | CallToActionSlice | CompareSlice | StatsSlice | ProcessSlice | ReasonsSlice | BlogPreviewSlice | FaqSlice | RichTextSlice | FeatureCardsSlice | ImageCardsSlice | SplitListSlice | StoryArcSlice | ExperienceSlice | SkillsServicesSlice | StepsShowcaseSlice | ContactFormSlice | BlogIndexSlice | WorkGridSlice
 
 /**
  * Content for Page documents
@@ -830,7 +979,7 @@ interface SettingsDocumentData {
  */
 export type SettingsDocument<Lang extends string = string> = prismic.PrismicDocumentWithoutUID<Simplify<SettingsDocumentData>, "settings", Lang>;
 
-export type AllDocumentTypes = BlogDocument | MainMenuDocument | MenuDocument | PageDocument | SettingsDocument;
+export type AllDocumentTypes = BlogDocument | CaseStudyDocument | MainMenuDocument | MenuDocument | PageDocument | SettingsDocument;
 
 /**
  * Primary content in *blog_callout → blog_callout (cta) → Primary*
@@ -1145,7 +1294,7 @@ export interface BlogPreviewSliceDefaultPrimary {
 	title: prismic.RichTextField;
 	
 	/**
-	 * Number of posts (default 3) field in *blog_variants1 → blog_variants1 → Primary*
+	 * Number of posts (default 6) field in *blog_variants1 → blog_variants1 → Primary*
 	 *
 	 * - **Field Type**: Number
 	 * - **Placeholder**: *None*
@@ -1270,6 +1419,705 @@ type CallToActionSliceVariation = CallToActionSliceDefault
  * - **Documentation**: https://prismic.io/docs/slices
  */
 export type CallToActionSlice = prismic.SharedSlice<"call_to_action", CallToActionSliceVariation>;
+
+/**
+ * Primary content in *case_about → case_about → Primary*
+ */
+export interface CaseAboutSliceDefaultPrimary {
+	/**
+	 * Title field in *case_about → case_about → Primary*
+	 *
+	 * - **Field Type**: Rich Text
+	 * - **Placeholder**: *None*
+	 * - **API ID Path**: case_about.default.primary.title
+	 * - **Documentation**: https://prismic.io/docs/fields/rich-text
+	 */
+	title: prismic.RichTextField;
+	
+	/**
+	 * Text field in *case_about → case_about → Primary*
+	 *
+	 * - **Field Type**: Rich Text
+	 * - **Placeholder**: *None*
+	 * - **API ID Path**: case_about.default.primary.text
+	 * - **Documentation**: https://prismic.io/docs/fields/rich-text
+	 */
+	text: prismic.RichTextField;
+}
+
+/**
+ * case_about variation for case_about Slice
+ *
+ * - **API ID**: `default`
+ * - **Description**: Two-column text block
+ * - **Documentation**: https://prismic.io/docs/slices
+ */
+export type CaseAboutSliceDefault = prismic.SharedSliceVariation<"default", Simplify<CaseAboutSliceDefaultPrimary>, never>;
+
+/**
+ * Slice variation for *case_about*
+ */
+type CaseAboutSliceVariation = CaseAboutSliceDefault
+
+/**
+ * case_about Shared Slice
+ *
+ * - **API ID**: `case_about`
+ * - **Description**: Heading on the left, paragraphs on the right (About the client)
+ * - **Documentation**: https://prismic.io/docs/slices
+ */
+export type CaseAboutSlice = prismic.SharedSlice<"case_about", CaseAboutSliceVariation>;
+
+/**
+ * Item in *case_approach → case_approach → Primary → Steps*
+ */
+export interface CaseApproachSliceDefaultPrimaryStepsItem {
+	/**
+	 * Title field in *case_approach → case_approach → Primary → Steps*
+	 *
+	 * - **Field Type**: Text
+	 * - **Placeholder**: *None*
+	 * - **API ID Path**: case_approach.default.primary.steps[].title
+	 * - **Documentation**: https://prismic.io/docs/fields/text
+	 */
+	title: prismic.KeyTextField;
+	
+	/**
+	 * Text field in *case_approach → case_approach → Primary → Steps*
+	 *
+	 * - **Field Type**: Text
+	 * - **Placeholder**: *None*
+	 * - **API ID Path**: case_approach.default.primary.steps[].text
+	 * - **Documentation**: https://prismic.io/docs/fields/text
+	 */
+	text: prismic.KeyTextField;
+}
+
+/**
+ * Primary content in *case_approach → case_approach → Primary*
+ */
+export interface CaseApproachSliceDefaultPrimary {
+	/**
+	 * Title field in *case_approach → case_approach → Primary*
+	 *
+	 * - **Field Type**: Rich Text
+	 * - **Placeholder**: *None*
+	 * - **API ID Path**: case_approach.default.primary.title
+	 * - **Documentation**: https://prismic.io/docs/fields/rich-text
+	 */
+	title: prismic.RichTextField;
+	
+	/**
+	 * Intro field in *case_approach → case_approach → Primary*
+	 *
+	 * - **Field Type**: Text
+	 * - **Placeholder**: *None*
+	 * - **API ID Path**: case_approach.default.primary.intro
+	 * - **Documentation**: https://prismic.io/docs/fields/text
+	 */
+	intro: prismic.KeyTextField;
+	
+	/**
+	 * Steps field in *case_approach → case_approach → Primary*
+	 *
+	 * - **Field Type**: Group
+	 * - **Placeholder**: *None*
+	 * - **API ID Path**: case_approach.default.primary.steps[]
+	 * - **Documentation**: https://prismic.io/docs/fields/repeatable-group
+	 */
+	steps: prismic.GroupField<Simplify<CaseApproachSliceDefaultPrimaryStepsItem>>;
+}
+
+/**
+ * case_approach variation for case_approach Slice
+ *
+ * - **API ID**: `default`
+ * - **Description**: Steps light up as they scroll past
+ * - **Documentation**: https://prismic.io/docs/slices
+ */
+export type CaseApproachSliceDefault = prismic.SharedSliceVariation<"default", Simplify<CaseApproachSliceDefaultPrimary>, never>;
+
+/**
+ * Slice variation for *case_approach*
+ */
+type CaseApproachSliceVariation = CaseApproachSliceDefault
+
+/**
+ * case_approach Shared Slice
+ *
+ * - **API ID**: `case_approach`
+ * - **Description**: Dark band: pinned title with a rolling step counter, steps on a scroll timeline (Our approach)
+ * - **Documentation**: https://prismic.io/docs/slices
+ */
+export type CaseApproachSlice = prismic.SharedSlice<"case_approach", CaseApproachSliceVariation>;
+
+/**
+ * Item in *case_built → case_built → Primary → Delivered*
+ */
+export interface CaseBuiltSliceDefaultPrimaryItemsItem {
+	/**
+	 * Text field in *case_built → case_built → Primary → Delivered*
+	 *
+	 * - **Field Type**: Text
+	 * - **Placeholder**: *None*
+	 * - **API ID Path**: case_built.default.primary.items[].text
+	 * - **Documentation**: https://prismic.io/docs/fields/text
+	 */
+	text: prismic.KeyTextField;
+}
+
+/**
+ * Item in *case_built → case_built → Primary → Numbers*
+ */
+export interface CaseBuiltSliceDefaultPrimaryNumbersItem {
+	/**
+	 * Value field in *case_built → case_built → Primary → Numbers*
+	 *
+	 * - **Field Type**: Text
+	 * - **Placeholder**: 5
+	 * - **API ID Path**: case_built.default.primary.numbers[].value
+	 * - **Documentation**: https://prismic.io/docs/fields/text
+	 */
+	value: prismic.KeyTextField;
+	
+	/**
+	 * Label field in *case_built → case_built → Primary → Numbers*
+	 *
+	 * - **Field Type**: Text
+	 * - **Placeholder**: *None*
+	 * - **API ID Path**: case_built.default.primary.numbers[].label
+	 * - **Documentation**: https://prismic.io/docs/fields/text
+	 */
+	label: prismic.KeyTextField;
+}
+
+/**
+ * Primary content in *case_built → case_built → Primary*
+ */
+export interface CaseBuiltSliceDefaultPrimary {
+	/**
+	 * Title field in *case_built → case_built → Primary*
+	 *
+	 * - **Field Type**: Rich Text
+	 * - **Placeholder**: *None*
+	 * - **API ID Path**: case_built.default.primary.title
+	 * - **Documentation**: https://prismic.io/docs/fields/rich-text
+	 */
+	title: prismic.RichTextField;
+	
+	/**
+	 * Intro field in *case_built → case_built → Primary*
+	 *
+	 * - **Field Type**: Text
+	 * - **Placeholder**: *None*
+	 * - **API ID Path**: case_built.default.primary.intro
+	 * - **Documentation**: https://prismic.io/docs/fields/text
+	 */
+	intro: prismic.KeyTextField;
+	
+	/**
+	 * Delivered field in *case_built → case_built → Primary*
+	 *
+	 * - **Field Type**: Group
+	 * - **Placeholder**: *None*
+	 * - **API ID Path**: case_built.default.primary.items[]
+	 * - **Documentation**: https://prismic.io/docs/fields/repeatable-group
+	 */
+	items: prismic.GroupField<Simplify<CaseBuiltSliceDefaultPrimaryItemsItem>>;
+	
+	/**
+	 * Numbers title field in *case_built → case_built → Primary*
+	 *
+	 * - **Field Type**: Rich Text
+	 * - **Placeholder**: *None*
+	 * - **API ID Path**: case_built.default.primary.numbers_title
+	 * - **Documentation**: https://prismic.io/docs/fields/rich-text
+	 */
+	numbers_title: prismic.RichTextField;
+	
+	/**
+	 * Numbers field in *case_built → case_built → Primary*
+	 *
+	 * - **Field Type**: Group
+	 * - **Placeholder**: *None*
+	 * - **API ID Path**: case_built.default.primary.numbers[]
+	 * - **Documentation**: https://prismic.io/docs/fields/repeatable-group
+	 */
+	numbers: prismic.GroupField<Simplify<CaseBuiltSliceDefaultPrimaryNumbersItem>>;
+}
+
+/**
+ * case_built variation for case_built Slice
+ *
+ * - **API ID**: `default`
+ * - **Description**: Pinned title with a checklist, then up to 3 numbers
+ * - **Documentation**: https://prismic.io/docs/slices
+ */
+export type CaseBuiltSliceDefault = prismic.SharedSliceVariation<"default", Simplify<CaseBuiltSliceDefaultPrimary>, never>;
+
+/**
+ * Slice variation for *case_built*
+ */
+type CaseBuiltSliceVariation = CaseBuiltSliceDefault
+
+/**
+ * case_built Shared Slice
+ *
+ * - **API ID**: `case_built`
+ * - **Description**: Dark band: checklist of what was delivered, then result numbers (What we built + The numbers)
+ * - **Documentation**: https://prismic.io/docs/slices
+ */
+export type CaseBuiltSlice = prismic.SharedSlice<"case_built", CaseBuiltSliceVariation>;
+
+/**
+ * Item in *case_challenge → case_challenge → Primary → Items*
+ */
+export interface CaseChallengeSliceDefaultPrimaryItemsItem {
+	/**
+	 * Title field in *case_challenge → case_challenge → Primary → Items*
+	 *
+	 * - **Field Type**: Text
+	 * - **Placeholder**: *None*
+	 * - **API ID Path**: case_challenge.default.primary.items[].title
+	 * - **Documentation**: https://prismic.io/docs/fields/text
+	 */
+	title: prismic.KeyTextField;
+	
+	/**
+	 * Text field in *case_challenge → case_challenge → Primary → Items*
+	 *
+	 * - **Field Type**: Text
+	 * - **Placeholder**: *None*
+	 * - **API ID Path**: case_challenge.default.primary.items[].text
+	 * - **Documentation**: https://prismic.io/docs/fields/text
+	 */
+	text: prismic.KeyTextField;
+}
+
+/**
+ * Primary content in *case_challenge → case_challenge → Primary*
+ */
+export interface CaseChallengeSliceDefaultPrimary {
+	/**
+	 * Title field in *case_challenge → case_challenge → Primary*
+	 *
+	 * - **Field Type**: Rich Text
+	 * - **Placeholder**: *None*
+	 * - **API ID Path**: case_challenge.default.primary.title
+	 * - **Documentation**: https://prismic.io/docs/fields/rich-text
+	 */
+	title: prismic.RichTextField;
+	
+	/**
+	 * Intro field in *case_challenge → case_challenge → Primary*
+	 *
+	 * - **Field Type**: Text
+	 * - **Placeholder**: *None*
+	 * - **API ID Path**: case_challenge.default.primary.intro
+	 * - **Documentation**: https://prismic.io/docs/fields/text
+	 */
+	intro: prismic.KeyTextField;
+	
+	/**
+	 * Items field in *case_challenge → case_challenge → Primary*
+	 *
+	 * - **Field Type**: Group
+	 * - **Placeholder**: *None*
+	 * - **API ID Path**: case_challenge.default.primary.items[]
+	 * - **Documentation**: https://prismic.io/docs/fields/repeatable-group
+	 */
+	items: prismic.GroupField<Simplify<CaseChallengeSliceDefaultPrimaryItemsItem>>;
+}
+
+/**
+ * case_challenge variation for case_challenge Slice
+ *
+ * - **API ID**: `default`
+ * - **Description**: Title and intro, then large numbered cards
+ * - **Documentation**: https://prismic.io/docs/slices
+ */
+export type CaseChallengeSliceDefault = prismic.SharedSliceVariation<"default", Simplify<CaseChallengeSliceDefaultPrimary>, never>;
+
+/**
+ * Slice variation for *case_challenge*
+ */
+type CaseChallengeSliceVariation = CaseChallengeSliceDefault
+
+/**
+ * case_challenge Shared Slice
+ *
+ * - **API ID**: `case_challenge`
+ * - **Description**: Numbered 2x2 cards (The challenge)
+ * - **Documentation**: https://prismic.io/docs/slices
+ */
+export type CaseChallengeSlice = prismic.SharedSlice<"case_challenge", CaseChallengeSliceVariation>;
+
+/**
+ * Item in *case_device_viewer → case_device_viewer → Primary → Desktop screens*
+ */
+export interface CaseDeviceViewerSliceDefaultPrimaryDesktopScreensItem {
+	/**
+	 * Image field in *case_device_viewer → case_device_viewer → Primary → Desktop screens*
+	 *
+	 * - **Field Type**: Image
+	 * - **Placeholder**: *None*
+	 * - **API ID Path**: case_device_viewer.default.primary.desktop_screens[].image
+	 * - **Documentation**: https://prismic.io/docs/fields/image
+	 */
+	image: prismic.ImageField<never>;
+}
+
+/**
+ * Item in *case_device_viewer → case_device_viewer → Primary → Mobile screens*
+ */
+export interface CaseDeviceViewerSliceDefaultPrimaryMobileScreensItem {
+	/**
+	 * Image field in *case_device_viewer → case_device_viewer → Primary → Mobile screens*
+	 *
+	 * - **Field Type**: Image
+	 * - **Placeholder**: *None*
+	 * - **API ID Path**: case_device_viewer.default.primary.mobile_screens[].image
+	 * - **Documentation**: https://prismic.io/docs/fields/image
+	 */
+	image: prismic.ImageField<never>;
+}
+
+/**
+ * Primary content in *case_device_viewer → case_device_viewer → Primary*
+ */
+export interface CaseDeviceViewerSliceDefaultPrimary {
+	/**
+	 * Title field in *case_device_viewer → case_device_viewer → Primary*
+	 *
+	 * - **Field Type**: Rich Text
+	 * - **Placeholder**: *None*
+	 * - **API ID Path**: case_device_viewer.default.primary.title
+	 * - **Documentation**: https://prismic.io/docs/fields/rich-text
+	 */
+	title: prismic.RichTextField;
+	
+	/**
+	 * Desktop screens field in *case_device_viewer → case_device_viewer → Primary*
+	 *
+	 * - **Field Type**: Group
+	 * - **Placeholder**: *None*
+	 * - **API ID Path**: case_device_viewer.default.primary.desktop_screens[]
+	 * - **Documentation**: https://prismic.io/docs/fields/repeatable-group
+	 */
+	desktop_screens: prismic.GroupField<Simplify<CaseDeviceViewerSliceDefaultPrimaryDesktopScreensItem>>;
+	
+	/**
+	 * Mobile screens field in *case_device_viewer → case_device_viewer → Primary*
+	 *
+	 * - **Field Type**: Group
+	 * - **Placeholder**: *None*
+	 * - **API ID Path**: case_device_viewer.default.primary.mobile_screens[]
+	 * - **Documentation**: https://prismic.io/docs/fields/repeatable-group
+	 */
+	mobile_screens: prismic.GroupField<Simplify<CaseDeviceViewerSliceDefaultPrimaryMobileScreensItem>>;
+}
+
+/**
+ * case_device_viewer variation for case_device_viewer Slice
+ *
+ * - **API ID**: `default`
+ * - **Description**: Desktop screens stack into one scrolling page; each mobile screen gets its own phone
+ * - **Documentation**: https://prismic.io/docs/slices
+ */
+export type CaseDeviceViewerSliceDefault = prismic.SharedSliceVariation<"default", Simplify<CaseDeviceViewerSliceDefaultPrimary>, never>;
+
+/**
+ * Slice variation for *case_device_viewer*
+ */
+type CaseDeviceViewerSliceVariation = CaseDeviceViewerSliceDefault
+
+/**
+ * case_device_viewer Shared Slice
+ *
+ * - **API ID**: `case_device_viewer`
+ * - **Description**: Desktop / Mobile switch with screens that scroll inside a browser window or phones (The work)
+ * - **Documentation**: https://prismic.io/docs/slices
+ */
+export type CaseDeviceViewerSlice = prismic.SharedSlice<"case_device_viewer", CaseDeviceViewerSliceVariation>;
+
+/**
+ * Item in *case_facts → case_facts → Primary → Facts*
+ */
+export interface CaseFactsSliceDefaultPrimaryFactsItem {
+	/**
+	 * Label field in *case_facts → case_facts → Primary → Facts*
+	 *
+	 * - **Field Type**: Text
+	 * - **Placeholder**: Client
+	 * - **API ID Path**: case_facts.default.primary.facts[].label
+	 * - **Documentation**: https://prismic.io/docs/fields/text
+	 */
+	label: prismic.KeyTextField;
+	
+	/**
+	 * Value field in *case_facts → case_facts → Primary → Facts*
+	 *
+	 * - **Field Type**: Text
+	 * - **Placeholder**: *None*
+	 * - **API ID Path**: case_facts.default.primary.facts[].value
+	 * - **Documentation**: https://prismic.io/docs/fields/text
+	 */
+	value: prismic.KeyTextField;
+	
+	/**
+	 * Link (optional) field in *case_facts → case_facts → Primary → Facts*
+	 *
+	 * - **Field Type**: Link
+	 * - **Placeholder**: *None*
+	 * - **API ID Path**: case_facts.default.primary.facts[].link
+	 * - **Documentation**: https://prismic.io/docs/fields/link
+	 */
+	link: prismic.LinkField<string, string, unknown, prismic.FieldState, never>;
+}
+
+/**
+ * Primary content in *case_facts → case_facts → Primary*
+ */
+export interface CaseFactsSliceDefaultPrimary {
+	/**
+	 * Facts field in *case_facts → case_facts → Primary*
+	 *
+	 * - **Field Type**: Group
+	 * - **Placeholder**: *None*
+	 * - **API ID Path**: case_facts.default.primary.facts[]
+	 * - **Documentation**: https://prismic.io/docs/fields/repeatable-group
+	 */
+	facts: prismic.GroupField<Simplify<CaseFactsSliceDefaultPrimaryFactsItem>>;
+}
+
+/**
+ * case_facts variation for case_facts Slice
+ *
+ * - **API ID**: `default`
+ * - **Description**: Up to 5 facts in a bordered strip; add a link to make a value clickable
+ * - **Documentation**: https://prismic.io/docs/slices
+ */
+export type CaseFactsSliceDefault = prismic.SharedSliceVariation<"default", Simplify<CaseFactsSliceDefaultPrimary>, never>;
+
+/**
+ * Slice variation for *case_facts*
+ */
+type CaseFactsSliceVariation = CaseFactsSliceDefault
+
+/**
+ * case_facts Shared Slice
+ *
+ * - **API ID**: `case_facts`
+ * - **Description**: Strip of project facts (client, industry, scope, stack, live site)
+ * - **Documentation**: https://prismic.io/docs/slices
+ */
+export type CaseFactsSlice = prismic.SharedSlice<"case_facts", CaseFactsSliceVariation>;
+
+/**
+ * Item in *case_hero → case_hero → Primary → Buttons*
+ */
+export interface CaseHeroSliceDefaultPrimaryButtonsItem {
+	/**
+	 * Link field in *case_hero → case_hero → Primary → Buttons*
+	 *
+	 * - **Field Type**: Link
+	 * - **Placeholder**: *None*
+	 * - **API ID Path**: case_hero.default.primary.buttons[].link
+	 * - **Documentation**: https://prismic.io/docs/fields/link
+	 */
+	link: prismic.LinkField<string, string, unknown, prismic.FieldState, "Primary" | "Secondary">;
+}
+
+/**
+ * Primary content in *case_hero → case_hero → Primary*
+ */
+export interface CaseHeroSliceDefaultPrimary {
+	/**
+	 * Title field in *case_hero → case_hero → Primary*
+	 *
+	 * - **Field Type**: Rich Text
+	 * - **Placeholder**: *None*
+	 * - **API ID Path**: case_hero.default.primary.title
+	 * - **Documentation**: https://prismic.io/docs/fields/rich-text
+	 */
+	title: prismic.RichTextField;
+	
+	/**
+	 * Intro field in *case_hero → case_hero → Primary*
+	 *
+	 * - **Field Type**: Text
+	 * - **Placeholder**: *None*
+	 * - **API ID Path**: case_hero.default.primary.intro
+	 * - **Documentation**: https://prismic.io/docs/fields/text
+	 */
+	intro: prismic.KeyTextField;
+	
+	/**
+	 * Tags (separate with |) field in *case_hero → case_hero → Primary*
+	 *
+	 * - **Field Type**: Text
+	 * - **Placeholder**: Next.js | Prismic | UX
+	 * - **API ID Path**: case_hero.default.primary.tags
+	 * - **Documentation**: https://prismic.io/docs/fields/text
+	 */
+	tags: prismic.KeyTextField;
+	
+	/**
+	 * Buttons field in *case_hero → case_hero → Primary*
+	 *
+	 * - **Field Type**: Group
+	 * - **Placeholder**: *None*
+	 * - **API ID Path**: case_hero.default.primary.buttons[]
+	 * - **Documentation**: https://prismic.io/docs/fields/repeatable-group
+	 */
+	buttons: prismic.GroupField<Simplify<CaseHeroSliceDefaultPrimaryButtonsItem>>;
+	
+	/**
+	 * Desktop screenshot field in *case_hero → case_hero → Primary*
+	 *
+	 * - **Field Type**: Image
+	 * - **Placeholder**: *None*
+	 * - **API ID Path**: case_hero.default.primary.desktop_image
+	 * - **Documentation**: https://prismic.io/docs/fields/image
+	 */
+	desktop_image: prismic.ImageField<never>;
+	
+	/**
+	 * Mobile screenshot field in *case_hero → case_hero → Primary*
+	 *
+	 * - **Field Type**: Image
+	 * - **Placeholder**: *None*
+	 * - **API ID Path**: case_hero.default.primary.mobile_image
+	 * - **Documentation**: https://prismic.io/docs/fields/image
+	 */
+	mobile_image: prismic.ImageField<never>;
+}
+
+/**
+ * case_hero variation for case_hero Slice
+ *
+ * - **API ID**: `default`
+ * - **Description**: Breadcrumb (from the document name), status pill (from the document), tags, buttons, browser and phone mockups
+ * - **Documentation**: https://prismic.io/docs/slices
+ */
+export type CaseHeroSliceDefault = prismic.SharedSliceVariation<"default", Simplify<CaseHeroSliceDefaultPrimary>, never>;
+
+/**
+ * Slice variation for *case_hero*
+ */
+type CaseHeroSliceVariation = CaseHeroSliceDefault
+
+/**
+ * case_hero Shared Slice
+ *
+ * - **API ID**: `case_hero`
+ * - **Description**: Case study hero: breadcrumb, title, tags, buttons and a laptop + phone mockup
+ * - **Documentation**: https://prismic.io/docs/slices
+ */
+export type CaseHeroSlice = prismic.SharedSlice<"case_hero", CaseHeroSliceVariation>;
+
+/**
+ * Item in *case_highlights → case_highlights → Primary → Items*
+ */
+export interface CaseHighlightsSliceDefaultPrimaryItemsItem {
+	/**
+	 * Screenshot field in *case_highlights → case_highlights → Primary → Items*
+	 *
+	 * - **Field Type**: Image
+	 * - **Placeholder**: *None*
+	 * - **API ID Path**: case_highlights.default.primary.items[].image
+	 * - **Documentation**: https://prismic.io/docs/fields/image
+	 */
+	image: prismic.ImageField<never>;
+	
+	/**
+	 * Caption field in *case_highlights → case_highlights → Primary → Items*
+	 *
+	 * - **Field Type**: Text
+	 * - **Placeholder**: *None*
+	 * - **API ID Path**: case_highlights.default.primary.items[].caption
+	 * - **Documentation**: https://prismic.io/docs/fields/text
+	 */
+	caption: prismic.KeyTextField;
+	
+	/**
+	 * Title field in *case_highlights → case_highlights → Primary → Items*
+	 *
+	 * - **Field Type**: Text
+	 * - **Placeholder**: *None*
+	 * - **API ID Path**: case_highlights.default.primary.items[].title
+	 * - **Documentation**: https://prismic.io/docs/fields/text
+	 */
+	title: prismic.KeyTextField;
+	
+	/**
+	 * Text field in *case_highlights → case_highlights → Primary → Items*
+	 *
+	 * - **Field Type**: Text
+	 * - **Placeholder**: *None*
+	 * - **API ID Path**: case_highlights.default.primary.items[].text
+	 * - **Documentation**: https://prismic.io/docs/fields/text
+	 */
+	text: prismic.KeyTextField;
+}
+
+/**
+ * Primary content in *case_highlights → case_highlights → Primary*
+ */
+export interface CaseHighlightsSliceDefaultPrimary {
+	/**
+	 * Title field in *case_highlights → case_highlights → Primary*
+	 *
+	 * - **Field Type**: Rich Text
+	 * - **Placeholder**: *None*
+	 * - **API ID Path**: case_highlights.default.primary.title
+	 * - **Documentation**: https://prismic.io/docs/fields/rich-text
+	 */
+	title: prismic.RichTextField;
+	
+	/**
+	 * Intro field in *case_highlights → case_highlights → Primary*
+	 *
+	 * - **Field Type**: Text
+	 * - **Placeholder**: *None*
+	 * - **API ID Path**: case_highlights.default.primary.intro
+	 * - **Documentation**: https://prismic.io/docs/fields/text
+	 */
+	intro: prismic.KeyTextField;
+	
+	/**
+	 * Items field in *case_highlights → case_highlights → Primary*
+	 *
+	 * - **Field Type**: Group
+	 * - **Placeholder**: *None*
+	 * - **API ID Path**: case_highlights.default.primary.items[]
+	 * - **Documentation**: https://prismic.io/docs/fields/repeatable-group
+	 */
+	items: prismic.GroupField<Simplify<CaseHighlightsSliceDefaultPrimaryItemsItem>>;
+}
+
+/**
+ * case_highlights variation for case_highlights Slice
+ *
+ * - **API ID**: `default`
+ * - **Description**: Two-column grid of browser-framed screenshots
+ * - **Documentation**: https://prismic.io/docs/slices
+ */
+export type CaseHighlightsSliceDefault = prismic.SharedSliceVariation<"default", Simplify<CaseHighlightsSliceDefaultPrimary>, never>;
+
+/**
+ * Slice variation for *case_highlights*
+ */
+type CaseHighlightsSliceVariation = CaseHighlightsSliceDefault
+
+/**
+ * case_highlights Shared Slice
+ *
+ * - **API ID**: `case_highlights`
+ * - **Description**: Framed screenshots with a caption, title and text (Design highlights)
+ * - **Documentation**: https://prismic.io/docs/slices
+ */
+export type CaseHighlightsSlice = prismic.SharedSlice<"case_highlights", CaseHighlightsSliceVariation>;
 
 /**
  * Item in *content_compare_variants1 → content_compare_variants1 → Primary → Rows*
@@ -4500,6 +5348,108 @@ type TestimonialsSliceVariation = TestimonialsSliceDefault
  */
 export type TestimonialsSlice = prismic.SharedSlice<"testimonials", TestimonialsSliceVariation>;
 
+/**
+ * Primary content in *work_grid → work_grid (all projects) → Primary*
+ */
+export interface WorkGridSliceDefaultPrimary {
+	/**
+	 * Eyebrow field in *work_grid → work_grid (all projects) → Primary*
+	 *
+	 * - **Field Type**: Text
+	 * - **Placeholder**: Selected work
+	 * - **API ID Path**: work_grid.default.primary.eyebrow
+	 * - **Documentation**: https://prismic.io/docs/fields/text
+	 */
+	eyebrow: prismic.KeyTextField;
+	
+	/**
+	 * Title field in *work_grid → work_grid (all projects) → Primary*
+	 *
+	 * - **Field Type**: Rich Text
+	 * - **Placeholder**: *None*
+	 * - **API ID Path**: work_grid.default.primary.title
+	 * - **Documentation**: https://prismic.io/docs/fields/rich-text
+	 */
+	title: prismic.RichTextField;
+	
+	/**
+	 * Intro field in *work_grid → work_grid (all projects) → Primary*
+	 *
+	 * - **Field Type**: Text
+	 * - **Placeholder**: *None*
+	 * - **API ID Path**: work_grid.default.primary.intro
+	 * - **Documentation**: https://prismic.io/docs/fields/text
+	 */
+	intro: prismic.KeyTextField;
+}
+
+/**
+ * work_grid (all projects) variation for work_grid Slice
+ *
+ * - **API ID**: `default`
+ * - **Description**: Every case study, with a centred heading (Work page)
+ * - **Documentation**: https://prismic.io/docs/slices
+ */
+export type WorkGridSliceDefault = prismic.SharedSliceVariation<"default", Simplify<WorkGridSliceDefaultPrimary>, never>;
+
+/**
+ * Primary content in *work_grid → work_grid (more projects) → Primary*
+ */
+export interface WorkGridSliceMorePrimary {
+	/**
+	 * Title field in *work_grid → work_grid (more projects) → Primary*
+	 *
+	 * - **Field Type**: Rich Text
+	 * - **Placeholder**: *None*
+	 * - **API ID Path**: work_grid.more.primary.title
+	 * - **Documentation**: https://prismic.io/docs/fields/rich-text
+	 */
+	title: prismic.RichTextField;
+	
+	/**
+	 * How many (default 3) field in *work_grid → work_grid (more projects) → Primary*
+	 *
+	 * - **Field Type**: Number
+	 * - **Placeholder**: 3
+	 * - **API ID Path**: work_grid.more.primary.limit
+	 * - **Documentation**: https://prismic.io/docs/fields/number
+	 */
+	limit: prismic.NumberField;
+	
+	/**
+	 * See all link field in *work_grid → work_grid (more projects) → Primary*
+	 *
+	 * - **Field Type**: Link
+	 * - **Placeholder**: *None*
+	 * - **API ID Path**: work_grid.more.primary.link
+	 * - **Documentation**: https://prismic.io/docs/fields/link
+	 */
+	link: prismic.LinkField<string, string, unknown, prismic.FieldState, never>;
+}
+
+/**
+ * work_grid (more projects) variation for work_grid Slice
+ *
+ * - **API ID**: `more`
+ * - **Description**: The next few case studies, skipping the one being viewed, with a See all link
+ * - **Documentation**: https://prismic.io/docs/slices
+ */
+export type WorkGridSliceMore = prismic.SharedSliceVariation<"more", Simplify<WorkGridSliceMorePrimary>, never>;
+
+/**
+ * Slice variation for *work_grid*
+ */
+type WorkGridSliceVariation = WorkGridSliceDefault | WorkGridSliceMore
+
+/**
+ * work_grid Shared Slice
+ *
+ * - **API ID**: `work_grid`
+ * - **Description**: Case study cards, filled automatically from the Case Study pages
+ * - **Documentation**: https://prismic.io/docs/slices
+ */
+export type WorkGridSlice = prismic.SharedSlice<"work_grid", WorkGridSliceVariation>;
+
 declare module "@prismicio/client" {
 	interface CreateClient {
 		(repositoryNameOrEndpoint: string, options?: prismic.ClientConfig): prismic.Client<AllDocumentTypes>;
@@ -4518,6 +5468,9 @@ declare module "@prismicio/client" {
 			BlogDocument,
 			BlogDocumentData,
 			BlogDocumentDataSlicesSlice,
+			CaseStudyDocument,
+			CaseStudyDocumentData,
+			CaseStudyDocumentDataSlicesSlice,
 			MainMenuDocument,
 			MainMenuDocumentData,
 			MainMenuDocumentDataLinksSubLinksItem,
@@ -4559,6 +5512,47 @@ declare module "@prismicio/client" {
 			CallToActionSliceDefaultPrimary,
 			CallToActionSliceVariation,
 			CallToActionSliceDefault,
+			CaseAboutSlice,
+			CaseAboutSliceDefaultPrimary,
+			CaseAboutSliceVariation,
+			CaseAboutSliceDefault,
+			CaseApproachSlice,
+			CaseApproachSliceDefaultPrimaryStepsItem,
+			CaseApproachSliceDefaultPrimary,
+			CaseApproachSliceVariation,
+			CaseApproachSliceDefault,
+			CaseBuiltSlice,
+			CaseBuiltSliceDefaultPrimaryItemsItem,
+			CaseBuiltSliceDefaultPrimaryNumbersItem,
+			CaseBuiltSliceDefaultPrimary,
+			CaseBuiltSliceVariation,
+			CaseBuiltSliceDefault,
+			CaseChallengeSlice,
+			CaseChallengeSliceDefaultPrimaryItemsItem,
+			CaseChallengeSliceDefaultPrimary,
+			CaseChallengeSliceVariation,
+			CaseChallengeSliceDefault,
+			CaseDeviceViewerSlice,
+			CaseDeviceViewerSliceDefaultPrimaryDesktopScreensItem,
+			CaseDeviceViewerSliceDefaultPrimaryMobileScreensItem,
+			CaseDeviceViewerSliceDefaultPrimary,
+			CaseDeviceViewerSliceVariation,
+			CaseDeviceViewerSliceDefault,
+			CaseFactsSlice,
+			CaseFactsSliceDefaultPrimaryFactsItem,
+			CaseFactsSliceDefaultPrimary,
+			CaseFactsSliceVariation,
+			CaseFactsSliceDefault,
+			CaseHeroSlice,
+			CaseHeroSliceDefaultPrimaryButtonsItem,
+			CaseHeroSliceDefaultPrimary,
+			CaseHeroSliceVariation,
+			CaseHeroSliceDefault,
+			CaseHighlightsSlice,
+			CaseHighlightsSliceDefaultPrimaryItemsItem,
+			CaseHighlightsSliceDefaultPrimary,
+			CaseHighlightsSliceVariation,
+			CaseHighlightsSliceDefault,
 			CompareSlice,
 			CompareSliceDefaultPrimaryRowsItem,
 			CompareSliceDefaultPrimary,
@@ -4687,7 +5681,13 @@ declare module "@prismicio/client" {
 			TestimonialsSliceDefaultPrimaryReviewsItem,
 			TestimonialsSliceDefaultPrimary,
 			TestimonialsSliceVariation,
-			TestimonialsSliceDefault
+			TestimonialsSliceDefault,
+			WorkGridSlice,
+			WorkGridSliceDefaultPrimary,
+			WorkGridSliceMorePrimary,
+			WorkGridSliceVariation,
+			WorkGridSliceDefault,
+			WorkGridSliceMore
 		}
 	}
 }

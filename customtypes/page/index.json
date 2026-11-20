@@ -89,6 +89,9 @@
             },
             "blog_index": {
               "type": "SharedSlice"
+            },
+            "work_grid": {
+              "type": "SharedSlice"
             }
           }
         }

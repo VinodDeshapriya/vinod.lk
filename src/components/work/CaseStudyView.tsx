@@ -5,7 +5,7 @@ import StyledButton from "@/components/ui/StyledButton";
 import ScrollTilt from "@/components/ui/ScrollTilt";
 import CheckDot from "@/components/ui/CheckDot";
 import ArrowUpRight from "@/components/ui/ArrowUpRight";
-import { moreCaseStudies, type CaseStudy } from "@/data/caseStudies";
+import { moreCaseStudies, toCard, type CaseStudy } from "@/data/caseStudies";
 import { BrowserFrame, PhoneFrame, ShotImage } from "./Frames";
 import ApproachSteps from "./ApproachSteps";
 import DeviceViewer from "./DeviceViewer";
@@ -226,7 +226,7 @@ export default function CaseStudyView({ c }: { c: CaseStudy }) {
         <ul data-reveal-stagger className="grid sm:grid-cols-2 lg:grid-cols-3 gap-5">
           {more.map((m) => (
             <li key={m.slug} className={clsx(more.length === 3 && "last:sm:max-lg:col-span-2")}>
-              <ProjectCard c={m} />
+              <ProjectCard c={toCard(m)} />
             </li>
           ))}
         </ul>

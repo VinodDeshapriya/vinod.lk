@@ -1,0 +1,53 @@
+{
+  "id": "case_facts",
+  "type": "SharedSlice",
+  "name": "case_facts",
+  "description": "Strip of project facts (client, industry, scope, stack, live site)",
+  "variations": [
+    {
+      "id": "default",
+      "type": "SharedSliceVariation",
+      "name": "case_facts",
+      "docURL": "...",
+      "version": "initial",
+      "description": "Up to 5 facts in a bordered strip; add a link to make a value clickable",
+      "imageUrl": "",
+      "primary": {
+        "facts": {
+          "type": "Group",
+          "config": {
+            "label": "Facts",
+            "repeat": true,
+            "fields": {
+              "label": {
+                "type": "Text",
+                "config": {
+                  "label": "Label",
+                  "placeholder": "Client"
+                }
+              },
+              "value": {
+                "type": "Text",
+                "config": {
+                  "label": "Value",
+                  "placeholder": ""
+                }
+              },
+              "link": {
+                "type": "Link",
+                "config": {
+                  "label": "Link (optional)",
+                  "select": null,
+                  "allowTargetBlank": true,
+                  "allowText": true,
+                  "repeat": false
+                }
+              }
+            }
+          }
+        }
+      },
+      "items": {}
+    }
+  ]
+}

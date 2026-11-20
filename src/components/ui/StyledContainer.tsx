@@ -21,6 +21,8 @@ interface StyledContainerProps {
   slice?: SliceData;
   paddingX?: boolean;
   parentClassName?: string;
+  /** Marks the outer element with the slice it renders. */
+  "data-slice-type"?: string;
 }
 
 const StyledContainer = ({
@@ -30,6 +32,7 @@ const StyledContainer = ({
   slice = {},
   paddingX = true,
   parentClassName = "",
+  "data-slice-type": sliceType,
 }: StyledContainerProps) => {
   const paddingXStyles = "px-[16px] md:px-[40px] xl:px-[80px]";
 
@@ -38,6 +41,7 @@ const StyledContainer = ({
 
   return (
     <Comp
+      data-slice-type={sliceType}
       className={clsx({
         "bg-offwhite": slice?.primary?.background_color,
         [paddingXStyles]: paddingX,

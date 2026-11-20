@@ -1,0 +1,58 @@
+{
+  "id": "case_approach",
+  "type": "SharedSlice",
+  "name": "case_approach",
+  "description": "Dark band: pinned title with a rolling step counter, steps on a scroll timeline (Our approach)",
+  "variations": [
+    {
+      "id": "default",
+      "type": "SharedSliceVariation",
+      "name": "case_approach",
+      "docURL": "...",
+      "version": "initial",
+      "description": "Steps light up as they scroll past",
+      "imageUrl": "",
+      "primary": {
+        "title": {
+          "type": "StructuredText",
+          "config": {
+            "label": "Title",
+            "allowTargetBlank": true,
+            "single": "heading2,em"
+          }
+        },
+        "intro": {
+          "type": "Text",
+          "config": {
+            "label": "Intro",
+            "placeholder": ""
+          }
+        },
+        "steps": {
+          "type": "Group",
+          "config": {
+            "label": "Steps",
+            "repeat": true,
+            "fields": {
+              "title": {
+                "type": "Text",
+                "config": {
+                  "label": "Title",
+                  "placeholder": ""
+                }
+              },
+              "text": {
+                "type": "Text",
+                "config": {
+                  "label": "Text",
+                  "placeholder": ""
+                }
+              }
+            }
+          }
+        }
+      },
+      "items": {}
+    }
+  ]
+}

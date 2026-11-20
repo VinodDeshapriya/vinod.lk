@@ -514,3 +514,12 @@ export const moreCaseStudies = (slug: string, n = 3) => {
   const i = caseStudies.findIndex((c) => c.slug === slug);
   return Array.from({ length: Math.min(n, caseStudies.length - 1) }, (_, k) => caseStudies[(i + 1 + k) % caseStudies.length]);
 };
+
+/** Card data for a local case study (used until the Prismic pages are published). */
+export const toCard = (c: CaseStudy) => ({
+  href: `/work/${c.slug}`,
+  name: c.name,
+  summary: c.summary,
+  category: c.category,
+  image: { src: c.thumb, alt: `${c.name} website` },
+});

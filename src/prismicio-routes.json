@@ -1,5 +1,6 @@
 [
-  { "type": "page", "uid": "home", "path": "/" },
-  { "type": "page", "path": "/:uid" },
-  { "type": "blog", "path": "/blog/:uid" }
+  {"type": "page", "uid": "home", "path": "/"},
+  {"type": "page", "path": "/:uid"},
+  {"type": "blog", "path": "/blog/:uid"},
+  {"type": "case_study", "path": "/work/:uid"}
 ]

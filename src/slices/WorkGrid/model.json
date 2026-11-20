@@ -1,0 +1,79 @@
+{
+  "id": "work_grid",
+  "type": "SharedSlice",
+  "name": "work_grid",
+  "description": "Case study cards, filled automatically from the Case Study pages",
+  "variations": [
+    {
+      "id": "default",
+      "type": "SharedSliceVariation",
+      "name": "work_grid (all projects)",
+      "docURL": "...",
+      "version": "initial",
+      "description": "Every case study, with a centred heading (Work page)",
+      "imageUrl": "",
+      "primary": {
+        "eyebrow": {
+          "type": "Text",
+          "config": {
+            "label": "Eyebrow",
+            "placeholder": "Selected work"
+          }
+        },
+        "title": {
+          "type": "StructuredText",
+          "config": {
+            "label": "Title",
+            "allowTargetBlank": true,
+            "single": "heading1,heading2,em"
+          }
+        },
+        "intro": {
+          "type": "Text",
+          "config": {
+            "label": "Intro",
+            "placeholder": ""
+          }
+        }
+      },
+      "items": {}
+    },
+    {
+      "id": "more",
+      "type": "SharedSliceVariation",
+      "name": "work_grid (more projects)",
+      "docURL": "...",
+      "version": "initial",
+      "description": "The next few case studies, skipping the one being viewed, with a See all link",
+      "imageUrl": "",
+      "primary": {
+        "title": {
+          "type": "StructuredText",
+          "config": {
+            "label": "Title",
+            "allowTargetBlank": true,
+            "single": "heading2,em"
+          }
+        },
+        "limit": {
+          "type": "Number",
+          "config": {
+            "label": "How many (default 3)",
+            "placeholder": "3"
+          }
+        },
+        "link": {
+          "type": "Link",
+          "config": {
+            "label": "See all link",
+            "select": null,
+            "allowTargetBlank": true,
+            "allowText": true,
+            "repeat": false
+          }
+        }
+      },
+      "items": {}
+    }
+  ]
+}

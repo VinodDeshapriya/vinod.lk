@@ -1,0 +1,62 @@
+{
+  "id": "case_device_viewer",
+  "type": "SharedSlice",
+  "name": "case_device_viewer",
+  "description": "Desktop / Mobile switch with screens that scroll inside a browser window or phones (The work)",
+  "variations": [
+    {
+      "id": "default",
+      "type": "SharedSliceVariation",
+      "name": "case_device_viewer",
+      "docURL": "...",
+      "version": "initial",
+      "description": "Desktop screens stack into one scrolling page; each mobile screen gets its own phone",
+      "imageUrl": "",
+      "primary": {
+        "title": {
+          "type": "StructuredText",
+          "config": {
+            "label": "Title",
+            "allowTargetBlank": true,
+            "single": "heading2,em"
+          }
+        },
+        "desktop_screens": {
+          "type": "Group",
+          "config": {
+            "label": "Desktop screens",
+            "repeat": true,
+            "fields": {
+              "image": {
+                "type": "Image",
+                "config": {
+                  "label": "Image",
+                  "constraint": {},
+                  "thumbnails": []
+                }
+              }
+            }
+          }
+        },
+        "mobile_screens": {
+          "type": "Group",
+          "config": {
+            "label": "Mobile screens",
+            "repeat": true,
+            "fields": {
+              "image": {
+                "type": "Image",
+                "config": {
+                  "label": "Image",
+                  "constraint": {},
+                  "thumbnails": []
+                }
+              }
+            }
+          }
+        }
+      },
+      "items": {}
+    }
+  ]
+}

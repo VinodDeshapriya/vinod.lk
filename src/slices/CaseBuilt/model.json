@@ -1,0 +1,82 @@
+{
+  "id": "case_built",
+  "type": "SharedSlice",
+  "name": "case_built",
+  "description": "Dark band: checklist of what was delivered, then result numbers (What we built + The numbers)",
+  "variations": [
+    {
+      "id": "default",
+      "type": "SharedSliceVariation",
+      "name": "case_built",
+      "docURL": "...",
+      "version": "initial",
+      "description": "Pinned title with a checklist, then up to 3 numbers",
+      "imageUrl": "",
+      "primary": {
+        "title": {
+          "type": "StructuredText",
+          "config": {
+            "label": "Title",
+            "allowTargetBlank": true,
+            "single": "heading2,em"
+          }
+        },
+        "intro": {
+          "type": "Text",
+          "config": {
+            "label": "Intro",
+            "placeholder": ""
+          }
+        },
+        "items": {
+          "type": "Group",
+          "config": {
+            "label": "Delivered",
+            "repeat": true,
+            "fields": {
+              "text": {
+                "type": "Text",
+                "config": {
+                  "label": "Text",
+                  "placeholder": ""
+                }
+              }
+            }
+          }
+        },
+        "numbers_title": {
+          "type": "StructuredText",
+          "config": {
+            "label": "Numbers title",
+            "allowTargetBlank": true,
+            "single": "heading2,em"
+          }
+        },
+        "numbers": {
+          "type": "Group",
+          "config": {
+            "label": "Numbers",
+            "repeat": true,
+            "fields": {
+              "value": {
+                "type": "Text",
+                "config": {
+                  "label": "Value",
+                  "placeholder": "5"
+                }
+              },
+              "label": {
+                "type": "Text",
+                "config": {
+                  "label": "Label",
+                  "placeholder": ""
+                }
+              }
+            }
+          }
+        }
+      },
+      "items": {}
+    }
+  ]
+}
