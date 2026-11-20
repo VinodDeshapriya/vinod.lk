@@ -85,7 +85,7 @@ const LegalContent = ({ slice }: LegalContentProps) => {
       </aside>
 
       <div
-        className={`flex-1 min-w-0 max-w-[780px] [&>:first-child]:mt-0 ${articleProse}`}
+        className={`flex-1 min-w-0 max-w-[780px] [&>:first-child]:mt-0 [&_h3]:font-medium ${articleProse}`}
       >
         <PrismicRichText
           field={content}
