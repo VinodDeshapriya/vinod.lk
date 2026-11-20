@@ -3,7 +3,6 @@ import { useState } from "react";
 import clsx from "clsx";
 import type { LinkField } from "@prismicio/client";
 import { PrismicNextLink } from "@prismicio/next";
-import LaunchPicker from "./LaunchPicker";
 
 type Status = { state: "idle" | "sending" | "sent" | "error"; message?: string };
 
@@ -103,14 +102,10 @@ export default function ProjectForm({
           <Label required>Email</Label>
           <input name="email" type="email" required autoComplete="email" className={inputClass} />
         </label>
-        <label className="flex flex-col gap-2">
+        <label className="flex flex-col gap-2 sm:col-span-2">
           <Label optional>Phone or WhatsApp</Label>
           <input name="phone" type="tel" autoComplete="tel" className={inputClass} />
         </label>
-        <div className="flex flex-col gap-2">
-          <Label optional>Ideal launch date</Label>
-          <LaunchPicker name="launch" inputClass={inputClass} />
-        </div>
       </div>
       {services.length > 0 && (
         <label className="flex flex-col gap-2">
