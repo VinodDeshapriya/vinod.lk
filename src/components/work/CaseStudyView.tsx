@@ -136,7 +136,7 @@ export default function CaseStudyView({ c }: { c: CaseStudy }) {
       <StyledContainer
         as="section"
         slice={{ primary: { top_padding: "Full", bottom_padding: "Full" } }}
-        parentClassName="grain relative overflow-hidden bg-[linear-gradient(to_bottom,#080d1a,#0a1733)] text-white"
+        parentClassName="grain relative overflow-clip bg-[linear-gradient(to_bottom,#080d1a,#0a1733)] text-white"
         className="relative"
       >
         <div aria-hidden className="absolute -right-40 top-1/3 w-[520px] h-[420px] rounded-full bg-primary-light/30 blur-[90px]" />
@@ -179,7 +179,7 @@ export default function CaseStudyView({ c }: { c: CaseStudy }) {
       <StyledContainer
         as="section"
         slice={{ primary: { top_padding: "Full", bottom_padding: "Full" } }}
-        parentClassName="grain relative overflow-hidden bg-[linear-gradient(to_bottom,#080d1a,#0a1733)] text-white"
+        parentClassName="grain relative overflow-clip bg-[linear-gradient(to_bottom,#080d1a,#0a1733)] text-white"
         className="relative flex flex-col gap-20 lg:gap-28"
       >
         <div aria-hidden className="absolute left-1/2 -translate-x-1/2 -top-[300px] w-[900px] max-w-[120vw] h-[420px] rounded-full bg-primary-light/35 blur-[90px]" />
