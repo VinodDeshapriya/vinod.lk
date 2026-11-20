@@ -14,18 +14,28 @@ export const siteSettings = {
   description:
     "Websites, brands and systems that help Sri Lankan businesses grow.",
   logo: { src: "/logo.svg", alt: "Vinod.lk", width: 1408, height: 478 },
-  logoWhite: { src: "/logo-white.svg", alt: "Vinod.lk", width: 1408, height: 478 },
+  logoWhite: {
+    src: "/logo-white.svg",
+    alt: "Vinod.lk",
+    width: 1408,
+    height: 478,
+  },
   email: "info@vinod.lk",
   phone: "+94 77 50 377 38",
   phones: ["+94 77 50 377 38", "+94 70 50 877 38"],
   location: "Matara, Sri Lanka",
-  /** TODO: real profile URLs (Figma: "Social links [ADD: URLs]") */
   social: [
-    { label: "Facebook", href: "#" },
-    { label: "Instagram", href: "#" },
-    { label: "LinkedIn", href: "#" },
-    { label: "TikTok", href: "#" },
-    { label: "YouTube", href: "#" },
+    { label: "Facebook", href: "https://www.facebook.com/vinod.ux.lk" },
+    {
+      label: "Instagram",
+      href: "https://www.instagram.com/vinod_deshapriya96/",
+    },
+    {
+      label: "LinkedIn",
+      href: "https://www.linkedin.com/in/vinod-deshapriya/",
+    },
+    { label: "TikTok", href: "https://www.tiktok.com/@vinod_deshapriya" },
+    { label: "YouTube", href: "https://www.youtube.com/@vmdotcom" },
   ] as { label: string; href: string }[],
 };
 
@@ -69,7 +79,10 @@ export const footerMenus: { title: string; links: NavItem[] }[] = [
       { href: "/web-design-sri-lanka", label: "Web Design" },
       { href: "/ecommerce-website-sri-lanka", label: "Ecommerce Websites" },
       { href: "/logo-design-sri-lanka", label: "Logo & Branding" },
-      { href: "/social-media-marketing-sri-lanka", label: "Social Media Marketing" },
+      {
+        href: "/social-media-marketing-sri-lanka",
+        label: "Social Media Marketing",
+      },
       { href: "/custom-software-sri-lanka", label: "Custom Software" },
       { href: "/ai-for-business-sri-lanka", label: "AI Solutions" },
     ],
