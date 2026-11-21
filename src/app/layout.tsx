@@ -9,6 +9,7 @@ import { fontVariables } from "./fonts";
 
 import SmoothScroll from "@/components/motion/SmoothScroll";
 import BookingModal from "@/components/booking/BookingModal";
+import QuoteModal from "@/components/contact/QuoteModal";
 import LiveChat from "@/components/layout/LiveChat";
 import Script from "next/script";
 import { themeScript } from "@/components/theme/themeScript";
@@ -36,6 +37,7 @@ export default async function RootLayout({
     legalLinks,
     footerStrap,
     settings,
+    quote,
   } = await getLayoutData();
   const whatsapp =
     settings?.data.whatsapp_number?.replace(/\D/g, "") || "94775037738";
@@ -60,6 +62,7 @@ export default async function RootLayout({
         />
         <SmoothScroll />
         <BookingModal />
+        <QuoteModal {...quote} whatsapp={whatsapp} />
         <LiveChat whatsapp={whatsapp} />
         <PrismicPreview repositoryName={repositoryName} />
       </body>

@@ -3,6 +3,7 @@ import { useState } from "react";
 import clsx from "clsx";
 import type { LinkField } from "@prismicio/client";
 import { PrismicNextLink } from "@prismicio/next";
+import { sendEnquiry } from "@/lib/contact/submit";
 
 type Status = {
   state: "idle" | "sending" | "sent" | "error";
@@ -74,7 +75,7 @@ function Choices({
   );
 }
 
-/** Client form for the ContactForm slice. Posts to /api/contact. */
+/** Client form for the ContactForm slice. Sends through sendEnquiry (Resend + Netlify Forms). */
 export default function ProjectForm({
   services,
   budgets,
@@ -98,36 +99,8 @@ export default function ProjectForm({
     const data = Object.fromEntries(new FormData(form).entries());
     setStatus({ state: "sending" });
     const payload = { ...data, service, budget } as Record<string, string>;
-    // Two routes at once: Resend emails (/api/contact) and a Netlify Forms copy.
-    // The enquiry counts as sent if either one gets through.
-    const viaEmail = fetch("/api/contact", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(payload),
-    }).then(async (res) => ({
-      ok: res.ok,
-      error: ((await res.json().catch(() => ({}))) as { error?: string }).error,
-    }));
-    const viaNetlify = fetch("/__forms.html", {
-      method: "POST",
-      headers: { "Content-Type": "application/x-www-form-urlencoded" },
-      body: new URLSearchParams({
-        "form-name": "project-enquiry",
-        ...payload,
-      }).toString(),
-    })
-      .then((res) => res.ok)
-      .catch(() => false);
     try {
-      const [email, stored] = await Promise.all([
-        viaEmail.catch(() => ({ ok: false, error: undefined })),
-        viaNetlify,
-      ]);
-      if (!email.ok && !stored)
-        throw new Error(
-          email.error ||
-            "Something went wrong. Please try WhatsApp or email instead.",
-        );
+      await sendEnquiry(payload);
       form.reset();
       setStatus({ state: "sent" });
     } catch (err) {

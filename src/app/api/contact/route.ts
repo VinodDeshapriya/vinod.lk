@@ -48,15 +48,11 @@ export async function POST(request: Request) {
     service: str("service", 80),
     budget: str("budget", 80),
     message: str("message", 4000),
-    page: request.headers.get("referer") ?? undefined,
+    page: str("page", 300) || request.headers.get("referer") || undefined,
   };
-  if (
-    !enquiry.name ||
-    !/^\S+@\S+\.\S+$/.test(enquiry.email) ||
-    !enquiry.message
-  ) {
+  if (!enquiry.name || !/^\S+@\S+\.\S+$/.test(enquiry.email)) {
     return NextResponse.json(
-      { error: "Please fill in your name, a valid email and your message." },
+      { error: "Please fill in your name and a valid email." },
       { status: 400 },
     );
   }

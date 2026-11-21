@@ -1,4 +1,9 @@
-import { asLink, isFilled, type Content, type LinkField } from "@prismicio/client";
+import {
+  asLink,
+  isFilled,
+  type Content,
+  type LinkField,
+} from "@prismicio/client";
 import { createClient } from "@/prismicio";
 import type { NavItem } from "@/types/nav";
 import * as fallback from "@/data/site";
@@ -20,10 +25,11 @@ const toNav = (link: LinkField): NavItem => ({
  */
 export async function getLayoutData() {
   const client = createClient();
-  const [settings, mainMenuDoc, menus] = await Promise.all([
+  const [settings, mainMenuDoc, menus, contactPage] = await Promise.all([
     client.getSingle("settings").catch(() => null),
     client.getSingle("main_menu").catch(() => null),
     client.getAllByType("menu").catch(() => [] as Content.MenuDocument[]),
+    client.getByUID("page", "contact").catch(() => null),
   ]);
   const s = settings?.data;
 
@@ -34,7 +40,9 @@ export async function getLayoutData() {
     ...(s?.email ? { email: s.email } : {}),
     ...(s?.location ? { location: s.location } : {}),
   };
-  const phones = (s?.phone_numbers ?? []).map((p) => p.number).filter(Boolean) as string[];
+  const phones = (s?.phone_numbers ?? [])
+    .map((p) => p.number)
+    .filter(Boolean) as string[];
   if (phones.length) {
     site.phones = phones;
     site.phone = phones[0];
@@ -46,7 +54,10 @@ export async function getLayoutData() {
 
   const headerCta: HeaderCta =
     s && isFilled.link(s.header_cta)
-      ? { label: s.header_cta.text || "Contact", href: asLink(s.header_cta) ?? "/contact" }
+      ? {
+          label: s.header_cta.text || "Contact",
+          href: asLink(s.header_cta) ?? "/contact",
+        }
       : fallback.headerCta;
 
   const prismicNav = (mainMenuDoc?.data.links ?? [])
@@ -60,7 +71,10 @@ export async function getLayoutData() {
               title: l.feature_title,
               href: asLink(l.feature_link) ?? "/",
               image: isFilled.image(l.feature_image)
-                ? { src: l.feature_image.url, alt: l.feature_image.alt ?? undefined }
+                ? {
+                    src: l.feature_image.url,
+                    alt: l.feature_image.alt ?? undefined,
+                  }
                 : undefined,
             }
           : navFeatures[typeof nav.href === "string" ? nav.href : ""];
@@ -90,34 +104,83 @@ export async function getLayoutData() {
     ? prismicNav
     : fallback.mainMenu.map((m) => ({
         ...m,
-        feature: m.drop ? navFeatures[typeof m.href === "string" ? m.href : ""] : undefined,
-        drop: m.drop?.map((c) => ({ ...c, links: c.links?.map(withNavDetails) })),
+        feature: m.drop
+          ? navFeatures[typeof m.href === "string" ? m.href : ""]
+          : undefined,
+        drop: m.drop?.map((c) => ({
+          ...c,
+          links: c.links?.map(withNavDetails),
+        })),
       }));
 
   const prismicFooter: FooterMenu[] = [...menus]
     .sort((a, b) => (a.data.order ?? 99) - (b.data.order ?? 99))
     .map((m) => ({
       title: m.data.title ?? "",
-      links: m.data.links.filter((l) => isFilled.link(l.link)).map((l) => toNav(l.link)),
+      links: m.data.links
+        .filter((l) => isFilled.link(l.link))
+        .map((l) => toNav(l.link)),
     }));
   // Columns hidden for now (their pages aren't built yet). Remove a title here to bring it back.
   const HIDDEN_FOOTER_MENUS = ["industries"];
-  const footerMenus = (prismicFooter.length ? prismicFooter : fallback.footerMenus).filter(
-    (m) => !HIDDEN_FOOTER_MENUS.includes(m.title.trim().toLowerCase()),
-  );
+  const footerMenus = (
+    prismicFooter.length ? prismicFooter : fallback.footerMenus
+  ).filter((m) => !HIDDEN_FOOTER_MENUS.includes(m.title.trim().toLowerCase()));
 
-  const legal = (s?.legal_links ?? []).filter((l) => isFilled.link(l.link)).map((l) => toNav(l.link));
+  const legal = (s?.legal_links ?? [])
+    .filter((l) => isFilled.link(l.link))
+    .map((l) => toNav(l.link));
   const legalLinks = legal.length ? legal : fallback.legalLinks;
 
   const footerStrap = {
-    text: s?.footer_strap || "Web design across Sri Lanka, and for clients overseas",
+    text:
+      s?.footer_strap ||
+      "Web design across Sri Lanka, and for clients overseas",
     cta:
       s && isFilled.link(s.footer_cta)
-        ? { label: s.footer_cta.text || "Get a Free Quote", href: asLink(s.footer_cta) ?? "/contact" }
+        ? {
+            label: s.footer_cta.text || "Get a Free Quote",
+            href: asLink(s.footer_cta) ?? "/contact",
+          }
         : { label: "Get a Free Quote", href: "/contact" },
   };
 
-  return { settings, site, headerCta, mainMenu, footerMenus, legalLinks, footerStrap };
+  // The "Get a Free Quote" popup reuses the Contact page form's options.
+  const contactForm = contactPage?.data.slices.find(
+    (x) => x.slice_type === "contact_form",
+  ) as Content.ContactFormSlice | undefined;
+  const quote = {
+    services: (contactForm?.primary.services ?? [])
+      .map((x) => x.label)
+      .filter(Boolean) as string[],
+    budgets: (contactForm?.primary.budgets ?? [])
+      .map((x) => x.label)
+      .filter(Boolean) as string[],
+    privacyHref:
+      (contactForm &&
+        isFilled.link(contactForm.primary.privacy_link) &&
+        asLink(contactForm.primary.privacy_link)) ||
+      "/privacy-policy",
+  };
+  if (!quote.services.length)
+    quote.services = [
+      "Website Design",
+      "Web Development",
+      "Branding & Logo",
+      "UX/UI Design",
+      "Something else",
+    ];
+
+  return {
+    settings,
+    site,
+    headerCta,
+    mainMenu,
+    footerMenus,
+    legalLinks,
+    footerStrap,
+    quote,
+  };
 }
 
 export type LayoutData = Awaited<ReturnType<typeof getLayoutData>>;

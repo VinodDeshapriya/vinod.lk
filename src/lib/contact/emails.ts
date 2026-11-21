@@ -65,13 +65,12 @@ export function adminEnquiryEmail(e: Enquiry) {
   if (e.budget) rows.push(["Budget", esc(e.budget)]);
 
   const html = layout(
-    `New enquiry from ${e.name}: ${e.message.slice(0, 90)}`,
+    `New enquiry from ${e.name}${e.message ? `: ${e.message.slice(0, 90)}` : ""}`,
     `${para("Hi Vinod,")}
     ${para("A new contact form has been submitted on vinod.lk. Below are the details provided by the client.")}
     ${label("Client information")}
     ${bullets(rows)}
-    ${label("Message:")}
-    ${para(nl2br(e.message))}
+    ${e.message ? `${label("Message:")}${para(nl2br(e.message))}` : ""}
     ${para(`Reply to this email to answer ${esc(firstName(e.name))} directly.`, `color:${C.body}`)}
     ${e.page ? para(`Sent from ${link(e.page, esc(e.page.replace(/^https?:\/\//, "")))}`, `margin:0;font-size:13px;color:${C.muted}`) : ""}
     ${signOff("The Vinod.lk Website")}`,
@@ -88,7 +87,7 @@ export function adminEnquiryEmail(e: Enquiry) {
   if (e.phone) lines.push(`Phone number: ${e.phone}`);
   if (e.service) lines.push(`Service: ${e.service}`);
   if (e.budget) lines.push(`Budget: ${e.budget}`);
-  lines.push("", "Message:", e.message);
+  if (e.message) lines.push("", "Message:", e.message);
   return {
     subject: `New enquiry: ${e.service || "Website"} from ${e.name}`,
     html,
@@ -108,10 +107,9 @@ export function visitorConfirmationEmail(e: Enquiry) {
   const html = layout(
     "Thanks, your message is with me. I'll reply within one working day.",
     `${para(`Hi ${esc(firstName(e.name))},`)}
-    ${para("Thanks for getting in touch. Your message has reached me, and I'll reply within one working day, usually sooner. Below is a copy of what you sent.")}
+    ${para(`Thanks for getting in touch. Your message has reached me, and I'll reply within one working day, usually sooner.${rows.length || message ? " Below is a copy of what you sent." : ""}`)}
     ${rows.length ? `${label("Your details")}${bullets(rows)}` : ""}
-    ${label("Message:")}
-    ${para(nl2br(message), `color:${C.body}`)}
+    ${message ? `${label("Message:")}${para(nl2br(message), `color:${C.body}`)}` : ""}
     ${para(`Need a quicker answer? ${link("https://wa.me/94775037738", "Message me on WhatsApp")}. In the meantime, take a look at some ${link(`${site}/work`, "recent projects")}.`)}
     ${signOff("Vinod Deshapriya")}
     <p style="margin:0;font:400 13px/20px ${font};color:${C.muted}">UX Engineer, Vinod.lk</p>`,
@@ -121,10 +119,7 @@ export function visitorConfirmationEmail(e: Enquiry) {
 
 Thanks for getting in touch. Your message has reached me, and I'll reply within one working day, usually sooner.
 
-Your message:
-${message}
-
-Need a quicker answer? WhatsApp: https://wa.me/94775037738
+${message ? `Your message:\n${message}\n\n` : ""}Need a quicker answer? WhatsApp: https://wa.me/94775037738
 
 Best regards,
 Vinod Deshapriya
