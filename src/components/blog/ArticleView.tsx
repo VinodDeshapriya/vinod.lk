@@ -176,7 +176,7 @@ export default function ArticleView({
             <h2 className="font-title font-medium text-[32px] leading-[40px] tracking-[-0.02em] text-text-heading">
               More from <em className="italic text-primary-light">the blog</em>
             </h2>
-            <Link href="/blog" className="px-6 py-2.5 rounded-full border border-text-heading text-body-small font-medium text-text-heading hover:bg-text-heading hover:text-white transition-colors">
+            <Link href="/blog" className="px-6 py-2.5 rounded-full border border-text-heading text-body-small font-medium text-text-heading hover:bg-text-heading hover:text-surface transition-colors">
               View all articles
             </Link>
           </div>

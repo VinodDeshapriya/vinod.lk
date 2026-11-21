@@ -39,7 +39,7 @@ export default function CaseStudyView({ c }: { c: CaseStudy }) {
       <section className="relative overflow-hidden pt-10 lg:pt-14 pb-10">
         <div className="px-4 md:px-10 xl:px-20">
           <div className="mx-auto max-w-[1040px] flex flex-col items-center text-center gap-6">
-            <nav aria-label="Breadcrumb" className="inline-flex items-center gap-2 h-8 px-4 rounded-full border border-border-primary bg-white text-[12px] font-medium uppercase tracking-[0.14em]">
+            <nav aria-label="Breadcrumb" className="inline-flex items-center gap-2 h-8 px-4 rounded-full border border-border-primary bg-surface text-[12px] font-medium uppercase tracking-[0.14em]">
               <Link href="/work" className="text-text-inactive hover:text-primary-light transition-colors">Work</Link>
               <span className="text-text-inactive" aria-hidden>/</span>
               <span className="text-text-heading" aria-current="page">{c.name}</span>
@@ -55,7 +55,7 @@ export default function CaseStudyView({ c }: { c: CaseStudy }) {
                 {c.status}
               </span>
               {c.tags.map((t) => (
-                <span key={t} className="inline-flex items-center h-8 px-3.5 rounded-full border border-border-primary bg-white text-[13px] text-text-description">
+                <span key={t} className="inline-flex items-center h-8 px-3.5 rounded-full border border-border-primary bg-surface text-[13px] text-text-description">
                   {t}
                 </span>
               ))}
@@ -87,7 +87,7 @@ export default function CaseStudyView({ c }: { c: CaseStudy }) {
       <StyledContainer className="pt-8 md:pt-12">
         <dl data-reveal className="grid grid-cols-2 lg:grid-cols-5 gap-px rounded-[24px] bg-border-secondary border border-border-primary shadow-[0_16px_48px_0_rgba(10,18,33,0.06)] overflow-hidden">
           {c.facts.map((f, i) => (
-            <div key={f.label} className={clsx("flex flex-col gap-1.5 p-5 md:p-6 bg-white", i === c.facts.length - 1 && c.facts.length % 2 === 1 && "col-span-2 lg:col-span-1")}>
+            <div key={f.label} className={clsx("flex flex-col gap-1.5 p-5 md:p-6 bg-surface", i === c.facts.length - 1 && c.facts.length % 2 === 1 && "col-span-2 lg:col-span-1")}>
               <dt className="text-[12px] font-medium uppercase tracking-[0.14em] text-text-inactive">{f.label}</dt>
               <dd className="text-body-small font-medium text-text-heading">
                 {f.href ? (
@@ -121,7 +121,7 @@ export default function CaseStudyView({ c }: { c: CaseStudy }) {
         </div>
         <ul data-reveal-stagger className="grid sm:grid-cols-2 gap-5">
           {c.challenge.items.map((it, i) => (
-            <li key={it.title} className="flex flex-col justify-between gap-12 min-h-[260px] md:min-h-[300px] rounded-[24px] bg-white border border-border-primary p-7 md:p-9 shadow-[0_16px_24px_0_rgba(10,18,33,0.05)]">
+            <li key={it.title} className="flex flex-col justify-between gap-12 min-h-[260px] md:min-h-[300px] rounded-[24px] bg-surface border border-border-primary p-7 md:p-9 shadow-[0_16px_24px_0_rgba(10,18,33,0.05)]">
               <span className="font-title font-medium text-[56px] leading-none tracking-[-0.04em] text-primary-light">{pad(i + 1)}</span>
               <div className="flex flex-col gap-2">
                 <h3 className="font-title font-medium text-[24px] leading-[30px] text-text-heading">{it.title}</h3>

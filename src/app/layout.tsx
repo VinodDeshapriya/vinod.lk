@@ -10,6 +10,8 @@ import { fontVariables } from "./fonts";
 import SmoothScroll from "@/components/motion/SmoothScroll";
 import BookingModal from "@/components/booking/BookingModal";
 import LiveChat from "@/components/layout/LiveChat";
+import Script from "next/script";
+import { themeScript } from "@/components/theme/themeScript";
 import "./globals.css";
 
 export async function generateMetadata(): Promise<Metadata> {
@@ -39,8 +41,15 @@ export default async function RootLayout({
     settings?.data.whatsapp_number?.replace(/\D/g, "") || "94775037738";
 
   return (
-    <html lang="en" className={`${fontVariables} h-full antialiased`}>
+    <html
+      lang="en"
+      className={`${fontVariables} h-full antialiased`}
+      suppressHydrationWarning
+    >
       <body id="top" className="min-h-full flex flex-col">
+        <Script id="theme-init" strategy="beforeInteractive">
+          {themeScript}
+        </Script>
         <StyledHeader mainMenu={mainMenu} headerCta={headerCta} />
         <main className="grow">{children}</main>
         <StyledFooter

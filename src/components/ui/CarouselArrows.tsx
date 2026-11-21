@@ -32,7 +32,7 @@ export default function CarouselArrows({
           base,
           canPrev && !canNext
             ? "bg-primary-light text-white"
-            : "bg-white border border-border-primary text-text-heading hover:border-primary-light",
+            : "bg-surface border border-border-primary text-text-heading hover:border-primary-light",
         )}
       >
         <ArrowBack size={18} />
@@ -46,7 +46,7 @@ export default function CarouselArrows({
           base,
           canNext
             ? "bg-primary-light text-white hover:bg-primary-dark"
-            : "bg-white border border-border-primary text-text-heading",
+            : "bg-surface border border-border-primary text-text-heading",
         )}
       >
         <ArrowForward size={18} />

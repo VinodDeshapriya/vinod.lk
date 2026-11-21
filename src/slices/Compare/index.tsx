@@ -91,7 +91,7 @@ const Compare = ({ slice }: CompareProps) => {
               "relative flex-1 min-w-0 overflow-hidden rounded-lg flex flex-col md:max-lg:grid md:max-lg:grid-rows-subgrid",
               lane.dark
                 ? "grain border-[1.5px] border-primary-light text-white shadow-[0_24px_60px_0_rgba(20,128,247,0.28)] bg-[linear-gradient(to_bottom_right,#080d1a_0%,#0a1733_65%,#0f479e_100%)]"
-                : "bg-white border border-border-primary shadow-[0_16px_48px_0_rgba(10,18,33,0.06)]",
+                : "bg-surface border border-border-primary shadow-[0_16px_48px_0_rgba(10,18,33,0.06)]",
             )}
           >
             {lane.dark && (
@@ -189,8 +189,8 @@ const Compare = ({ slice }: CompareProps) => {
                 className={clsx(
                   "w-full flex items-center justify-center gap-2.5 py-[15px] rounded-full text-body-base-bold transition-colors",
                   lane.dark
-                    ? "bg-primary-light text-white hover:bg-white hover:text-text-heading"
-                    : "border-[1.5px] border-text-heading text-text-heading hover:bg-text-heading hover:text-white",
+                    ? "bg-primary-light text-white hover:bg-surface hover:text-text-heading"
+                    : "border-[1.5px] border-text-heading text-text-heading hover:bg-text-heading hover:text-surface",
                 )}
               >
                 {p.cta_link.text || "Get a Free Quote"}

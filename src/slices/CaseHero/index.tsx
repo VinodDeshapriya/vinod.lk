@@ -26,7 +26,7 @@ const CaseHero = ({ slice, context }: CaseHeroProps) => {
     <section data-slice-type={slice.slice_type} className="relative overflow-hidden pt-10 lg:pt-14 pb-10">
       <div className="px-4 md:px-10 xl:px-20">
         <div className="mx-auto max-w-[1040px] flex flex-col items-center text-center gap-6">
-          <nav aria-label="Breadcrumb" className="inline-flex items-center gap-2 h-8 px-4 rounded-full border border-border-primary bg-white text-[12px] font-medium uppercase tracking-[0.14em]">
+          <nav aria-label="Breadcrumb" className="inline-flex items-center gap-2 h-8 px-4 rounded-full border border-border-primary bg-surface text-[12px] font-medium uppercase tracking-[0.14em]">
             <Link href="/work" className="text-text-inactive hover:text-primary-light transition-colors">Work</Link>
             <span className="text-text-inactive" aria-hidden>/</span>
             <span className="text-text-heading" aria-current="page">{name}</span>
@@ -42,7 +42,7 @@ const CaseHero = ({ slice, context }: CaseHeroProps) => {
               {status}
             </span>
             {tagList.map((t) => (
-              <span key={t} className="inline-flex items-center h-8 px-3.5 rounded-full border border-border-primary bg-white text-[13px] text-text-description">{t}</span>
+              <span key={t} className="inline-flex items-center h-8 px-3.5 rounded-full border border-border-primary bg-surface text-[13px] text-text-description">{t}</span>
             ))}
           </div>
           <PrismicButtons buttons={buttons} />

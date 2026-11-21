@@ -12,7 +12,7 @@ import CheckDot from "@/components/ui/CheckDot";
 export type SplitListProps = SliceComponentProps<Content.SplitListSlice>;
 
 const cardBase =
-  "bg-white border border-border-primary rounded-[24px] shadow-[0_16px_24px_0_rgba(10,18,33,0.05)]";
+  "bg-surface border border-border-primary rounded-[24px] shadow-[0_16px_24px_0_rgba(10,18,33,0.05)]";
 
 /**
  * Figma: default = "Is this right for you" (19297:1060); platforms = "Platforms" (19312:1058);
@@ -32,7 +32,7 @@ const SplitList = ({ slice }: SplitListProps) => {
               "flex flex-col sm:flex-row sm:items-center gap-4 p-4 sm:pl-6 rounded-[20px] border",
               it.highlight
                 ? "text-white border-transparent bg-[linear-gradient(120deg,#080d1a,#0a1733_60%,#0f3f8a)] shadow-[0_24px_60px_0_rgba(10,51,128,0.25)]"
-                : "bg-white border-border-primary shadow-[0_16px_24px_0_rgba(10,18,33,0.05)]",
+                : "bg-surface border-border-primary shadow-[0_16px_24px_0_rgba(10,18,33,0.05)]",
             )}
           >
             <div className="flex-1 min-w-0 flex flex-col gap-1">

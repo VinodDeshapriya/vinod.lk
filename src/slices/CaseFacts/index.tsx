@@ -15,7 +15,7 @@ const CaseFacts = ({ slice }: CaseFactsProps) => {
         {facts.map((f, i) => {
           const href = asLink(f.link);
           return (
-            <div key={`${f.label}${i}`} className={clsx("flex flex-col gap-1.5 p-5 md:p-6 bg-white", i === facts.length - 1 && facts.length % 2 === 1 && "col-span-2 lg:col-span-1")}>
+            <div key={`${f.label}${i}`} className={clsx("flex flex-col gap-1.5 p-5 md:p-6 bg-surface", i === facts.length - 1 && facts.length % 2 === 1 && "col-span-2 lg:col-span-1")}>
               <dt className="text-[12px] font-medium uppercase tracking-[0.14em] text-text-inactive">{f.label}</dt>
               <dd className="text-body-small font-medium text-text-heading">
                 {href ? (

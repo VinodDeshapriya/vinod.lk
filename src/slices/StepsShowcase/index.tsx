@@ -54,7 +54,7 @@ const StepsShowcase = ({ slice }: StepsShowcaseProps) => {
                 <h3 className="text-title-medium font-title font-medium text-text-heading">{step.title}</h3>
                 <p className="text-body-small text-text-description">{step.text}</p>
                 {step.outcome && (
-                  <p className="mt-2 w-full flex items-center gap-2.5 px-4 py-3 rounded-[14px] bg-white border border-border-primary text-body-small text-text-heading">
+                  <p className="mt-2 w-full flex items-center gap-2.5 px-4 py-3 rounded-[14px] bg-surface border border-border-primary text-body-small text-text-heading">
                     <CheckDot size={20} />
                     <span>
                       <span className="font-medium text-success-primary">You&apos;ll get:</span> {step.outcome}

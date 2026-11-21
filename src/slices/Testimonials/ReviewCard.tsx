@@ -60,7 +60,7 @@ export default function ReviewCard({ name, meta, rating, review }: Props) {
   const close = () => dialogRef.current?.close();
 
   return (
-    <li className="snap-start shrink-0 w-full sm:w-[calc((100%-20px)/2)] lg:w-[calc((100%-40px)/3)] bg-white border border-border-secondary rounded-2xl shadow-[0_8px_24px_0_rgba(10,18,33,0.05)] max-sm:min-h-[431px] sm:max-lg:min-h-[467px] px-5 md:px-7 py-8 flex flex-col gap-5">
+    <li className="snap-start shrink-0 w-full sm:w-[calc((100%-20px)/2)] lg:w-[calc((100%-40px)/3)] bg-surface border border-border-secondary rounded-2xl shadow-[0_8px_24px_0_rgba(10,18,33,0.05)] max-sm:min-h-[431px] sm:max-lg:min-h-[467px] px-5 md:px-7 py-8 flex flex-col gap-5">
       <Stars count={stars} />
       <div ref={textRef} className="line-clamp-6">
         <PrismicRichText
@@ -97,7 +97,7 @@ export default function ReviewCard({ name, meta, rating, review }: Props) {
           // A click on the backdrop lands on the dialog element itself.
           if (e.target === e.currentTarget) close();
         }}
-        className="review-dialog m-auto w-[min(640px,calc(100%-32px))] max-h-[min(720px,calc(100dvh-48px))] rounded-[24px] bg-white p-0 shadow-[0_40px_100px_-20px_rgba(10,18,33,0.45)] backdrop:bg-[rgba(8,13,26,0.55)] backdrop:backdrop-blur-sm"
+        className="review-dialog m-auto w-[min(640px,calc(100%-32px))] max-h-[min(720px,calc(100dvh-48px))] rounded-[24px] bg-surface p-0 shadow-[0_40px_100px_-20px_rgba(10,18,33,0.45)] backdrop:bg-[rgba(8,13,26,0.55)] backdrop:backdrop-blur-sm"
       >
         <div className="flex flex-col max-h-[inherit]">
           <div className="flex items-center justify-between gap-4 px-6 sm:px-8 pt-6 sm:pt-7">

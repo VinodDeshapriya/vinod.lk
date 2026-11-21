@@ -68,7 +68,7 @@ export default function BlogBrowser({
                   onClick={() => pick(t)}
                   className={clsx(
                     "px-4 py-2 rounded-full text-body-small transition-colors",
-                    tab === t ? "bg-text-heading text-white" : "text-text-heading hover:bg-white",
+                    tab === t ? "bg-text-heading text-surface" : "text-text-heading hover:bg-surface",
                   )}
                 >
                   {t}
@@ -79,7 +79,7 @@ export default function BlogBrowser({
         </div>
 
         {showFeatured && (
-          <article className="group grid lg:grid-cols-[minmax(0,680px)_1fr] items-center gap-8 lg:gap-14 p-3 rounded-[32px] bg-white border border-border-primary shadow-[0_16px_48px_0_rgba(10,18,33,0.06)]">
+          <article className="group grid lg:grid-cols-[minmax(0,680px)_1fr] items-center gap-8 lg:gap-14 p-3 rounded-[32px] bg-surface border border-border-primary shadow-[0_16px_48px_0_rgba(10,18,33,0.06)]">
             <Link href={featured.href} tabIndex={-1} aria-hidden>
               <TypographicCover tag={featured.tag} title={featured.coverTitle} size="large" className="h-[300px] lg:h-[436px]" />
             </Link>
@@ -112,7 +112,7 @@ export default function BlogBrowser({
                     </span>
                   </span>
                 </div>
-                <Link href={featured.href} className="px-6 py-2.5 rounded-full border border-text-heading text-body-small font-medium text-text-heading hover:bg-text-heading hover:text-white transition-colors">
+                <Link href={featured.href} className="px-6 py-2.5 rounded-full border border-text-heading text-body-small font-medium text-text-heading hover:bg-text-heading hover:text-surface transition-colors">
                   Read article
                 </Link>
               </div>
@@ -154,7 +154,7 @@ export default function BlogBrowser({
                 aria-current={n === page ? "page" : undefined}
                 className={clsx(
                   "size-10 rounded-full text-body-small transition-colors",
-                  n === page ? "bg-text-heading text-white" : "text-text-heading hover:bg-white",
+                  n === page ? "bg-text-heading text-surface" : "text-text-heading hover:bg-surface",
                 )}
               >
                 {n}
@@ -164,7 +164,7 @@ export default function BlogBrowser({
               <button
                 type="button"
                 onClick={() => go(page + 1)}
-                className="ml-4 flex items-center gap-2 px-6 py-2.5 rounded-full border border-text-heading text-body-small font-medium text-text-heading hover:bg-text-heading hover:text-white transition-colors"
+                className="ml-4 flex items-center gap-2 px-6 py-2.5 rounded-full border border-text-heading text-body-small font-medium text-text-heading hover:bg-text-heading hover:text-surface transition-colors"
               >
                 Next page
                 <ArrowForward size={14} />

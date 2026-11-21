@@ -35,7 +35,7 @@ export default function GoogleRatingPill({
   // Figma testimonial_variants1 "Google rating": a pill on tablet/desktop,
   // a stacked card with a full-width button on mobile.
   return (
-    <div className="w-full sm:w-auto flex flex-col sm:flex-row items-center gap-3 sm:gap-7 bg-white border border-border-primary rounded-[8px] sm:rounded-full p-4 sm:py-3.5 sm:pl-6 sm:pr-3.5">
+    <div className="w-full sm:w-auto flex flex-col sm:flex-row items-center gap-3 sm:gap-7 bg-surface border border-border-primary rounded-[8px] sm:rounded-full p-4 sm:py-3.5 sm:pl-6 sm:pr-3.5">
       <div className="flex items-center gap-4">
         <GoogleG size={36} />
         <div className="flex flex-col gap-0.5">

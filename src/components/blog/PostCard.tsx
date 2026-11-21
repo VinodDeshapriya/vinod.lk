@@ -9,7 +9,7 @@ export default function PostCard({ post, className }: { post: PostSummary; class
   return (
     <li
       className={clsx(
-        "group flex flex-col p-2.5 bg-white border border-border-primary rounded-[28px] shadow-[0_16px_48px_0_rgba(10,18,33,0.06)]",
+        "group flex flex-col p-2.5 bg-surface border border-border-primary rounded-[28px] shadow-[0_16px_48px_0_rgba(10,18,33,0.06)]",
         className,
       )}
     >

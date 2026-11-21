@@ -17,7 +17,7 @@ const Reasons = ({ slice }: ReasonsProps) => {
       className="flex flex-col gap-10 items-center"
     >
       <SectionHeading title={title} />
-      <ol className="w-full grid sm:grid-cols-2 lg:grid-cols-4 bg-white border border-border-primary rounded-lg overflow-hidden shadow-[0_12px_40px_0_rgba(10,18,33,0.05)]">
+      <ol className="w-full grid sm:grid-cols-2 lg:grid-cols-4 bg-surface border border-border-primary rounded-lg overflow-hidden shadow-[0_12px_40px_0_rgba(10,18,33,0.05)]">
         {reasons.map((r, i) => (
           <li
             key={i}

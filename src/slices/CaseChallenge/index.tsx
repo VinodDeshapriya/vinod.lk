@@ -24,7 +24,7 @@ const CaseChallenge = ({ slice }: CaseChallengeProps) => {
       </div>
       <ul data-reveal-stagger className="grid sm:grid-cols-2 gap-5">
         {items.map((it, i) => (
-          <li key={`${it.title}${i}`} className="flex flex-col justify-between gap-12 min-h-[260px] md:min-h-[300px] rounded-[24px] bg-white border border-border-primary p-7 md:p-9 shadow-[0_16px_24px_0_rgba(10,18,33,0.05)]">
+          <li key={`${it.title}${i}`} className="flex flex-col justify-between gap-12 min-h-[260px] md:min-h-[300px] rounded-[24px] bg-surface border border-border-primary p-7 md:p-9 shadow-[0_16px_24px_0_rgba(10,18,33,0.05)]">
             <span className="font-title font-medium text-[56px] leading-none tracking-[-0.04em] text-primary-light">{pad(i + 1)}</span>
             <div className="flex flex-col gap-2">
               <h3 className="font-title font-medium text-[24px] leading-[30px] text-text-heading">{it.title}</h3>

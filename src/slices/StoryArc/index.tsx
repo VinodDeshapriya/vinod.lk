@@ -29,7 +29,7 @@ const StoryArc = ({ slice }: StoryArcProps) => {
           return (
             <li key={i} className="contents">
               {i > 0 && (
-                <span aria-hidden className="self-center p-2 my-3 lg:my-0 lg:mx-2 rounded-full bg-white border border-border-primary text-primary-light rotate-90 lg:rotate-0">
+                <span aria-hidden className="self-center p-2 my-3 lg:my-0 lg:mx-2 rounded-full bg-surface border border-border-primary text-primary-light rotate-90 lg:rotate-0">
                   <ArrowForward size={16} />
                 </span>
               )}
@@ -38,7 +38,7 @@ const StoryArc = ({ slice }: StoryArcProps) => {
                   "relative overflow-hidden flex-1 min-w-0 flex flex-col gap-4 rounded-[28px]",
                   dark
                     ? "px-9 py-12 lg:min-h-[571px] text-white bg-[linear-gradient(124deg,#080d1a_0%,#0a1733_43%,#0f4da8_71%)] shadow-[0_24px_60px_0_rgba(10,51,128,0.25)]"
-                    : "p-9 lg:min-h-[523px] bg-white border border-border-primary shadow-[0_16px_24px_0_rgba(10,18,33,0.05)]",
+                    : "p-9 lg:min-h-[523px] bg-surface border border-border-primary shadow-[0_16px_24px_0_rgba(10,18,33,0.05)]",
                 )}
               >
                 {dark && (
@@ -88,7 +88,7 @@ const StoryArc = ({ slice }: StoryArcProps) => {
           />
         </div>
         {location && (
-          <p className="flex items-center gap-2.5 px-[18px] py-3 rounded-full bg-white border border-border-primary text-body-small text-text-heading">
+          <p className="flex items-center gap-2.5 px-[18px] py-3 rounded-full bg-surface border border-border-primary text-body-small text-text-heading">
             <Location size={18} className="text-primary-light" aria-hidden />
             {location}
           </p>

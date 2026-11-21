@@ -12,7 +12,7 @@ export default function NotFoundPage() {
         <h1 className="leading-[100%] text-primary-light mb-[18px] md:mb-[24px] text-[90px] md:text-[150px]">
           404
         </h1>
-        <p className="pointer-events-none text-[200px] text-[#f7f7f7] lg:text-[300px] absolute -z-10 font-bold top-[20px]">
+        <p className="pointer-events-none text-[200px] text-[#f7f7f7] dark:text-white/[0.03] lg:text-[300px] absolute -z-10 font-bold top-[20px]">
           404
         </p>
         <h3 className="text-title-2x-large mb-[12px]">Something’s missing.</h3>

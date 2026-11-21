@@ -249,7 +249,7 @@ export default function LiveChat({
         <div
           role="dialog"
           aria-label="Chat with the Vinod.lk AI assistant"
-          className="flex flex-col w-[min(360px,calc(100vw-2rem))] h-[min(560px,calc(100dvh-7rem))] overflow-hidden rounded-[20px] bg-white border border-border-primary shadow-[0_24px_64px_-12px_rgba(10,18,33,0.28)] animate-[booking-in_0.25s_cubic-bezier(0.22,1,0.36,1)] origin-bottom-right"
+          className="flex flex-col w-[min(360px,calc(100vw-2rem))] h-[min(560px,calc(100dvh-7rem))] overflow-hidden rounded-[20px] bg-surface border border-border-primary shadow-[0_24px_64px_-12px_rgba(10,18,33,0.28)] animate-[booking-in_0.25s_cubic-bezier(0.22,1,0.36,1)] origin-bottom-right"
         >
           <div className="flex items-center gap-3 p-4 text-white bg-[linear-gradient(140deg,#080d1a_0%,#0a1733_55%,#0f4da8_100%)]">
             <BotAvatar />
@@ -275,7 +275,7 @@ export default function LiveChat({
             aria-live="polite"
             className="flex-1 overflow-y-auto overscroll-contain flex flex-col gap-3 p-4 bg-offwhite-2"
           >
-            <p className="self-start max-w-[88%] px-4 py-3 rounded-[16px] rounded-tl-[4px] bg-white border border-border-secondary text-body-small text-text-heading">
+            <p className="self-start max-w-[88%] px-4 py-3 rounded-[16px] rounded-tl-[4px] bg-surface border border-border-secondary text-body-small text-text-heading">
               {GREETING}
             </p>
             {messages.length === 0 && (
@@ -285,7 +285,7 @@ export default function LiveChat({
                     key={q}
                     type="button"
                     onClick={() => ask(q)}
-                    className="px-3.5 py-2 rounded-full border border-primary-light/40 bg-white text-[13px] leading-5 text-primary-light hover:bg-primary-light hover:text-white transition-colors"
+                    className="px-3.5 py-2 rounded-full border border-primary-light/40 bg-surface text-[13px] leading-5 text-primary-light hover:bg-primary-light hover:text-white transition-colors"
                   >
                     {q}
                   </button>
@@ -303,7 +303,7 @@ export default function LiveChat({
               ) : m.content ? (
                 <p
                   key={i}
-                  className="self-start max-w-[88%] px-4 py-3 rounded-[16px] rounded-tl-[4px] bg-white border border-border-secondary text-body-small text-text-heading whitespace-pre-wrap break-words"
+                  className="self-start max-w-[88%] px-4 py-3 rounded-[16px] rounded-tl-[4px] bg-surface border border-border-secondary text-body-small text-text-heading whitespace-pre-wrap break-words"
                 >
                   <RichReply text={m.content} />
                 </p>
@@ -311,7 +311,7 @@ export default function LiveChat({
             )}
             {busy && messages.at(-1)?.role !== "assistant" && (
               <span
-                className="self-start flex gap-1 px-4 py-3.5 rounded-[16px] rounded-tl-[4px] bg-white border border-border-secondary"
+                className="self-start flex gap-1 px-4 py-3.5 rounded-[16px] rounded-tl-[4px] bg-surface border border-border-secondary"
                 aria-label="Typing"
               >
                 {[0, 1, 2].map((d) => (

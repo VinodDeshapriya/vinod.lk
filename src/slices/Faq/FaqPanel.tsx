@@ -60,7 +60,7 @@ export default function FaqPanel({ primary }: { primary: Primary }) {
             className={clsx(
               "flex items-center gap-2 h-[52px] md:h-14 px-5 rounded-full bg-white/8 border border-white/18",
               "font-medium text-[16px] leading-[26px] md:text-[18px] md:leading-[30px]",
-              "transition-colors hover:bg-white hover:text-text-heading",
+              "transition-colors hover:bg-surface hover:text-text-heading",
             )}
           >
             {primary.contact_link.text || "Ask on WhatsApp"}
@@ -106,10 +106,10 @@ export default function FaqPanel({ primary }: { primary: Primary }) {
                         : "border-[0.9px] border-white/25 group-hover:border-white/50",
                     )}
                   >
-                    <span className="absolute left-1/2 top-1/2 w-2 md:w-[9px] h-[1.7px] -translate-x-1/2 -translate-y-1/2 rounded-full bg-white" />
+                    <span className="absolute left-1/2 top-1/2 w-2 md:w-[9px] h-[1.7px] -translate-x-1/2 -translate-y-1/2 rounded-full bg-surface" />
                     <span
                       className={clsx(
-                        "absolute left-1/2 top-1/2 h-2 md:h-[9px] w-[1.7px] -translate-x-1/2 -translate-y-1/2 rounded-full bg-white transition-transform duration-300",
+                        "absolute left-1/2 top-1/2 h-2 md:h-[9px] w-[1.7px] -translate-x-1/2 -translate-y-1/2 rounded-full bg-surface transition-transform duration-300",
                         isOpen && "scale-y-0",
                       )}
                     />

@@ -23,12 +23,12 @@ const Experience = ({ slice }: ExperienceProps) => {
           return (
           <li key={i} className="flex flex-col">
             <div aria-hidden className="hidden lg:flex items-center h-[34px]">
-              <span className={`size-3.5 shrink-0 rounded-full ${current ? "bg-primary-light ring-4 ring-info-bg" : "bg-white border-2 border-primary-light"}`} />
+              <span className={`size-3.5 shrink-0 rounded-full ${current ? "bg-primary-light ring-4 ring-info-bg" : "bg-surface border-2 border-primary-light"}`} />
               <span className="flex-1 h-0.5 bg-border-primary" />
             </div>
             <article
               className={`flex-1 flex flex-col gap-3 p-7 rounded-[24px] border shadow-[0_16px_24px_0_rgba(10,18,33,0.05)] ${
-                current ? "bg-white border-primary-light ring-1 ring-primary-light/30" : "bg-offwhite-2 border-border-secondary"
+                current ? "bg-surface border-primary-light ring-1 ring-primary-light/30" : "bg-offwhite-2 border-border-secondary"
               }`}
             >
               <p className="text-[13px] font-medium uppercase tracking-[0.14em] text-primary-light">{job.dates}</p>

@@ -108,7 +108,7 @@ export default function StyledFooter({
           </p>
           <Link
             href={footerStrap.cta.href}
-            className="btn-book shrink-0 flex items-center justify-center gap-2 h-11 px-[18px] rounded-full bg-primary-light text-white text-[16px] leading-6 hover:bg-white hover:text-text-heading! transition-colors"
+            className="btn-book shrink-0 flex items-center justify-center gap-2 h-11 px-[18px] rounded-full bg-primary-light text-white text-[16px] leading-6 hover:bg-surface hover:text-text-heading! transition-colors"
           >
             {footerStrap.cta.label}
             <ArrowForward size={16} />

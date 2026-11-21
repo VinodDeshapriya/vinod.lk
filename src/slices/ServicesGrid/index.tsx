@@ -19,7 +19,7 @@ const ServicesGrid = ({ slice }: ServicesGridProps) => {
       className="flex flex-col gap-(--spacing-space-1) items-center"
     >
       <SectionHeading title={title} intro={intro} />
-      <ul className="w-full grid sm:grid-cols-2 lg:grid-cols-3 bg-white border border-border-primary rounded-lg overflow-hidden shadow-[0_12px_40px_0_rgba(10,18,33,0.05)]">
+      <ul className="w-full grid sm:grid-cols-2 lg:grid-cols-3 bg-surface border border-border-primary rounded-lg overflow-hidden shadow-[0_12px_40px_0_rgba(10,18,33,0.05)]">
         {services.map((s, i) => (
           <li
             key={i}
@@ -33,7 +33,7 @@ const ServicesGrid = ({ slice }: ServicesGridProps) => {
                 <span className="text-xs font-medium uppercase tracking-[0.14em] text-text-inactive">
                   {s.label}
                 </span>
-                <span className="size-10 rounded-full border border-border-primary bg-white flex items-center justify-center text-primary-light transition-colors group-hover:bg-primary-light group-hover:border-primary-light group-hover:text-white">
+                <span className="size-10 rounded-full border border-border-primary bg-surface flex items-center justify-center text-primary-light transition-colors group-hover:bg-primary-light group-hover:border-primary-light group-hover:text-white">
                   <ArrowUpRight size={18} />
                 </span>
               </div>

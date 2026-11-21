@@ -49,7 +49,7 @@ const ImageCards = ({ slice }: ImageCardsProps) => {
                         wide ? "flex-col lg:flex-row lg:gap-4" : "flex-col",
                         c.dark
                           ? "text-white border-white/10 bg-[linear-gradient(140deg,#080d1a_0%,#0a1733_50%,#0f4da8_100%)]"
-                          : "bg-white border-border-primary shadow-[0_16px_24px_0_rgba(10,18,33,0.05)]",
+                          : "bg-surface border-border-primary shadow-[0_16px_24px_0_rgba(10,18,33,0.05)]",
                       )}
                     >
                       <div className={clsx("shrink-0 flex flex-col gap-3 pt-8 px-8", wide && "lg:w-[260px] lg:pr-0")}>
@@ -106,7 +106,7 @@ const ImageCards = ({ slice }: ImageCardsProps) => {
       <CardRows items={cards} gap="gap-5">
         {(c, i) => (
           <div className="h-full flex flex-col p-[13px] rounded-[24px] bg-offwhite-2 border border-border-primary">
-            <div className="relative h-[196px] rounded-[16px] overflow-hidden bg-white">
+            <div className="relative h-[196px] rounded-[16px] overflow-hidden bg-surface">
               {isFilled.image(c.image) && (
                 <PrismicNextImage
                   field={c.image}

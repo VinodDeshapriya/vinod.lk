@@ -16,7 +16,7 @@ export default function ProjectCard({ c, headingLevel = "h3" }: { c: ProjectCard
   return (
     <Link
       href={c.href}
-      className="group h-full flex flex-col rounded-[24px] bg-white border border-border-primary p-2.5 shadow-[0_16px_24px_0_rgba(10,18,33,0.05)] transition-[border-color,box-shadow,transform] duration-300 hover:-translate-y-1 hover:border-primary-light hover:shadow-[0_24px_48px_-12px_rgba(20,128,247,0.22)] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-light"
+      className="group h-full flex flex-col rounded-[24px] bg-surface border border-border-primary p-2.5 shadow-[0_16px_24px_0_rgba(10,18,33,0.05)] transition-[border-color,box-shadow,transform] duration-300 hover:-translate-y-1 hover:border-primary-light hover:shadow-[0_24px_48px_-12px_rgba(20,128,247,0.22)] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-light"
     >
       <div className="relative overflow-hidden rounded-[18px] aspect-[1538/1214] bg-[#001339]">
         {c.image && (

@@ -48,7 +48,7 @@ export default function DeviceViewer({
         <div
           role="tablist"
           aria-label="Device"
-          className="inline-flex p-1 rounded-full bg-white border border-border-primary"
+          className="inline-flex p-1 rounded-full bg-surface border border-border-primary"
         >
           {(["desktop", "mobile"] as const).map((m) => (
             <button
@@ -60,7 +60,7 @@ export default function DeviceViewer({
               className={clsx(
                 "h-9 px-5 rounded-full text-body-small font-medium capitalize transition-colors",
                 mode === m
-                  ? "bg-text-heading text-white"
+                  ? "bg-text-heading text-surface"
                   : "text-text-description hover:text-text-heading",
               )}
             >
@@ -73,7 +73,7 @@ export default function DeviceViewer({
             href={url}
             target="_blank"
             rel="noopener noreferrer"
-            className="group inline-flex items-center gap-2 h-10 px-4 rounded-full border border-border-primary bg-white text-body-small font-medium text-text-heading hover:border-primary-light hover:text-primary-light transition-colors"
+            className="group inline-flex items-center gap-2 h-10 px-4 rounded-full border border-border-primary bg-surface text-body-small font-medium text-text-heading hover:border-primary-light hover:text-primary-light transition-colors"
           >
             Visit live site
             <ArrowUpRight size={14} />

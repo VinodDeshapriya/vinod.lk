@@ -7,6 +7,7 @@ import { usePathname } from "next/navigation";
 import { type NavItem } from "@/types/nav";
 import { siteSettings } from "@/data/site";
 import type { HeaderCta } from "@/lib/layoutData";
+import ThemeToggle from "@/components/theme/ThemeToggle";
 import DesktopNav from "./DesktopNav";
 import MobileNav from "./MobileNav";
 import HeaderCtaButton from "./HeaderCtaButton";
@@ -19,7 +20,8 @@ interface StyledHeaderProps {
 /** Scroll distance after which the bar turns into the floating, frosted pill. */
 const FLOAT_AFTER = 24;
 
-export const ease = "duration-200 ease-[cubic-bezier(0.22,1,0.36,1)] motion-reduce:transition-none";
+export const ease =
+  "duration-200 ease-[cubic-bezier(0.22,1,0.36,1)] motion-reduce:transition-none";
 
 /**
  * Site header, modelled on lev.com:
@@ -57,7 +59,7 @@ const StyledHeader = ({ mainMenu, headerCta }: StyledHeaderProps) => {
     };
   }, []);
 
-  const { logo } = siteSettings;
+  const { logo, logoWhite } = siteSettings;
 
   return (
     <header className="sticky top-0 z-50">
@@ -66,18 +68,20 @@ const StyledHeader = ({ mainMenu, headerCta }: StyledHeaderProps) => {
           "relative mx-auto transition-[width,margin,border-radius]",
           ease,
           // Like lev.com: never wider than 1440px; floating, it is an inset pill up to 1440px wide.
-          floating ? "w-[min(1440px,calc(100%-16px))] mt-1 rounded-[30px]" : "w-full mt-0 rounded-none",
+          floating
+            ? "w-[min(1440px,calc(100%-16px))] mt-1 rounded-[30px]"
+            : "w-full mt-0 rounded-none",
         )}
       >
         {/* Frosted-glass layer: fades in once the bar floats. */}
         <div
           aria-hidden
           className={clsx(
-            "absolute inset-0 rounded-[inherit] border bg-white/75 backdrop-blur-xl backdrop-saturate-150 transition-opacity duration-150 ease-out motion-reduce:transition-none",
+            "absolute inset-0 rounded-[inherit] border bg-surface/75 backdrop-blur-xl backdrop-saturate-150 transition-opacity duration-150 ease-out motion-reduce:transition-none",
             floating
               ? "opacity-100 border-border-primary/70 shadow-[0_12px_40px_0_rgba(10,18,33,0.10)]"
               : mobileOpen
-                ? "opacity-100 border-transparent bg-white! backdrop-blur-none"
+                ? "opacity-100 border-transparent bg-background! backdrop-blur-none"
                 : "opacity-0 border-transparent",
           )}
         />
@@ -85,25 +89,48 @@ const StyledHeader = ({ mainMenu, headerCta }: StyledHeaderProps) => {
           className={clsx(
             "relative mx-auto max-w-[1440px] flex items-center h-16 transition-[height,padding]",
             ease,
-            floating ? "px-4 lg:h-[60px] lg:px-4" : "px-4 md:px-10 lg:h-[68px] xl:px-20",
+            floating
+              ? "px-4 lg:h-[60px] lg:px-4"
+              : "px-4 md:px-10 lg:h-[68px] xl:px-20",
           )}
         >
-          <Link href="/" className="relative z-10 flex items-center shrink-0" aria-label={`${logo.alt} home`}>
+          <Link
+            href="/"
+            className="relative z-10 flex items-center shrink-0"
+            aria-label={`${logo.alt} home`}
+          >
             <Image
               src={logo.src}
               alt={logo.alt}
               width={logo.width}
               height={logo.height}
               priority
-              className="h-8 lg:h-9 w-auto"
+              className="h-8 lg:h-9 w-auto dark:hidden"
+            />
+            <Image
+              src={logoWhite.src}
+              alt={logoWhite.alt}
+              width={logoWhite.width}
+              height={logoWhite.height}
+              priority
+              className="h-8 lg:h-9 w-auto hidden dark:block"
             />
           </Link>
 
           <DesktopNav mainMenu={mainMenu} floating={floating} />
 
           <div className="ml-auto flex items-center gap-2 lg:gap-5 relative z-10">
-            <HeaderCtaButton cta={headerCta} className="hidden lg:inline-flex" />
-            <MobileNav mainMenu={mainMenu} headerCta={headerCta} open={mobileOpen} setOpen={setMobileOpen} />
+            <ThemeToggle />
+            <HeaderCtaButton
+              cta={headerCta}
+              className="hidden lg:inline-flex"
+            />
+            <MobileNav
+              mainMenu={mainMenu}
+              headerCta={headerCta}
+              open={mobileOpen}
+              setOpen={setMobileOpen}
+            />
           </div>
         </div>
       </div>

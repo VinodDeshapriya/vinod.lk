@@ -67,7 +67,7 @@ export default function MobileNav({
         data-lenis-prevent
         id={`${baseId}-sheet`}
         className={clsx(
-          "lg:hidden fixed inset-x-0 top-16 bottom-0 z-40 bg-white overflow-y-auto overscroll-contain transition-[opacity,visibility] duration-150 ease-out motion-reduce:transition-none",
+          "lg:hidden fixed inset-x-0 top-16 bottom-0 z-40 bg-surface overflow-y-auto overscroll-contain transition-[opacity,visibility] duration-150 ease-out motion-reduce:transition-none",
           open ? "visible opacity-100" : "invisible opacity-0 pointer-events-none",
         )}
       >

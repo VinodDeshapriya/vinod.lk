@@ -40,7 +40,7 @@ const ContactForm = ({ slice }: ContactFormProps) => {
               <PrismicNextLink
                 key={i}
                 field={link}
-                className="flex items-center gap-2 px-4 py-2 rounded-full bg-white border border-border-primary text-body-small text-text-heading hover:border-primary-light hover:text-primary-light transition-colors"
+                className="flex items-center gap-2 px-4 py-2 rounded-full bg-surface border border-border-primary text-body-small text-text-heading hover:border-primary-light hover:text-primary-light transition-colors"
               >
                 {/wa\.me|whatsapp/i.test(("url" in link && link.url) || "") ||
                 /whatsapp/i.test(link.text ?? "") ? (

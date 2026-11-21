@@ -184,7 +184,7 @@ export default function LaunchPicker({
         <div
           role="dialog"
           aria-label="Choose a launch month"
-          className="absolute z-30 right-0 mt-2 w-full sm:w-[320px] max-w-[calc(100vw-2rem)] rounded-[16px] border border-border-primary bg-white p-4 shadow-[0_24px_48px_-12px_rgba(10,18,33,0.18)] animate-[booking-in_0.25s_cubic-bezier(0.22,1,0.36,1)]"
+          className="absolute z-30 right-0 mt-2 w-full sm:w-[320px] max-w-[calc(100vw-2rem)] rounded-[16px] border border-border-primary bg-surface p-4 shadow-[0_24px_48px_-12px_rgba(10,18,33,0.18)] animate-[booking-in_0.25s_cubic-bezier(0.22,1,0.36,1)]"
         >
           <div className="flex items-center justify-between mb-3">
             <button

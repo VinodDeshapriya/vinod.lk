@@ -178,7 +178,7 @@ export default function ProcessTimeline({ primary }: { primary: Primary }) {
           </div>
           <PrismicNextLink
             field={primary.cta_link}
-            className="shrink-0 flex items-center justify-center gap-2 h-[50px] md:h-[54px] px-5 rounded-full bg-primary-light font-medium text-[16px] leading-[26px] md:text-[18px] md:leading-[30px] hover:bg-white hover:text-text-heading transition-colors"
+            className="shrink-0 flex items-center justify-center gap-2 h-[50px] md:h-[54px] px-5 rounded-full bg-primary-light font-medium text-[16px] leading-[26px] md:text-[18px] md:leading-[30px] hover:bg-surface hover:text-text-heading transition-colors"
           >
             {primary.cta_link.text || "Get a Free Quote"}
             <ArrowForward size={16} />
@@ -238,7 +238,7 @@ export default function ProcessTimeline({ primary }: { primary: Primary }) {
                       "size-11 md:size-14 shrink-0 rounded-full flex items-center justify-center font-title font-semibold text-[14px] md:text-[18px] transition-all duration-300",
                       isActive
                         ? "bg-primary-light text-white shadow-[0_0_0_6px_rgba(20,128,247,0.18)] md:shadow-[0_0_0_8px_rgba(20,128,247,0.18)]"
-                        : "bg-white border-[1.2px] border-border-primary text-text-inactive",
+                        : "bg-surface border-[1.2px] border-border-primary text-text-inactive",
                     )}
                   >
                     {pad(i + 1)}
@@ -256,7 +256,7 @@ export default function ProcessTimeline({ primary }: { primary: Primary }) {
                   className={clsx(
                     "flex-1 min-w-0 flex flex-col gap-2.5 px-5 py-7 md:px-8 rounded-[24px] transition-[background-color,border-color,box-shadow] duration-300",
                     isActive
-                      ? "bg-white border-[1.5px] border-primary-light shadow-[0_16px_48px_0_rgba(20,128,247,0.14)]"
+                      ? "bg-surface border-[1.5px] border-primary-light shadow-[0_16px_48px_0_rgba(20,128,247,0.14)]"
                       : "bg-offwhite-2 border border-border-secondary",
                   )}
                 >

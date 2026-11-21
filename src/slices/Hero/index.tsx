@@ -114,7 +114,7 @@ function CentredHero({ slice }: { slice: Variation<"default"> }) {
 function Badge({ title, text }: { title: string | null; text: string | null }) {
   if (!title && !text) return null;
   return (
-    <div className="absolute left-4 bottom-4 lg:left-6 lg:bottom-6 flex items-center gap-3 px-[18px] py-3.5 rounded-[18px] bg-white shadow-[0_16px_48px_0_rgba(10,18,33,0.05)]">
+    <div className="absolute left-4 bottom-4 lg:left-6 lg:bottom-6 flex items-center gap-3 px-[18px] py-3.5 rounded-[18px] bg-surface shadow-[0_16px_48px_0_rgba(10,18,33,0.05)]">
       <CheckDot size={26} />
       <div className="flex flex-col gap-0.5">
         {title && <p className="text-body-base-bold text-text-heading">{title}</p>}
@@ -186,7 +186,7 @@ function SplitHero({ slice }: { slice: Variation<"split"> }) {
 function PhotoBadge({ text, dot }: { text: string | null; dot: string }) {
   if (!text) return null;
   return (
-    <span className="flex items-center gap-2 px-4 py-2.5 rounded-full bg-white text-body-small text-text-heading">
+    <span className="flex items-center gap-2 px-4 py-2.5 rounded-full bg-surface text-body-small text-text-heading">
       <span aria-hidden className={`size-2 rounded-full ${dot}`} />
       {text}
     </span>

@@ -540,7 +540,7 @@ function ProjectCard({ p, i, on }: { p: Item; i: number; on: boolean }) {
             {p.tags.map((tag) => (
               <li
                 key={tag}
-                className="px-2.5 py-1 rounded-full bg-white border border-border-primary text-xs leading-4 font-medium text-text-description"
+                className="px-2.5 py-1 rounded-full bg-surface border border-border-primary text-xs leading-4 font-medium text-text-description"
               >
                 {tag}
               </li>

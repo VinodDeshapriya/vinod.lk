@@ -18,7 +18,7 @@ export function BrowserFrame({
     <div
       className={clsx(
         "overflow-hidden rounded-[14px] md:rounded-[18px] border shadow-[0_30px_70px_-20px_rgba(10,23,51,0.35)]",
-        dark ? "bg-[#0d1424] border-white/10" : "bg-white border-border-primary",
+        dark ? "bg-[#0d1424] border-white/10" : "bg-surface border-border-primary",
         className,
       )}
     >
@@ -37,7 +37,7 @@ export function BrowserFrame({
           <span
             className={clsx(
               "mx-auto max-w-[60%] truncate rounded-full px-4 py-1 text-[11px] md:text-xs",
-              dark ? "bg-white/8 text-white/60" : "bg-white border border-border-secondary text-text-description",
+              dark ? "bg-white/8 text-white/60" : "bg-surface border border-border-secondary text-text-description",
             )}
           >
             {url.replace(/^https?:\/\//, "").replace(/\/$/, "")}
@@ -60,7 +60,7 @@ export function PhoneFrame({ children, className }: { children: React.ReactNode;
       )}
     >
       <span aria-hidden className="absolute left-1/2 top-2 z-10 h-[18px] w-[76px] -translate-x-1/2 rounded-full bg-[#0b1220]" />
-      <div className="overflow-hidden rounded-[27px] bg-white">{children}</div>
+      <div className="overflow-hidden rounded-[27px] bg-surface">{children}</div>
     </div>
   );
 }

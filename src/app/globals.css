@@ -4,9 +4,97 @@
 @import "./style-variables/buttons.css";
 @import "./style-variables/footer.css";
 
+/* Dark mode: `dark` class on <html>, set before paint by the script in layout.tsx
+   (follows the system theme unless the visitor picked one with the header switch). */
+@custom-variant dark {
+  &:where(.dark, .dark *) {
+    @slot;
+  }
+  @media (prefers-color-scheme: dark) {
+    &:where(html:not(.light), html:not(.light) *) {
+      @slot;
+    }
+  }
+}
+
+/* Surfaces that flip with the theme. Use bg-surface (cards, panels) instead of bg-white. */
+@theme {
+  --color-surface: #ffffff;
+}
+
 :root {
   --background: #ffffff;
   --foreground: #171717;
+  color-scheme: light;
+}
+
+html.dark {
+  color-scheme: dark;
+  --background: #0a0d14;
+  --foreground: #e6eaf2;
+  --color-surface: #121826;
+
+  --color-text-heading: #f3f5f9;
+  --color-text-description: #a7b0c0;
+  --color-text-inactive: #6f798c;
+  --color-text-placeholder: #6f798c;
+  --color-border-primary: #2a3344;
+  --color-border-secondary: #1e2533;
+  --color-border-split: #161c28;
+  --color-offwhite: #0e1626;
+  --color-offwhite-2: #0f141e;
+  --color-info-bg: #10284a;
+  --color-success-bg: #12301c;
+  --color-warning-bg: #33280c;
+  --color-error-bg: #3a1416;
+
+  --color-button-primary-hover: #ffffff;
+  --color-button-primary-text-hover: #0a0b0f;
+  --color-button-secondary-default: transparent;
+  --color-button-secondary-text-default: #f3f5f9;
+  --color-button-secondary-stroke: #f3f5f9;
+  --color-button-secondary-hover: #ffffff;
+  --color-button-secondary-text-hover: #0a0b0f;
+}
+
+/* Same values when the class is missing but the system is dark (and the visitor hasn't picked light). */
+@media (prefers-color-scheme: dark) {
+  html:not(.light) {
+    color-scheme: dark;
+    --background: #0a0d14;
+    --foreground: #e6eaf2;
+    --color-surface: #121826;
+
+    --color-text-heading: #f3f5f9;
+    --color-text-description: #a7b0c0;
+    --color-text-inactive: #6f798c;
+    --color-text-placeholder: #6f798c;
+    --color-border-primary: #2a3344;
+    --color-border-secondary: #1e2533;
+    --color-border-split: #161c28;
+    --color-offwhite: #0e1626;
+    --color-offwhite-2: #0f141e;
+    --color-info-bg: #10284a;
+    --color-success-bg: #12301c;
+    --color-warning-bg: #33280c;
+    --color-error-bg: #3a1416;
+
+    --color-button-primary-hover: #ffffff;
+    --color-button-primary-text-hover: #0a0b0f;
+    --color-button-secondary-default: transparent;
+    --color-button-secondary-text-default: #f3f5f9;
+    --color-button-secondary-stroke: #f3f5f9;
+    --color-button-secondary-hover: #ffffff;
+    --color-button-secondary-text-hover: #0a0b0f;
+  }
+}
+
+/* Smooth colour change when the visitor flips the switch (not on first paint). */
+html.theme-switching,
+html.theme-switching *,
+html.theme-switching *::before,
+html.theme-switching *::after {
+  transition: background-color 0.35s ease, border-color 0.35s ease, color 0.35s ease, fill 0.35s ease !important;
 }
 
 @theme inline {

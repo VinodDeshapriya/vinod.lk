@@ -83,7 +83,7 @@ export default function DesktopNav({ mainMenu, floating }: { mainMenu?: NavItem[
         <li
           aria-hidden
           className={clsx(
-            "absolute left-0 top-0 h-8 rounded-full bg-white ring-1 ring-border-primary/70 shadow-[0_1px_2px_rgba(10,18,33,0.06),0_6px_16px_-4px_rgba(10,18,33,0.12)] pointer-events-none motion-reduce:transition-none",
+            "absolute left-0 top-0 h-8 rounded-full bg-surface ring-1 ring-border-primary/70 shadow-[0_1px_2px_rgba(10,18,33,0.06),0_6px_16px_-4px_rgba(10,18,33,0.12)] pointer-events-none motion-reduce:transition-none",
             hl?.instant
               ? "transition-opacity duration-150"
               : "transition-[transform,width,opacity] duration-300 ease-[cubic-bezier(0.22,1,0.36,1)]",
@@ -190,7 +190,7 @@ function DropPanel({
         open ? "visible opacity-100 translate-y-0" : "invisible opacity-0 -translate-y-1 pointer-events-none",
       )}
     >
-      <div className="flex rounded-[24px] border border-border-primary/70 bg-white/90 backdrop-blur-2xl backdrop-saturate-150 shadow-[0_24px_60px_0_rgba(10,18,33,0.14)] overflow-hidden">
+      <div className="flex rounded-[24px] border border-border-primary/70 bg-surface/90 backdrop-blur-2xl backdrop-saturate-150 shadow-[0_24px_60px_0_rgba(10,18,33,0.14)] overflow-hidden">
         <div className={clsx("flex-1 grid gap-x-10 px-9 py-10", cols.length > 1 ? "grid-cols-2" : "grid-cols-1")}>
           {cols.map((col, c) => (
             <div key={c} className="flex flex-col">
