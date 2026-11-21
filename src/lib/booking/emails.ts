@@ -6,13 +6,7 @@ import { bookingConfig } from "./config";
  * (logo header, white message card, footer strip) in the vinod.lk palette.
  * Table-based with inline styles so it holds up in Gmail and Outlook.
  */
-// Emails are opened outside this site, so links and images always use the public
-// address, even when sent from a local dev server (localhost can't load in an inbox).
-const site = (
-  /localhost|127\.0\.0\.1/.test(projectConfig.baseUrl)
-    ? "https://vinod.lk"
-    : projectConfig.baseUrl
-).replace(/\/$/, "");
+const site = projectConfig.baseUrl.replace(/\/$/, "");
 const C = {
   bg: "#f4f5f7",
   card: "#ffffff",
