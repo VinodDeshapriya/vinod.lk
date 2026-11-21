@@ -68,7 +68,6 @@ export default function QuoteModal({
   const [sending, setSending] = useState(false);
   const [error, setError] = useState("");
   const panel = useRef<HTMLDivElement>(null);
-  const scroller = useRef<HTMLDivElement>(null);
   const nameField = useRef<HTMLInputElement>(null);
 
   const show = useCallback(() => {
@@ -131,7 +130,7 @@ export default function QuoteModal({
     window.__lenis?.stop();
     const onKey = (e: KeyboardEvent) => e.key === "Escape" && close();
     window.addEventListener("keydown", onKey);
-    panel.current?.focus({ preventScroll: true });
+    panel.current?.focus();
     return () => {
       html.style.overflow = prev;
       window.__lenis?.start();
@@ -139,11 +138,9 @@ export default function QuoteModal({
     };
   }, [open, close]);
 
-  // Each step starts at the top (the popup scrolls on small screens).
   useEffect(() => {
-    if (!open) return;
-    if (scroller.current) scroller.current.scrollTop = 0;
-    if (step === "details") nameField.current?.focus({ preventScroll: true });
+    if (open && step === "details")
+      nameField.current?.focus({ preventScroll: true });
   }, [open, step]);
 
   const submit = async (e: React.FormEvent) => {
@@ -187,7 +184,6 @@ export default function QuoteModal({
         onClick={close}
       />
       <div
-        ref={scroller}
         data-lenis-prevent
         className="absolute inset-0 overflow-y-auto overscroll-contain"
         onClick={(e) => e.target === e.currentTarget && close()}
@@ -196,7 +192,7 @@ export default function QuoteModal({
           <div
             ref={panel}
             tabIndex={-1}
-            className="pointer-events-auto grain relative isolate overflow-clip w-full max-w-[920px] min-h-dvh md:min-h-0 md:rounded-[28px] bg-[linear-gradient(to_bottom,#080d1a,#0a1733)] text-white shadow-[0_40px_120px_-20px_rgba(0,0,0,0.6)] outline-none animate-[booking-in_0.45s_cubic-bezier(0.22,1,0.36,1)]"
+            className="pointer-events-auto grain relative isolate overflow-hidden w-full max-w-[920px] min-h-dvh md:min-h-0 md:rounded-[28px] bg-[linear-gradient(to_bottom,#080d1a,#0a1733)] text-white shadow-[0_40px_120px_-20px_rgba(0,0,0,0.6)] outline-none animate-[booking-in_0.45s_cubic-bezier(0.22,1,0.36,1)]"
           >
             <div
               aria-hidden
@@ -328,10 +324,10 @@ export default function QuoteModal({
                     href={wa}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="hidden md:block mt-auto pt-10 text-[14px] leading-[22px] text-white/60 hover:text-white transition-colors"
+                    className="hidden md:inline-flex mt-auto pt-10 items-center gap-2 text-[14px] text-white/60 hover:text-white transition-colors"
                   >
                     Prefer to chat?{" "}
-                    <span className="underline underline-offset-4 whitespace-nowrap">
+                    <span className="underline underline-offset-4">
                       Message me on WhatsApp
                     </span>
                   </a>
@@ -339,7 +335,7 @@ export default function QuoteModal({
 
                 {/* The form */}
                 <div className="px-5 pt-6 pb-8 md:px-10 md:py-10">
-                  <div className="flex items-center gap-3 mb-6 md:pr-12">
+                  <div className="flex items-center gap-3 mb-6">
                     <span className="text-[12px] font-medium text-white/50 whitespace-nowrap">
                       Step {step === "project" ? 1 : 2} of 2
                     </span>
@@ -395,7 +391,7 @@ export default function QuoteModal({
                               (optional)
                             </span>
                           </legend>
-                          <div className="grid grid-cols-2 gap-2 md:flex md:flex-wrap">
+                          <div className="flex flex-wrap gap-2">
                             {budgets.map((b) => (
                               <button
                                 key={b}
@@ -404,7 +400,7 @@ export default function QuoteModal({
                                 onClick={() => setBudget(budget === b ? "" : b)}
                                 className={clsx(
                                   chip(budget === b),
-                                  "px-4 text-center md:text-left md:rounded-full",
+                                  "rounded-full px-4",
                                 )}
                               >
                                 {b}
@@ -413,17 +409,13 @@ export default function QuoteModal({
                           </div>
                         </fieldset>
                       )}
-                      <div className="sticky bottom-0 -mx-5 px-5 pt-3 pb-[max(20px,env(safe-area-inset-bottom))] bg-[#0a1733]/90 backdrop-blur-md md:static md:m-0 md:p-0 md:bg-transparent md:backdrop-blur-none">
-                        <button
-                          type="submit"
-                          disabled={!service}
-                          className="w-full h-12 rounded-full bg-primary-light text-white text-[15px] font-semibold enabled:hover:bg-[#2a8dff] disabled:opacity-40 disabled:cursor-not-allowed transition-colors"
-                        >
-                          {service
-                            ? "Continue"
-                            : "Choose a service to continue"}
-                        </button>
-                      </div>
+                      <button
+                        type="submit"
+                        disabled={!service}
+                        className="h-12 rounded-full bg-primary-light text-white text-[15px] font-semibold enabled:hover:bg-[#2a8dff] disabled:opacity-40 disabled:cursor-not-allowed transition-colors"
+                      >
+                        {service ? "Continue" : "Choose a service to continue"}
+                      </button>
                     </form>
                   ) : (
                     <form onSubmit={submit} className="flex flex-col gap-4">
@@ -525,15 +517,13 @@ export default function QuoteModal({
                           {error}
                         </p>
                       )}
-                      <div className="sticky bottom-0 -mx-5 px-5 pt-3 pb-[max(20px,env(safe-area-inset-bottom))] bg-[#0a1733]/90 backdrop-blur-md md:static md:m-0 md:p-0 md:bg-transparent md:backdrop-blur-none md:mt-1">
-                        <button
-                          type="submit"
-                          disabled={sending}
-                          className="w-full h-12 rounded-full bg-primary-light text-white text-[15px] font-semibold hover:bg-[#2a8dff] disabled:opacity-60 transition-colors"
-                        >
-                          {sending ? "Sending…" : "Get my free quote"}
-                        </button>
-                      </div>
+                      <button
+                        type="submit"
+                        disabled={sending}
+                        className="mt-1 h-12 rounded-full bg-primary-light text-white text-[15px] font-semibold hover:bg-[#2a8dff] disabled:opacity-60 transition-colors"
+                      >
+                        {sending ? "Sending…" : "Get my free quote"}
+                      </button>
                       <p className="text-[12px] leading-[18px] text-white/45 text-center">
                         Your details are only used to reply to you. See the{" "}
                         <a
