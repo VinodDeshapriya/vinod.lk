@@ -6,7 +6,13 @@ import { esc, layout } from "@/lib/booking/emails";
  * node 4030-19): logo, white card with a greeting, a "Client information" list, the
  * message and a sign-off, then the shared footer. Styled in the vinod.lk palette.
  */
-const site = projectConfig.baseUrl.replace(/\/$/, "");
+// Emails are opened outside this site, so links and images always use the public
+// address, even when sent from a local dev server (localhost can't load in an inbox).
+const site = (
+  /localhost|127\.0\.0\.1/.test(projectConfig.baseUrl)
+    ? "https://vinod.lk"
+    : projectConfig.baseUrl
+).replace(/\/$/, "");
 const font =
   "'DM Sans',-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Arial,sans-serif";
 const C = {
