@@ -485,7 +485,7 @@ function ProjectCard({ p, i, on }: { p: Item; i: number; on: boolean }) {
       inert={!on}
       className={clsx(
         "[grid-area:1/1] relative overflow-hidden rounded-[28px] border border-secondary-light bg-offwhite",
-        "grid lg:grid-cols-[minmax(0,509fr)_minmax(0,770fr)]",
+        "grid grid-rows-[auto_1fr] lg:grid-rows-1 lg:grid-cols-[minmax(0,509fr)_minmax(0,770fr)]",
         "transition-opacity duration-500 motion-reduce:transition-none",
         on ? "opacity-100 z-10" : "opacity-0 pointer-events-none",
       )}
@@ -590,7 +590,11 @@ function ProjectCard({ p, i, on }: { p: Item; i: number; on: boolean }) {
       </div>
 
       {p.image && (
-        <div className="relative aspect-[1538/1214] lg:aspect-auto lg:min-h-[560px] overflow-hidden bg-[#001339]">
+        // All panels share one grid cell, so a panel with less text is taller than it
+        // needs to be. The image area stretches to fill it (object-cover), with the
+        // spacer keeping the design ratio as its minimum height below lg.
+        <div className="relative h-full lg:min-h-[560px] overflow-hidden bg-[#001339]">
+          <div aria-hidden className="aspect-[1538/1214] lg:hidden" />
           <div
             className={clsx(
               "absolute inset-0 transition-transform duration-[900ms] motion-reduce:transition-none",
