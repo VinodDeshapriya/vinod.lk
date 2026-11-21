@@ -60,11 +60,11 @@ export function layout(preheader: string, body: string) {
 <span style="display:none;max-height:0;overflow:hidden;opacity:0">${esc(preheader)}</span>
 <table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="background:${C.bg}"><tr><td align="center" style="padding:32px 12px">
 <table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="max-width:576px">
-  <tr><td style="padding:12px 16px 20px"><a href="${site}"><img src="${site}/images/email/logo.png" width="132" height="45" alt="Vinod.lk" style="display:block;border:0"></a></td></tr>
+  <tr><td style="padding:12px 16px 20px"><a href="${site}"><img src="${site}/images/email/logo.png?v=2" width="132" height="45" alt="Vinod.lk" style="display:block;border:0"></a></td></tr>
   <tr><td style="background:${C.card};border:1px solid ${C.line};border-radius:16px;padding:32px 28px">${body}</td></tr>
   <tr><td style="padding:28px 16px 8px">
     <table role="presentation" width="100%" cellpadding="0" cellspacing="0"><tr>
-      <td><img src="${site}/images/email/logo.png" width="96" height="33" alt="Vinod.lk" style="display:block;border:0"></td>
+      <td><img src="${site}/images/email/logo.png?v=2" width="96" height="33" alt="Vinod.lk" style="display:block;border:0"></td>
       <td align="right" style="font:500 13px/20px ${font}">
         <a href="https://www.facebook.com/vinod.ux.lk" style="color:${C.body};text-decoration:none">Facebook</a>&nbsp;&nbsp;·&nbsp;&nbsp;<a href="https://www.instagram.com/vinod_deshapriya96/" style="color:${C.body};text-decoration:none">Instagram</a>&nbsp;&nbsp;·&nbsp;&nbsp;<a href="https://www.linkedin.com/in/vinod-deshapriya/" style="color:${C.body};text-decoration:none">LinkedIn</a>
       </td>
