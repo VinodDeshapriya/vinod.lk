@@ -61,8 +61,9 @@ export default function CaseStudyView({ c }: { c: CaseStudy }) {
               ))}
             </div>
             <div className="flex flex-col sm:flex-row gap-[18px] w-full sm:w-auto" data-reveal>
-              {c.liveUrl && <StyledButton link={c.liveUrl} target="_blank" label="Visit the live site" variant="Primary" />}
-              <StyledButton link="/contact" label="Start a project like this" variant="Secondary" />
+              {/* "#get-a-quote" opens the quote popup (QuoteModal); without JS it lands on the Contact page. */}
+              <StyledButton link="/contact#get-a-quote" label="Start a project like this" variant="Primary" />
+              {c.liveUrl && <StyledButton link={c.liveUrl} target="_blank" label="Visit the live site" variant="Secondary" />}
             </div>
           </div>
         </div>
