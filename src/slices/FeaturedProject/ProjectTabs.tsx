@@ -392,10 +392,22 @@ export default function ProjectTabs({
               </div>
 
               {/* Ruler: the blue marker glides from one dark mark to the next. */}
+              {/* Clicking the ruler jumps to the project whose mark is nearest. */}
               <div
                 ref={rulerRef}
                 aria-hidden
-                className="relative mt-3 h-7 overflow-hidden [mask-image:linear-gradient(to_right,transparent,#000_4%,#000_96%,transparent)]"
+                onClick={(e) => {
+                  if (!geo.centers.length) return;
+                  const x =
+                    e.clientX - e.currentTarget.getBoundingClientRect().left;
+                  let nearest = 0;
+                  geo.centers.forEach((c, i) => {
+                    if (Math.abs(c - x) < Math.abs(geo.centers[nearest] - x))
+                      nearest = i;
+                  });
+                  go(nearest);
+                }}
+                className="group/ruler relative mt-3 h-7 overflow-hidden cursor-pointer [mask-image:linear-gradient(to_right,transparent,#000_4%,#000_96%,transparent)]"
               >
                 {ruler.marks.map((m, i) => (
                   <span
@@ -403,8 +415,8 @@ export default function ProjectTabs({
                     className={clsx(
                       "absolute bottom-0 w-px -translate-x-1/2",
                       m.major
-                        ? "h-5 bg-text-heading/55"
-                        : "h-[11px] bg-text-inactive",
+                        ? "h-5 bg-text-heading/55 group-hover/ruler:bg-text-heading/80"
+                        : "h-[11px] bg-text-inactive group-hover/ruler:bg-text-description",
                     )}
                     style={{ left: `${Math.round(m.x)}px` }}
                   />
