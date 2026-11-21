@@ -20,7 +20,7 @@ export default function LogoMarquee({
           >
             <PrismicNextImage
               field={logo}
-              className="max-h-12 w-auto"
+              className="max-h-12 w-auto transition-[filter,opacity] duration-300 dark:grayscale dark:invert dark:contrast-[1.6] dark:mix-blend-screen dark:opacity-85 dark:hover:opacity-100"
               fallbackAlt=""
             />
           </li>
