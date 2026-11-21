@@ -114,10 +114,7 @@
                   "allowText": true,
                   "allowTargetBlank": true,
                   "repeat": false,
-                  "variants": [
-                    "Primary",
-                    "Secondary"
-                  ]
+                  "variants": ["Primary", "Secondary"]
                 }
               }
             }

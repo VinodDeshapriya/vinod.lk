@@ -27,7 +27,7 @@ type Item = {
   tags: string[];
   logo:
     | { field: ImageField }
-    | { src: string; width: number; height: number }
+    | { src: string; darkSrc: string; width: number; height: number }
     | null;
   image: { field: ImageField } | { src: string } | null;
   link: { field: LinkField } | { href: string } | null;
@@ -47,7 +47,8 @@ function toItem(p: PrismicProject): Item {
     summary: p.summary || fb?.summary || "",
     status: fromCms ? (p.is_live ? "live" : null) : (fb?.status ?? null),
     tags: tags.length ? tags : (fb?.tags ?? []),
-    logo: isFilled.image(p.logo) ? { field: p.logo } : fb ? fb.logo : null,
+    // Local transparent logos (with dark-mode versions) win; the Prismic logo is the fallback.
+    logo: fb ? fb.logo : isFilled.image(p.logo) ? { field: p.logo } : null,
     image: isFilled.image(p.image)
       ? { field: p.image }
       : fb
@@ -499,13 +500,22 @@ function ProjectCard({ p, i, on }: { p: Item; i: number; on: boolean }) {
                   className="h-7 sm:h-9 lg:h-12 w-auto"
                 />
               ) : (
-                <Image
-                  src={p.logo.src}
-                  alt={`${p.name} logo`}
-                  width={p.logo.width}
-                  height={p.logo.height}
-                  className="h-7 sm:h-9 lg:h-12 w-auto"
-                />
+                <>
+                  <Image
+                    src={p.logo.src}
+                    alt={`${p.name} logo`}
+                    width={p.logo.width}
+                    height={p.logo.height}
+                    className="h-7 sm:h-9 lg:h-12 w-auto dark:hidden"
+                  />
+                  <Image
+                    src={p.logo.darkSrc}
+                    alt={`${p.name} logo`}
+                    width={p.logo.width}
+                    height={p.logo.height}
+                    className="h-7 sm:h-9 lg:h-12 w-auto hidden dark:block"
+                  />
+                </>
               )}
             </div>
           )}

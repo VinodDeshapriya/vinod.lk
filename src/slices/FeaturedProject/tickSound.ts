@@ -46,7 +46,8 @@ let live: AudioBufferSourceNode[] = [];
 
 /** Play `marks` ticks over `durationMs`, slowing down like an ease-out. */
 export function playTicks(marks: number, durationMs = 500) {
-  if (!engine || engine.ctx.state !== "running" || document.hidden || marks < 1) return;
+  if (!engine || engine.ctx.state !== "running" || document.hidden || marks < 1)
+    return;
   live.forEach((s) => {
     try {
       s.stop();
